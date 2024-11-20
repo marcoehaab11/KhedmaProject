@@ -1,0 +1,93 @@
+﻿@model ForSingleVM
+
+@{
+    string Name = " الفرديات | " + " " + Model.StageName;
+    ViewData["Title"] = Name;
+}
+
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center my-2 py-2">
+                <h3 class="fw-bold display-4">
+                    قائمة المخدومين
+
+                </h3>
+                <h4>
+                    عند الإضافة سيتم الإضافة إلى الفردي في
+                    <span class="text-danger">@Model.StageName</span>
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Container-fluid Ends-->
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="card">
+        <div id="message"></div> <!-- لعرض الرسائل -->
+
+        <div class="card-body vendor-table">
+            @if (Model != null)
+            {
+                <table class="display" id="basic-1">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>تاريخ الميلاد</th>
+                            <th>رقم التلفون</th>
+                            <th>  مسح</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.makhdoums)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.DateOfBirth</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-success add-person-btn" data-person-id="@item.Id" data-stage-id="@Model.StageID">اضافة</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".add-person-btn").click(function () {
+            var personId = $(this).data('person-id');
+            var stageId = $(this).data('stage-id');
+
+            // إرسال طلب AJAX للتحقق من وجود الشخص
+            $.ajax({
+                type: "POST",
+                url: "/ForSingle/CheckIfExists",  // المسار الصحيح للتحقق
+                data: { personId: personId, stageId: stageId },
+                success: function (response) {
+                    if (response.exists) {
+                        // إذا كان الشخص موجودًا بالفعل
+                        $("#message").html('<div class="alert alert-danger">' + response.message + '</div>');
+                    } else {
+                        // إذا لم يكن الشخص موجودًا، نقوم بإعادة التوجيه إلى صفحة "Add"
+                        window.location.href = "/ForSingle/Add?id=" + personId + "&StageId=" + stageId;
+                    }
+                },
+                error: function () {
+                    $("#message").html('<div class="alert alert-danger">حدث خطأ أثناء المعالجة.</div>');
+                }
+            });
+        });
+    });
+</script>

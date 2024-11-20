@@ -1,0 +1,80 @@
+﻿@model Makhdoum
+@{
+    ViewData["Title"] = "تعديل مخدوم";
+
+}
+<div class="page-body">
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-header-left">
+                        <h3>
+                            تعديل مخدوم
+                        </h3>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card tab2-card">
+                    <div class="card-header">
+                        <h5> تعديل</h5>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade active show" id="account" role="tabpanel" aria-labelledby="account-tab">
+                                <form asp-controller="Makhdoum" asp-action="edit">
+                                    <!-- الاسم الرباعي -->
+                                    <div class="form-group row">
+                                        <label for="Name" class="col-xl-3 col-md-4"><span>*</span> الاسم الرباعي </label>
+                                        <input asp-for="Name" class="form-control col-xl-8 col-md-7" id="Name" type="text">
+                                        <span asp-validation-for="Name" class="text-danger col-xl-8 offset-xl-3"></span>
+                                    </div>
+
+                                    <!-- رقم الهاتف -->
+                                    <div class="form-group row">
+                                        <label for="PhoneNumber" class="col-xl-3 col-md-4"><span>*</span> رقم الهاتف</label>
+                                        <input asp-for="PhoneNumber" class="form-control col-xl-8 col-md-7" id="PhoneNumber" type="number">
+                                        <span asp-validation-for="PhoneNumber" class="text-danger col-xl-8 offset-xl-3"></span>
+                                    </div>
+
+                                    <!-- تاريخ الميلاد -->
+                                    <div class="form-group row">
+                                        <label for="DateOfBirth" class="col-xl-3 col-md-4"><span>*</span> تاريخ الميلاد</label>
+                                        <input asp-for="DateOfBirth" class="form-control col-xl-8 col-md-7" id="DateOfBirth" type="date">
+                                        <span asp-validation-for="DateOfBirth" class="text-danger col-xl-8 offset-xl-3"></span>
+                                    </div>
+
+                                    <!-- زر الإضافة -->
+                                    <div class="form-group row justify-content-center">
+                                        <button type="submit" class="btn btn-success">تعديل</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial">
+
+
+}

@@ -1,0 +1,129 @@
+﻿@model AlhanVM
+
+@{
+    string Name = " الالحان | مرحله" + " " + Model.StageName;
+    ViewData["Title"] = Name;
+}
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center my-2 py-2">
+                <h3 class="fw-bold display-4">
+                    الالحان
+                    <span class="text-danger">
+                        @Model.StageName
+                    </span>
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- زر الإضافة -->
+<div class="container-fluid mb-3">
+    <div class="row">
+        <div class="col-12">
+            <!-- زر إضافة مخدوم -->
+            <a asp-action="Create" asp-controller="Alhan" asp-route-id="@Model.StageID" class="btn btn-success">
+                <i class="fa fa-plus"></i> إضافة مخدوم
+            </a>
+
+            <!-- زر تحميل و طباعة الملف -->
+            <a onclick="downloadAndPrint(@Model.StageID,2,'الالحان')" class="btn btn-primary float-right">
+                <i class="fa fa-download"></i> تحميل الملف وطباعته
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Container-fluid Ends-->
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="card">
+
+        <div class="card-body vendor-table">
+            @if (Model.makhdoumswithStage.Count() > 0)
+            {
+                <table class="display" id="basic-1">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>تاريخ الميلاد</th>
+                            <th>رقم التلفون</th>
+                            <th> مسح </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.makhdoumswithStage)
+                        {
+                            <tr>
+
+                                <td>@item.Makhdoum.Name</td>
+                                <td>@item.Makhdoum.DateOfBirth</td>
+                                <td>@item.Makhdoum.PhoneNumber</td>
+
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a onclick="confirmDelete(@item.Makhdoum.Id,@Model.StageID)" class="btn btn-danger">مسح</a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+
+
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h5 class="text-center fw-bold display-5 bold">
+                    ( @Model.StageName ) لا يوجد مخدومين مشتركين بمرحلة
+                </h5>
+
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function confirmDelete(itemId,stageId) {
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "لن تتمكن من استعادة هذا العنصر بعد الحذف!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'نعم، احذف!',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // إعادة التوجيه إلى الحذف
+                    window.location.href = `/Alhan/Delete?id=${itemId}&StageId=${stageId}`;                }
+            });
+        }
+
+
+
+
+            function downloadAndPrint(stageId,ActivityId,ActiveName) {
+                // تحميل الملف
+                        window.location.href = `/Alhan/Upload?stageId=${stageId}&ActivityName=${ActiveName}&ActivityId=${ActivityId}`;
+
+                // إظهار رسالة للطباعة (الطباعة تتم يدويًا بعد التنزيل)
+                alert("تم تجهيز الملف. يمكنك فتحه وطباعته الآن.");
+            }
+
+    </script>
+
+}
