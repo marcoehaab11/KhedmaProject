@@ -32,6 +32,8 @@ namespace Khedma.Entites.Models
         public ICollection<Theater> TBTheater { get; set; }
         public ICollection<BooksAndSaves> TBBooksAndSaves { get; set; }
         public ICollection<ForSingle> TBForSingle { get; set; }
+        public ICollection<Arts> TBArts { get; set; }
+
 
 
 

@@ -22,4 +22,15 @@
     <ProjectReference Include="..\Khedma.Entites\Khedma.Entites.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\ForSingle\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\ForSingle\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

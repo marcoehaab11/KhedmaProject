@@ -10,7 +10,7 @@
     <meta name="keywords" content="admin template, Multikart admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="~/favicon.ico type="image/x-icon">
+    <link rel="shortcut icon" href="~/favicon.ico type="image/x-icon">  
     <title>@ViewData["Title"]</title>
 
     <!-- Google font-->
@@ -42,7 +42,7 @@
         <div class="page-main-header">
             <div class="main-header-right row">
                 <div class="main-header-left d-lg-none">
-                    <div class="logo-wrapper"><a href="index.html"><img class="blur-up lazyloaded" src="~/assets/images/logo.jpg" alt=""></a></div>
+                    <div class="logo-wrapper"><a href="/home/index"><img class="blur-up lazyloaded" src="~/assets/images/logo.jpg" alt=""></a></div>
                 </div>
                 <div class="mobile-sidebar">
                     <div class="media-body text-right switch-sm">
@@ -51,7 +51,11 @@
                 </div>
                 <div class="nav-right col">
                     <ul class="nav-menus">
-                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="/home/index">الصفحة الرئيسية</a>
+                        </li>
+
+                     
                         <li><a class="text-dark" href="#" onclick="javascript:toggleFullScreen()"><i data-feather="maximize-2"></i></a></li>
                       </ul>
                 </div>
@@ -65,7 +69,7 @@
             <div class="page-sidebar">
                 <div class="main-header-left d-none d-lg-flex justify-content-center align-items-center" style="height: 100px;">
                     <div class="logo-wrapper text-center">
-                        <a href="index.html" class="navbar-brand d-inline-block">
+                        <a href="/home/index" class="navbar-brand d-inline-block">
                             <img src="~/assets/images/logo.jpg" alt="Logo" class="img-fluid" style="max-height: 80px; object-fit: contain;">
                         </a>
                     </div>
@@ -75,9 +79,9 @@
                 <div class="sidebar custom-scrollbar">
                     
                     <ul class="sidebar-menu">
-                        <li><a class="sidebar-header" href="index.html"><i data-feather="home"></i><span> الصفحة الرئيسية</span></a></li>
+                        <li><a class="sidebar-header" href="/home/index"><i data-feather="home"></i><span> الصفحة الرئيسية</span></a></li>
                         <li>
-                            <a class="sidebar-header" href="#"><i data-feather="box"></i> <span>الكورال</span><i class="fa fa-music pull-right"></i></a>
+                            <a class="sidebar-header" href="#"><i data-feather="music"></i> <span>الكورال</span><i class="fa fa-music pull-right"></i></a>
                             <ul class="sidebar-submenu">
                                 <li>
                                     <a href="/Koral/index/1">
@@ -112,7 +116,7 @@
                         </li>
 
                         <li>
-                            <a class="sidebar-header" href="#"><i data-feather="box"></i> <span>الالحان</span><i class="fa fa-headphones pull-right"></i></a>
+                            <a class="sidebar-header" href="#"><i data-feather="headphones"></i> <span>الالحان</span><i class="fa fa-music pull-right"></i></a>
                             <ul class="sidebar-submenu">
                                 <li>
                                     <a href="/Alhan/index/8">
@@ -173,7 +177,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="sidebar-header" href="#"><i data-feather="box"></i> <span>دراسية</span><i class="fa fa-book pull-right"></i></a>
+                            <a class="sidebar-header" href="#"><i data-feather="book"></i> <span>دراسية</span><i class="fa fa-book pull-right"></i></a>
                             <ul class="sidebar-submenu">
                                 <li>
                                     <a href="/Learning/index/8">
@@ -234,7 +238,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="sidebar-header" href="#"><i data-feather="box"></i> <span>مسرح</span><i class="fa fa-film pull-right"></i></a>
+                            <a class="sidebar-header" href="#"><i data-feather="film"></i> <span>مسرح</span><i class="fa fa-film pull-right"></i></a>
                             <ul class="sidebar-submenu">
                                 <li>
                                     <a href="/Theater/index/8">
@@ -295,7 +299,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="sidebar-header" href="#"><i data-feather="box"></i> <span>قبطي</span><i class="fa fa-language pull-right"></i></a>
+                            <a class="sidebar-header" href="#"><i data-feather="activity"></i> <span>قبطي</span><i class="fa fa-language pull-right"></i></a>
                             <ul class="sidebar-submenu">
                                 <li>
                                     <a href="/coptic/index/8">
@@ -357,7 +361,7 @@
                         </li>
                         
                         <li>
-                            <a class="sidebar-header" href="#"><i data-feather="box"></i> <span>كتاب المقدس و المحفوظات</span><i class="fa fa-bible pull-right"></i></a>
+                            <a class="sidebar-header" href="#"><i data-feather="archive"></i> <span>كتاب المقدس و المحفوظات</span><i class="fa fa-bible pull-right"></i></a>
                             <ul class="sidebar-submenu">
                                 <li>
                                     <a href="/BooksAndSaves/index/8">
@@ -418,7 +422,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="sidebar-header" href="#"><i data-feather="box"></i> <span>فرديات</span><i class="fa fa-angle-right pull-right"></i></a>
+                            <a class="sidebar-header" href="#"><i data-feather="user"></i> <span>فرديات</span><i class="fa fa-angle-right pull-right"></i></a>
                             <ul class="sidebar-submenu">
                                 <li>
                                     <a href="/ForSingle/index/12">
@@ -445,7 +449,96 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="sidebar-header" href="#"><i data-feather="box"></i> <span>المخدومين</span><i class="fa fa-angle-right pull-right"></i></a>
+                            <a class="sidebar-header" href="#"><i data-feather="mic"></i> <span>الفنون التشكيلية</span><i class="fa fa-angle-right pull-right"></i></a>
+                            <ul class="sidebar-submenu">
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-circle"></i>
+                                        <span>الرسم و التصوير</span> <i class="fa fa-angle-right pull-right"></i>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                        <li>
+                                            <a href="/Arts?ArtId=1&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Arts?ArtId=1&StageId=16">
+                                                <i class="fa fa-circle"></i>تالته الي سادسه
+                                            </a>
+                                        </li>
+                                        <li><a href="/Arts?ArtId=1&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/Arts?ArtId=1&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/Arts?ArtId=1&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/Arts?ArtId=1&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/Arts?ArtId=1&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-circle"></i>
+                                        <span>النحت</span> <i class="fa fa-angle-right pull-right"></i>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                        <li>
+                                            <a href="/Arts?ArtId=2&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Arts?ArtId=2&StageId=16">
+                                                <i class="fa fa-circle"></i>تالته الي سادسه
+                                            </a>
+                                        </li>
+                                        <li><a href="/Arts?ArtId=2&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/Arts?ArtId=2&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/Arts?ArtId=2&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/Arts?ArtId=2&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/Arts?ArtId=2&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                    </ul>
+                                </li>
+                                                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-circle"></i>
+                                        <span>الاشغال الفنية</span> <i class="fa fa-angle-right pull-right"></i>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                        <li>
+                                            <a href="/Arts?ArtId=3&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Arts?ArtId=3&StageId=16">
+                                                <i class="fa fa-circle"></i>تالته الي سادسه
+                                            </a>
+                                        </li>
+                                        <li><a href="/Arts?ArtId=3&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/Arts?ArtId=3&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/Arts?ArtId=3&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/Arts?ArtId=3&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/Arts?ArtId=3&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-circle"></i>
+                                        <span>تصميم الازياء</span> <i class="fa fa-angle-right pull-right"></i>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                        <li>
+                                            <a href="/Arts?ArtId=4&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Arts?ArtId=4&StageId=16">
+                                                <i class="fa fa-circle"></i>تالته الي سادسه
+                                            </a>
+                                        </li>
+                                        <li><a href="/Arts?ArtId=4&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/Arts?ArtId=4&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/Arts?ArtId=4&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/Arts?ArtId=4&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/Arts?ArtId=4&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="sidebar-header" href="#"><i data-feather="users"></i> <span>المخدومين</span><i class="fa fa-angle-right pull-right"></i></a>
                             <ul class="sidebar-submenu">
                                 <li>
                                     <a href="/Makhdoum/index">
@@ -469,121 +562,26 @@
             </div>
             <!-- Page Sidebar Ends-->
 
-            <!-- Right sidebar Start-->
-            <div class="right-sidebar" id="right_side_bar">
-
-                <div>
-                    <div class="container p-0">
-                        <div class="modal-header p-l-20 p-r-20">
-                            <div class="col-sm-8 p-0">
-                                <h6 class="modal-title font-weight-bold">FRIEND LIST</h6>
-                            </div>
-                            <div class="col-sm-4 text-right p-0"><i class="mr-2" data-feather="settings"></i></div>
-                        </div>
-                    </div>
-                    <div class="friend-list-search mt-0">
-                        <input type="text" placeholder="search friend"><i class="fa fa-search"></i>
-                    </div>
-                    <div class="p-l-30 p-r-30">
-                        <div class="chat-box">
-                            <div class="people-list friend-list">
-                                <ul class="list">
-                                    <li class="clearfix">
-                                        <img class="rounded-circle user-image blur-up lazyloaded" src="~/assets/images/dashboard/user.png" alt="">
-                                        <div class="status-circle online"></div>
-                                        <div class="about">
-                                            <div class="name">Vincent Porter</div>
-                                            <div class="status"> Online</div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <img class="rounded-circle user-image blur-up lazyloaded" src="~/assets/images/dashboard/user1.jpg" alt="">
-                                        <div class="status-circle away"></div>
-                                        <div class="about">
-                                            <div class="name">Ain Chavez</div>
-                                            <div class="status"> 28 minutes ago</div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <img class="rounded-circle user-image blur-up lazyloaded" src="~/assets/images/dashboard/user2.jpg" alt="">
-                                        <div class="status-circle online"></div>
-                                        <div class="about">
-                                            <div class="name">Kori Thomas</div>
-                                            <div class="status"> Online</div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <img class="rounded-circle user-image blur-up lazyloaded" src="~/assets/images/dashboard/user3.jpg" alt="">
-                                        <div class="status-circle online"></div>
-                                        <div class="about">
-                                            <div class="name">Erica Hughes</div>
-                                            <div class="status"> Online</div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <img class="rounded-circle user-image blur-up lazyloaded" src="~/assets/images/dashboard/man.png" alt="">
-                                        <div class="status-circle offline"></div>
-                                        <div class="about">
-                                            <div class="name">Ginger Johnston</div>
-                                            <div class="status"> 2 minutes ago</div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <img class="rounded-circle user-image blur-up lazyloaded" src="~/assets/images/dashboard/user5.jpg" alt="">
-                                        <div class="status-circle away"></div>
-                                        <div class="about">
-                                            <div class="name">Prasanth Anand</div>
-                                            <div class="status"> 2 hour ago</div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <img class="rounded-circle user-image blur-up lazyloaded" src="~/assets/images/dashboard/designer.jpg" alt="">
-                                        <div class="status-circle online"></div>
-                                        <div class="about">
-                                            <div class="name">Hileri Jecno</div>
-                                            <div class="status"> Online</div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- Right sidebar Ends-->
+   
 
             <div class="page-body">
 
                 <!-- Container-fluid starts-->
                 <div class="container-fluid">
-                    <div class="page-header">
+                    <div class="page-header "  >
                         @RenderBody()
 
     
-                <!-- Container-fluid Ends-->
 
             </div>
 
-            <!-- footer start-->
-            @* <footer class="footer"> *@
-               @*  <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-6 footer-copyright">
-                            <p class="mb-0">Copyright 2019 © Multikart All rights reserved.</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p class="pull-right mb-0">Hand crafted & made with<i class="fa fa-heart"></i></p>
-                        </div>
-                    </div>
-                </div> *@
-@*             </footer>
- *@            <!-- footer end-->
+           
 
         </div>
 
     </div>
-
+        </div>
+    </div>
     <!-- latest jquery-->
     <script src="~/assets/js/jquery-3.3.1.min.js"></script>
 
@@ -613,10 +611,9 @@
 
     <!--script admin-->
     <script src="~/assets/js/admin-script.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
             @await RenderSectionAsync("Scripts", required: false)
 
-
-</body>
+      </body>
 </html>

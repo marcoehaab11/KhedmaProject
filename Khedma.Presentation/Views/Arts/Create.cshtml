@@ -1,7 +1,7 @@
-﻿@model ForSingleVM
+﻿@model ArtsVM
 
 @{
-    string Name = " الفرديات | " + " " + Model.StageName;
+    string Name = "  الفنون التشكيلية |  " + " " + Model.ArtName;
     ViewData["Title"] = Name;
 }
 
@@ -15,7 +15,9 @@
 
                 </h3>
                 <h4>
-                    عند الإضافة سيتم الإضافة إلى الفردي في
+                    عند الإضافة سيتم الإضافة إلى الفنون التشكيلية في
+                    <span class="text-danger">@Model.ArtName</span>
+                    مرحله
                     <span class="text-danger">@Model.StageName</span>
                 </h4>
             </div>
@@ -37,7 +39,7 @@
                             <th>الاسم</th>
                             <th>تاريخ الميلاد</th>
                             <th>رقم التلفون</th>
-                            <th>  مسح</th>
+                            <th>  اضافة</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,7 +51,7 @@
                                 <td>@item.PhoneNumber</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <button class="btn btn-success add-person-btn" data-person-id="@item.Id" data-stage-id="@Model.StageID">اضافة</button>
+                                        <button class="btn btn-success add-person-btn" data-person-id="@item.Id" data-stage-id="@Model.StageID" data-art-id="@Model.ArtID">اضافة</button>
                                     </div>
                                 </td>
                             </tr>
@@ -69,19 +71,20 @@
         $(".add-person-btn").click(function () {
             var personId = $(this).data('person-id');
             var stageId = $(this).data('stage-id');
+            var artId = $(this).data('art-id');
 
             // إرسال طلب AJAX للتحقق من وجود الشخص
             $.ajax({
                 type: "POST",
-                url: "/ForSingle/CheckIfExists",  // المسار الصحيح للتحقق
-                data: { personId: personId, stageId: stageId },
+                url: "/Arts/CheckIfExists",  // المسار الصحيح للتحقق
+                data: { personId: personId, stageId: stageId ,artId:artId},
                 success: function (response) {
                     if (response.exists) {
                         // إذا كان الشخص موجودًا بالفعل
                         $("#message").html('<div class="alert alert-danger">' + response.message + '</div>');
                     } else {
                         // إذا لم يكن الشخص موجودًا، نقوم بإعادة التوجيه إلى صفحة "Add"
-                        window.location.href = "/ForSingle/Add?id=" + personId + "&StageId=" + stageId;
+                        window.location.href = "/Arts/Add?MakhdoumId=" + personId + "&StageId=" + stageId + "&ArtId=" + artId;
                     }
                 },
                 error: function () {

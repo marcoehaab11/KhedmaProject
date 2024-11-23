@@ -17,6 +17,8 @@ namespace Khedma.Entites.Repositories
         ITheaterReposiotry Theater{ get; }
         IBooksAndSavesReposiotry BooksAndSaves{ get; }
         IForSingleRepository ForSingle { get; }
+        IArtsReposiotry Arts { get; }
+        IArtsNameReposiotry ArtsName{ get; }
 
 
         int Complete();

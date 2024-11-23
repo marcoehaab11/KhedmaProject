@@ -4,6 +4,7 @@ using Keadma.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Keadma.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241123102756_addArtNamesTable")]
+    partial class addArtNamesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,8 +52,6 @@ namespace Keadma.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("MakhdoumID", "StageID", "ArtID");
-
-                    b.HasIndex("ArtID");
 
                     b.HasIndex("StageID");
 
@@ -236,15 +237,15 @@ namespace Keadma.DataAccess.Migrations
 
             modelBuilder.Entity("Khedma.Entites.Models.Arts", b =>
                 {
-                    b.HasOne("Khedma.Entites.Models.ArtsName", "ArtsName")
-                        .WithMany("TBArts")
-                        .HasForeignKey("ArtID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Khedma.Entites.Models.Makhdoum", "Makhdoum")
                         .WithMany("TBArts")
                         .HasForeignKey("MakhdoumID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Khedma.Entites.Models.ArtsName", "ArtsName")
+                        .WithMany("TBArts")
+                        .HasForeignKey("StageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

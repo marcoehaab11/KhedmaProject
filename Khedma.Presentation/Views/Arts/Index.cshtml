@@ -1,7 +1,7 @@
-﻿@model KoralVM
+﻿@model ArtsVM
 
 @{
-    string Name = " الكورال | مرحله" + " " + Model.StageName;
+    string Name = "  الفنون التشكيلية |  " + " " + Model.ArtName  ;
     ViewData["Title"] = Name;
 }
 <!-- Container-fluid starts-->
@@ -10,7 +10,12 @@
         <div class="col-lg-8">
             <div class="text-center my-2 py-2">
                 <h3 class="fw-bold display-4">
-                    الكورال
+                    الفنون التشكيلية
+                    في
+                    <span class="text-danger">
+                      (  @Model.ArtName )
+                    </span>
+                    مرحله
                     <span class="text-danger">
                         @Model.StageName
                     </span>
@@ -26,12 +31,12 @@
     <div class="row">
         <div class="col-12">
             <!-- زر إضافة مخدوم -->
-            <a asp-action="Create" asp-controller="koral" asp-route-id="@Model.StageID" class="btn btn-success">
+            <a href="/Arts/Create?StageId=@Model.StageID&ArtId=@Model.ArtID" class="btn btn-success">
                 <i class="fa fa-plus"></i> إضافة مخدوم
             </a>
 
             <!-- زر تحميل و طباعة الملف -->
-            <a onclick="downloadAndPrint(@Model.StageID,1,'الكورال')" class="btn btn-primary float-right">
+            <a onclick="downloadAndPrint(@Model.StageID,'الفنون التشكيلية',@Model.ArtID)" class="btn btn-primary float-right">
                 <i class="fa fa-download"></i> تحميل الملف وطباعته
             </a>
         </div>
@@ -54,7 +59,7 @@
                             <th>الاسم</th>
                             <th>تاريخ الميلاد</th>
                             <th>رقم التلفون</th>
-                            <th> مسح </th>
+                            <th>  طباعة \ مسح </th>
 
                         </tr>
                     </thead>
@@ -69,8 +74,14 @@
 
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a onclick="confirmDelete(@item.Makhdoum.Id,@Model.StageID)" class="btn btn-danger">مسح</a>
+                                        <a onclick="confirmDelete(@item.Makhdoum.Id,@Model.StageID,@Model.ArtID)" class="btn btn-danger">مسح</a>
 
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <a onclick="downloadAndPrintOnlyOne(@Model.StageID, 'الفنون التشكيلية', @item.Makhdoum.Id,@Model.ArtID)"
+                                           class="btn btn-secondary">
+                                            <i class="bi bi-printer"></i> طباعة
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -85,7 +96,11 @@
             else
             {
                 <h5 class="text-center fw-bold display-5 bold">
-                    ( @Model.StageName ) لا يوجد مخدومين مشتركين بمرحلة
+                     لا يوجد مخدومين مشتركين في
+                    @Model.ArtName
+                    بمرحلة
+                    ( @Model.StageName )
+
                 </h5>
 
             }
@@ -96,7 +111,7 @@
 @section Scripts
 {
     <script>
-        function confirmDelete(itemId,stageId) {
+        function confirmDelete(itemId,stageId,artId) {
             Swal.fire({
                 title: 'هل أنت متأكد؟',
                 text: "لن تتمكن من استعادة هذا العنصر بعد الحذف!",
@@ -109,16 +124,24 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // إعادة التوجيه إلى الحذف
-                    window.location.href = `/koral/Delete?id=${itemId}&StageId=${stageId}`;                }
+                    window.location.href = `/Arts/Delete?MakhdoumId=${itemId}&StageId=${stageId}&ArtId=${artId}`;                }
             });
         }
 
 
 
 
-            function downloadAndPrint(stageId,ActivityId,ActiveName) {
+            function downloadAndPrint(stageId,ActiveName,ArtId) {
                 // تحميل الملف
-                        window.location.href = `/koral/Upload?stageId=${stageId}&ActivityName=${ActiveName}&ActivityId=${ActivityId}`;
+                        window.location.href = `/Arts/Upload?stageId=${stageId}&ActivityName=${ActiveName}&artId=${ArtId}`;
+
+                // إظهار رسالة للطباعة (الطباعة تتم يدويًا بعد التنزيل)
+                alert("تم تجهيز الملف. يمكنك فتحه وطباعته الآن.");
+            }
+
+             function downloadAndPrintOnlyOne(stageId,ActiveName,UserId,artId) {
+                // تحميل الملف
+                        window.location.href = `/Arts/UploadForOne?stageId=${stageId}&ActivityName=${ActiveName}&UserID=${UserId}&artId=${artId}`;
 
                 // إظهار رسالة للطباعة (الطباعة تتم يدويًا بعد التنزيل)
                 alert("تم تجهيز الملف. يمكنك فتحه وطباعته الآن.");

@@ -123,6 +123,30 @@ namespace Keadma.DataAccess.Data
                 .HasOne(k => k.TheStage) // Koral لديه Stage واحد
                 .WithMany(s => s.TBForSingle) // Stage لديه العديد من Koral
                 .HasForeignKey(k => k.StageID); // المفتاح الخارجي هو StageID
+
+            modelBuilder.Entity<Arts>()
+      .HasKey(k => new { k.MakhdoumID, k.StageID,k.ArtID });
+
+            // إعداد العلاقة بين Koral و Makhdoum
+            modelBuilder.Entity<Arts>()
+                .HasOne(k => k.Makhdoum) // Koral لديه Makhdoum واحد
+                .WithMany(m => m.TBArts) // Makhdoum لديه العديد من Koral
+                .HasForeignKey(k => k.MakhdoumID); // المفتاح الخارجي هو MakhdoumID
+
+            // إعداد العلاقة بين Koral و TheStage
+            modelBuilder.Entity<Arts>()
+                .HasOne(k => k.TheStage) // Koral لديه Stage واحد
+                .WithMany(s => s.TBArts) // Stage لديه العديد من Koral
+                .HasForeignKey(k => k.StageID); // المفتاح الخارجي هو StageID
+            modelBuilder.Entity<Arts>()
+               .HasOne(k => k.ArtsName) // Koral لديه Stage واحد
+               .WithMany(s => s.TBArts) // Stage لديه العديد من Koral
+               .HasForeignKey(k => k.ArtID); // المفتاح الخارجي هو StageID.
+
+
+
+            modelBuilder.Entity<ArtsName>()
+      .HasKey(k => new {  k.Id });
         }
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
@@ -132,6 +156,7 @@ namespace Keadma.DataAccess.Data
         DbSet<Koral> Tbkoral { get; set; }
         DbSet<Makhdoum> TBMakhdoum { get; set; }
         DbSet<TheStage> TBTheStage { get; set; }
+        DbSet<ArtsName> TBArtsName{ get; set; }
 
 
     }

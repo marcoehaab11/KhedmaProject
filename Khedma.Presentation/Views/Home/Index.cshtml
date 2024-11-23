@@ -1,0 +1,118 @@
+﻿@model HomeVM
+@{
+    ViewData["Title"] = "الصفحة الرئيسية";
+}
+
+<div class="container mt-5">
+    <div class="text-center ">
+        <img src="/assets/images/banner2.png" alt="شعار الأنشطة" class="img-fluid rounded" style="max-width: 275px;" >
+    </div>
+    <div class=" text-center text-white p-5 mb-4" >
+        <h1 class="display-4 fw-bold">نظام إدارة الأنشطة</h1>
+        <p class="lead">قم بإدارة المخدومين والأنشطة لمهرجان الكرازة</p>
+        <a class="btn btn-primary btn-lg" href="/Makhdoum/Create">إضافة مخدوم جديد</a>
+    </div>
+
+    <!-- الإحصائيات -->
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h4>إجمالي الأنشطة</h4>
+                <p>8 أنشطة</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h4>إجمالي المخدومين</h4>
+                <p>@Model.CountMakhdoumen مخدوم</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h4>الأكثر نشاطًا</h4>
+                <p>كورال</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- قائمة الأنشطة -->
+    <div class="row g-4">
+        <!-- كورال -->
+        <div class="col-md-4">
+            <div class="card shadow border-0" style="background-color: #d1e7fd;">
+                <div class="card-body text-center">
+                    <i class="bi bi-music-note-list mb-3" style="font-size: 3rem; color: #0d6efd;"></i>
+                    <h5 class="card-title fw-bold text-dark">كورال</h5>
+                    <p class="card-text text-muted">عدد المخدومين: <span class="fw-bold text-dark">@Model.CountKoral</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- الألحان -->
+        <div class="col-md-4">
+            <div class="card shadow border-0" style="background-color: #d9f7db;">
+                <div class="card-body text-center">
+                    <i class="bi bi-music-note-beamed mb-3" style="font-size: 3rem; color: #198754;"></i>
+                    <h5 class="card-title fw-bold text-dark">الألحان</h5>
+                    <p class="card-text text-muted">عدد المخدومين: <span class="fw-bold text-dark">@Model.CountAlhan</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- مسرح -->
+        <div class="col-md-4">
+            <div class="card shadow border-0" style="background-color: #fff3cd;">
+                <div class="card-body text-center">
+                    <i class="bi bi-lightbulb mb-3" style="font-size: 3rem; color: #ffc107;"></i>
+                    <h5 class="card-title fw-bold text-dark">مسرح</h5>
+                    <p class="card-text text-muted">عدد المخدومين: <span class="fw-bold text-dark">@Model.CountTheather</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- دراسية -->
+        <div class="col-md-4">
+            <div class="card shadow border-0" style="background-color: #cff4fc;">
+                <div class="card-body text-center">
+                    <i class="bi bi-book mb-3" style="font-size: 3rem; color: #0dcaf0;"></i>
+                    <h5 class="card-title fw-bold text-dark">دراسية</h5>
+                    <p class="card-text text-muted">عدد المخدومين: <span class="fw-bold text-dark">@Model.CountLearning</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- كتاب مقدس -->
+        <div class="col-md-4">
+            <div class="card shadow border-0" style="background-color: #f8d7da;">
+                <div class="card-body text-center">
+                    <i class="bi bi-journal-bookmark-fill mb-3" style="font-size: 3rem; color: #dc3545;"></i>
+                    <h5 class="card-title fw-bold text-dark">كتاب مقدس و محفوظات</h5>
+                    <p class="card-text text-muted">عدد المخدومين: <span class="fw-bold text-dark">@Model.CountBook</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- فرديات -->
+        <div class="col-md-4">
+            <div class="card shadow border-0" style="background-color: #e2e3e5;">
+                <div class="card-body text-center">
+                    <i class="bi bi-person-fill mb-3" style="font-size: 3rem; color: #6c757d;"></i>
+                    <h5 class="card-title fw-bold text-dark">فرديات</h5>
+                    <p class="card-text text-muted">عدد المخدومين: <span class="fw-bold text-dark">@Model.CountForSingle</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- الفنون التشكيلية -->
+        <div class="col-md-12">
+            <div class="card shadow border-0" style="background-color: #d3d3d3;">
+                <div class="card-body text-center">
+                    <i class="bi bi-brush-fill mb-3" style="font-size: 3rem; color: #495057;"></i>
+                    <h5 class="card-title fw-bold text-dark">الفنون التشكيلية</h5>
+                    <p class="card-text text-muted">عدد المخدومين: <span class="fw-bold text-dark">@Model.CountArts</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
