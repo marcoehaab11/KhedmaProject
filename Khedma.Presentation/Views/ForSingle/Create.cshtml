@@ -15,7 +15,9 @@
 
                 </h3>
                 <h4>
-                    عند الإضافة سيتم الإضافة إلى الفردي في
+                    عند الإضافة سيتم الإضافة إلى الفنون التشكيلية في
+                    <span class="text-danger">@Model.SingleName</span>
+                    مرحله
                     <span class="text-danger">@Model.StageName</span>
                 </h4>
             </div>
@@ -48,9 +50,13 @@
                                 <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
                                 <td>@item.PhoneNumber</td>
                                 <td>
-                                    <div class="btn-group" role="group">
-                                        <button class="btn btn-success add-person-btn" data-person-id="@item.Id" data-stage-id="@Model.StageID">اضافة</button>
-                                    </div>
+                                    <a class="btn btn-success add-person-btn"
+                                       data-person-id=@item.Id
+                                       data-stage-id=@Model.StageID
+                                       data-single-id=@Model.SinlgeID
+                                       >
+                                        اضافة 
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -69,19 +75,20 @@
         $(".add-person-btn").click(function () {
             var personId = $(this).data('person-id');
             var stageId = $(this).data('stage-id');
+            var singleId = $(this).data('single-id');
 
             // إرسال طلب AJAX للتحقق من وجود الشخص
             $.ajax({
                 type: "POST",
                 url: "/ForSingle/CheckIfExists",  // المسار الصحيح للتحقق
-                data: { personId: personId, stageId: stageId },
+                data: { personId: personId, stageId: stageId,singleId:singleId },
                 success: function (response) {
                     if (response.exists) {
                         // إذا كان الشخص موجودًا بالفعل
                         $("#message").html('<div class="alert alert-danger">' + response.message + '</div>');
                     } else {
                         // إذا لم يكن الشخص موجودًا، نقوم بإعادة التوجيه إلى صفحة "Add"
-                        window.location.href = "/ForSingle/Add?id=" + personId + "&StageId=" + stageId;
+                        window.location.href = "/ForSingle/Add?makhdoumId=" + personId + "&stageId=" + stageId+"&singelID=" + singleId;
                     }
                 },
                 error: function () {

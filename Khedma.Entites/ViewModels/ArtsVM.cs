@@ -14,6 +14,7 @@ namespace Khedma.Entites.ViewModels
         public int? ArtID { get; set; }
         public string? StageName { get; set; }
         public string? ArtName { get; set; }
+        public int? InGroup { get; set; }
         public IEnumerable<Makhdoum>? makhdoums { get; set; }
         public IEnumerable<Arts>? makhdoumswithStage { get; set; }
     }

@@ -26,20 +26,21 @@ namespace Khedma.Presentation.Controllers
             this.helper = helper;
         }
 
-        public IActionResult Index(int ArtId,int StageId)
+        public IActionResult Index(int ArtId,int StageId,int inGroup=1)
         {
             ArtsVM makhdoumWithStageVM = new ArtsVM()
             {
                 StageID = StageId,
                 ArtID = ArtId,
+                InGroup = inGroup,
                 StageName = helper.GetNameForStage(StageId),
                 ArtName = helper.GetNameForArt(ArtId),
-                makhdoumswithStage = _unitOfWork.Arts.GetAll(x => x.StageID == StageId && x.ArtID == ArtId, "Makhdoum")
+                makhdoumswithStage = _unitOfWork.Arts.GetAll(x => x.StageID == StageId && x.ArtID == ArtId && x.InGroup == inGroup, "Makhdoum")
             };
 
             return View(makhdoumWithStageVM);  
         }
-        public IActionResult Create(int ArtId, int StageId)
+        public IActionResult Create(int ArtId, int StageId,int inGroup)
         {
 
             ArtsVM makhdoumWithStageVM =
@@ -47,6 +48,7 @@ namespace Khedma.Presentation.Controllers
                 {
                     StageID = StageId,
                     ArtID=ArtId,
+                    InGroup = inGroup,
                     StageName = helper.GetNameForStage(StageId),
                     ArtName = helper.GetNameForArt(ArtId),
 
@@ -57,58 +59,61 @@ namespace Khedma.Presentation.Controllers
             return View(makhdoumWithStageVM);
         }
         [HttpGet]
-        public IActionResult Add(int makhdoumId, int stageId,int artId)
+        public IActionResult Add(int makhdoumId, int stageId, int artId, int inGroup)
         {
-            Arts Arts = new Arts()
+            var arts = new Arts
             {
                 MakhdoumID = makhdoumId,
                 StageID = stageId,
-                ArtID = artId
+                ArtID = artId,
+                InGroup = inGroup
             };
-            _unitOfWork.Arts.Add(Arts);
-            _unitOfWork.Complete();
-            return RedirectToAction("Index", new { ArtId = artId, StageId = stageId });
 
+            _unitOfWork.Arts.Add(arts);
+            _unitOfWork.Complete();
+
+            return RedirectToAction("Index", new { ArtId = artId, StageId = stageId, inGroup = inGroup });
         }
 
-        public IActionResult Delete(int MakhdoumId, int stageId, int artId)
+        // حذف العنصر
+        public IActionResult Delete(int makhdoumId, int stageId, int artId, int inGroup)
         {
-            // البحث عن العنصر
-            var makhdoum = _unitOfWork.Arts.GetFirstorDefault(x => x.MakhdoumID == MakhdoumId && x.StageID == stageId && x.ArtID== artId);
+            var makhdoum = _unitOfWork.Arts.GetFirstorDefault(x => x.MakhdoumID == makhdoumId && x.StageID == stageId && x.ArtID == artId && x.InGroup == inGroup);
 
             if (makhdoum == null)
             {
-                // في حالة عدم وجود العنصر
                 return NotFound("العنصر غير موجود");
             }
 
-            // حذف العنصر
             _unitOfWork.Arts.Remove(makhdoum);
             _unitOfWork.Complete();
 
-            // إعادة التوجيه إلى صفحة قائمة العناصر
-            return RedirectToAction("Index",new { ArtId = artId, StageId = stageId });
+            return RedirectToAction("Index", new { ArtId = artId, StageId = stageId, inGroup = inGroup });
         }
+
+        // التحقق من وجود العنصر
         [HttpPost]
-        public IActionResult CheckIfExists(int personId, int stageId, int artId)
+        public IActionResult CheckIfExists(int personId, int stageId, int artId, int inGroup)
         {
-            // تحقق من وجود الشخص في الكورال بناءً على personId و stageId
+            // تحقق من استقبال القيم
+            Console.WriteLine($"Person ID: {personId}, Stage ID: {stageId}, Art ID: {artId}, InGroup: {inGroup}");
+
             var existingPerson = _unitOfWork.Arts.GetAll()
-                                   .FirstOrDefault(p => p.MakhdoumID == personId && p.StageID == stageId && p.ArtID==artId);
+                                   .FirstOrDefault(p => p.MakhdoumID == personId && p.StageID == stageId && p.ArtID == artId && p.InGroup == inGroup);
 
             if (existingPerson != null)
             {
-                // إذا كان الشخص موجودًا بالفعل في الكورال
                 return Json(new { exists = true, message = "الشخص موجود بالفعل في هذه المرحلة." });
             }
 
-            // إذا لم يكن الشخص موجودًا
             return Json(new { exists = false, message = "الشخص غير موجود في هذه المرحلة." });
         }
 
-        public IActionResult Upload(int stageId, string activityName,int artId)
+
+
+        public IActionResult Upload(int stageId, string activityName,int artId,int inGroup)
         {
-            var people = _unitOfWork.Arts.GetAll(x => x.ArtID == artId && x.StageID == stageId, "Makhdoum").
+            var people = _unitOfWork.Arts.GetAll(x => x.ArtID == artId && x.StageID == stageId &&x.InGroup==inGroup, "Makhdoum").
                 Select(x => new Makhdoum
             {
                 Name = x.Makhdoum.Name,
@@ -122,9 +127,9 @@ namespace Khedma.Presentation.Controllers
 
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
-        public IActionResult UploadForOne(int stageId, string activityName,int UserID,int artId)
+        public IActionResult UploadForOne(int stageId, string activityName,int UserID,int artId, int inGroup)
         {
-            var people = _unitOfWork.Arts.GetAll(x => x.ArtID == artId && x.StageID == stageId &&x.MakhdoumID==UserID, "Makhdoum").
+            var people = _unitOfWork.Arts.GetAll(x => x.ArtID == artId && x.StageID == stageId &&x.MakhdoumID==UserID&&x.InGroup== inGroup, "Makhdoum").
                             Select(x => new Makhdoum
                             {
                                 Name = x.Makhdoum.Name,

@@ -109,7 +109,7 @@ namespace Keadma.DataAccess.Data
                 .WithMany(s => s.TBBooksAndSaves) // Stage لديه العديد من Koral
                 .HasForeignKey(k => k.StageID); // المفتاح الخارجي هو StageID
 
-            modelBuilder.Entity<ForSingle>()
+          modelBuilder.Entity<ForSingle>()
         .HasKey(k => new { k.MakhdoumID, k.StageID });
 
             // إعداد العلاقة بين Koral و Makhdoum
@@ -123,9 +123,13 @@ namespace Keadma.DataAccess.Data
                 .HasOne(k => k.TheStage) // Koral لديه Stage واحد
                 .WithMany(s => s.TBForSingle) // Stage لديه العديد من Koral
                 .HasForeignKey(k => k.StageID); // المفتاح الخارجي هو StageID
+            modelBuilder.Entity<ForSingle>()
+                .HasOne(k => k.ForSingleName) // Koral لديه Stage واحد
+                .WithMany(s => s.TBForSingle) // Stage لديه العديد من Koral
+                .HasForeignKey(k => k.SingleNameId);
 
             modelBuilder.Entity<Arts>()
-      .HasKey(k => new { k.MakhdoumID, k.StageID,k.ArtID });
+      .HasKey(k => new { k.MakhdoumID, k.StageID,k.ArtID ,k.InGroup});
 
             // إعداد العلاقة بين Koral و Makhdoum
             modelBuilder.Entity<Arts>()
@@ -157,6 +161,7 @@ namespace Keadma.DataAccess.Data
         DbSet<Makhdoum> TBMakhdoum { get; set; }
         DbSet<TheStage> TBTheStage { get; set; }
         DbSet<ArtsName> TBArtsName{ get; set; }
+        DbSet<ForSingleName> TBForSingleName { get; set; }
 
 
     }

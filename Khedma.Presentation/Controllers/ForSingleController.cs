@@ -1,10 +1,13 @@
 ﻿
 using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
 using Khedma.Entites.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using System.Text.Json;
 using System.Web;
 
@@ -23,28 +26,30 @@ namespace Khedma.Presentation.Controllers
             this.helper = helper;
         }
 
-        public IActionResult Index(int id)
+        public IActionResult Index(int singelID, int StageId)
         {
             ForSingleVM makhdoumWithStageVM = new ForSingleVM()
             {
-                StageID = id,
-                StageName = helper.GetNameForStage(id),
-                makhdoumswithStage = _unitOfWork.ForSingle.GetAll(x => x.StageID == id, "Makhdoum")
+                StageID = StageId,
+                SinlgeID = singelID,
+                StageName = helper.GetNameForStage(StageId),
+                SingleName = helper.GetNameForSingle(singelID),
+                makhdoumswithStage = _unitOfWork.ForSingle.GetAll(x => x.StageID == StageId && x.SingleNameId == singelID, "Makhdoum")
             };
 
-            // طباعة قيمة makhdoumswithStage للتأكد من أنها ليست فارغة
-            Console.WriteLine("makhdoumswithStage count: " + makhdoumWithStageVM.makhdoumswithStage.Count());
-
-            return View(makhdoumWithStageVM);  // إرسال الـ Model إلى الـ View
+            return View(makhdoumWithStageVM);
         }
-        public IActionResult Create(int id)
+        public IActionResult Create(int singelID, int StageId)
         {
 
             ForSingleVM makhdoumWithStageVM =
                 new ForSingleVM()
                 {
-                    StageID = id,
-                    StageName = helper.GetNameForStage(id),
+                    StageID = StageId,
+                    SinlgeID = singelID,
+                    StageName = helper.GetNameForStage(StageId),
+                    SingleName = helper.GetNameForSingle(singelID),
+
                     makhdoums = _unitOfWork.Makhdoum.GetAll()
                 };
 
@@ -52,70 +57,88 @@ namespace Khedma.Presentation.Controllers
             return View(makhdoumWithStageVM);
         }
         [HttpGet]
-        public IActionResult Add(int id, int StageId)
+        public IActionResult Add(int makhdoumId, int stageId, int singelID)
         {
-            ForSingle ForSingle = new ForSingle()
+            var single = new ForSingle
             {
-                MakhdoumID = id,
-                StageID = StageId
+                MakhdoumID = makhdoumId,
+                StageID = stageId,
+                SingleNameId = singelID
+               
             };
-            _unitOfWork.ForSingle.Add(ForSingle);
-            _unitOfWork.Complete();
-            return RedirectToAction("Index", new { id = StageId });
 
+            _unitOfWork.ForSingle.Add(single);
+            _unitOfWork.Complete();
+
+            return RedirectToAction("Index", new { singelID = singelID, StageId = stageId });
         }
 
-        public IActionResult Delete(int id, int StageId)
+        // حذف العنصر
+        public IActionResult Delete(int makhdoumId, int stageId, int singleid)
         {
-            // البحث عن العنصر
-            var makhdoum = _unitOfWork.ForSingle.GetFirstorDefault(x => x.MakhdoumID == id && x.StageID == StageId);
+            var makhdoum = _unitOfWork.ForSingle.GetFirstorDefault(x => x.MakhdoumID == makhdoumId && x.StageID == stageId && x.SingleNameId== singleid);
 
             if (makhdoum == null)
             {
-                // في حالة عدم وجود العنصر
                 return NotFound("العنصر غير موجود");
             }
 
-            // حذف العنصر
             _unitOfWork.ForSingle.Remove(makhdoum);
             _unitOfWork.Complete();
 
-            // إعادة التوجيه إلى صفحة قائمة العناصر
-            return RedirectToAction("Index", new { id = StageId });
+            return RedirectToAction("Index", new { singelID = singleid, StageId = stageId });
         }
+
+        // التحقق من وجود العنصر
         [HttpPost]
-        public IActionResult CheckIfExists(int personId, int stageId)
+        public IActionResult CheckIfExists(int personId, int stageId, int singleId)
         {
-            // تحقق من وجود الشخص في الكورال بناءً على personId و stageId
+     
             var existingPerson = _unitOfWork.ForSingle.GetAll()
-                                   .FirstOrDefault(p => p.MakhdoumID == personId && p.StageID == stageId);
+                                   .FirstOrDefault(p => p.MakhdoumID == personId && p.StageID == stageId && p.SingleNameId == singleId);
 
             if (existingPerson != null)
             {
-                // إذا كان الشخص موجودًا بالفعل في الكورال
                 return Json(new { exists = true, message = "الشخص موجود بالفعل في هذه المرحلة." });
             }
 
-            // إذا لم يكن الشخص موجودًا
             return Json(new { exists = false, message = "الشخص غير موجود في هذه المرحلة." });
         }
 
-        public IActionResult Upload(int stageId, string activityName,int ActivityId)
-        {
 
-            var fileBytes = helper.GenerateWordFile(stageId, ActivityId);
-            var stageName=helper.GetNameForStage(stageId);
-            string fileName = activityName + "_"+ stageName + ".docx";
+
+        public IActionResult Upload(int stageId, string activityName, int singleId)
+        {
+            var people = _unitOfWork.ForSingle.GetAll(x => x.SingleNameId == singleId && x.StageID == stageId, "Makhdoum").
+                Select(x => new Makhdoum
+                {
+                    Name = x.Makhdoum.Name,
+                    DateOfBirth = x.Makhdoum.DateOfBirth,
+                    PhoneNumber = x.Makhdoum.PhoneNumber
+                }).ToList(); ;
+            var fileBytes = helper.GenerateWordFilebylist(people);
+            var stageName = helper.GetNameForStage(stageId);
+            var artname = helper.GetNameForSingle(singleId);
+            string fileName = activityName + "_" + artname + "_" + stageName + ".docx";
 
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
-        public IActionResult UploadForOne(int stageId, string activityName, int ActivityId,int UserID)
+        public IActionResult UploadForOne(int stageId, string activityName, int UserID, int singleId)
         {
-
-            var fileBytes = helper.GenerateWordFileForOne(stageId, ActivityId, UserID);
+            var people = _unitOfWork.ForSingle.GetAll(x => x.SingleNameId == singleId && x.StageID == stageId && x.MakhdoumID == UserID, "Makhdoum").
+                            Select(x => new Makhdoum
+                            {
+                                Name = x.Makhdoum.Name,
+                                DateOfBirth = x.Makhdoum.DateOfBirth,
+                                PhoneNumber = x.Makhdoum.PhoneNumber
+                            }).ToList(); ;
+            var fileBytes = helper.GenerateWordFilebylist(people);
             var stageName = helper.GetNameForStage(stageId);
-            var UserName = _unitOfWork.Makhdoum.GetFirstorDefault(x => x.Id == UserID);
-            string fileName = activityName + "_" + stageName+"_"+ UserName.Name + ".docx";
+            var artname = helper.GetNameForSingle(singleId);
+            var mahkdoum = _unitOfWork.Makhdoum.GetFirstorDefault(x => x.Id == UserID);
+            string fileName = activityName + "-" + artname + "_" + stageName + "_" + mahkdoum.Name + ".docx";
+
+            //string fileName = activityName + "_" + stageName + "_" + UserName.Name + ".docx";
 
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }

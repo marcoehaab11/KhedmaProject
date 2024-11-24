@@ -25,6 +25,7 @@ namespace Keadma.DataAccess.Implementation
         public IForSingleRepository ForSingle { get; }
         public IArtsReposiotry Arts { get; }
         public IArtsNameReposiotry ArtsName { get; }
+        public IForSingleNameReposiotry ForSingleName { get; }
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -40,8 +41,8 @@ namespace Keadma.DataAccess.Implementation
             BooksAndSaves = new BooksAndSavesReposiotry(context);
             ForSingle= new ForSingleRepository(context);
             Arts = new ArtsReposiotry(context);
-            ArtsName= new ArtsNameReposiotry(context);  
-
+            ArtsName= new ArtsNameReposiotry(context);
+            ForSingleName= new ForSingleNameReposiotry(context);
         }
 
 

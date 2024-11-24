@@ -4,6 +4,7 @@ using Keadma.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Keadma.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241123195606_editInArtTable2")]
+    partial class editInArtTable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,10 +51,10 @@ namespace Keadma.DataAccess.Migrations
                     b.Property<int>("ArtID")
                         .HasColumnType("int");
 
-                    b.Property<int>("InGroup")
+                    b.Property<int?>("InGroup")
                         .HasColumnType("int");
 
-                    b.HasKey("MakhdoumID", "StageID", "ArtID", "InGroup");
+                    b.HasKey("MakhdoumID", "StageID", "ArtID");
 
                     b.HasIndex("ArtID");
 
@@ -116,34 +119,11 @@ namespace Keadma.DataAccess.Migrations
                     b.Property<int>("StageID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SingleNameId")
-                        .HasColumnType("int");
-
                     b.HasKey("MakhdoumID", "StageID");
-
-                    b.HasIndex("SingleNameId");
 
                     b.HasIndex("StageID");
 
                     b.ToTable("ForSingle");
-                });
-
-            modelBuilder.Entity("Khedma.Entites.Models.ForSingleName", b =>
-                {
-                    b.Property<int>("ForSingleNameId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ForSingleNameId"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("ForSingleNameId");
-
-                    b.ToTable("TBForSingleName");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Koral", b =>
@@ -333,17 +313,11 @@ namespace Keadma.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Khedma.Entites.Models.ForSingleName", "ForSingleName")
-                        .WithMany("TBForSingle")
-                        .HasForeignKey("SingleNameId");
-
                     b.HasOne("Khedma.Entites.Models.TheStage", "TheStage")
                         .WithMany("TBForSingle")
                         .HasForeignKey("StageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ForSingleName");
 
                     b.Navigation("Makhdoum");
 
@@ -410,11 +384,6 @@ namespace Keadma.DataAccess.Migrations
             modelBuilder.Entity("Khedma.Entites.Models.ArtsName", b =>
                 {
                     b.Navigation("TBArts");
-                });
-
-            modelBuilder.Entity("Khedma.Entites.Models.ForSingleName", b =>
-                {
-                    b.Navigation("TBForSingle");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Makhdoum", b =>

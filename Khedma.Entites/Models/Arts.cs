@@ -11,7 +11,7 @@ namespace Khedma.Entites.Models
         public int ArtID { get; set; }
         public int MakhdoumID { get; set; }
         public int StageID { get;set; }
-
+        public int ?InGroup  {get;set;}
         public TheStage TheStage { get; set; } 
         public Makhdoum Makhdoum { get; set; }
 

@@ -30,6 +30,15 @@ namespace Keadma.DataAccess.Helpers
             }
             return NameofStage.Name;
         }
+        public string GetNameForSingle(int id)
+        {
+            var NameofStage = _unitOfWork.ForSingleName.GetFirstorDefault(x => x.ForSingleNameId == id);
+            if (NameofStage == null)
+            {
+                return "NoNameFound";
+            }
+            return NameofStage.Name;
+        }
         public string GetNameForArt(int id)
         {
             var NameofStage = _unitOfWork.ArtsName.GetFirstorDefault(x => x.Id == id);

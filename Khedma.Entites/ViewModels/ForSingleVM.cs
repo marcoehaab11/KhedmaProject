@@ -10,6 +10,8 @@ namespace Khedma.Entites.ViewModels
 {
     public class ForSingleVM
     {
+        public int? SinlgeID { get; set; }
+        public string? SingleName { get; set; }
         public int? StageID { get; set; }
         public string? StageName { get; set; }
         public IEnumerable<Makhdoum>? makhdoums { get; set; }

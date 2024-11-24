@@ -11,6 +11,11 @@
             <div class="text-center my-2 py-2">
                 <h3 class="fw-bold display-4">
                     الفرديات
+                    في
+                    <span class="text-danger">
+                        (  @Model.SingleName )
+                    </span>
+                    مرحله
                     <span class="text-danger">
                         @Model.StageName
                     </span>
@@ -26,12 +31,12 @@
     <div class="row">
         <div class="col-12">
             <!-- زر إضافة مخدوم -->
-            <a asp-action="Create" asp-controller="ForSingle" asp-route-id="@Model.StageID" class="btn btn-success">
+            <a href="/forsingle/Create?StageId=@Model.StageID&singelID=@Model.SinlgeID" class="btn btn-success">
                 <i class="fa fa-plus"></i> إضافة مخدوم
             </a>
 
             <!-- زر تحميل و طباعة الملف -->
-            <a onclick="downloadAndPrint(@Model.StageID,7,'الفردي')" class="btn btn-primary float-right">
+            <a onclick="downloadAndPrint(@Model.StageID,'الفردي',@Model.SinlgeID)" class="btn btn-primary float-right">
                 <i class="fa fa-download"></i> تحميل الملف وطباعته
             </a>
         </div>
@@ -69,11 +74,11 @@
 
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a onclick="confirmDelete(@item.Makhdoum.Id,@Model.StageID)" class="btn btn-danger">مسح</a>
+                                        <a onclick="confirmDelete(@item.Makhdoum.Id,@Model.StageID,@Model.SinlgeID)" class="btn btn-danger">مسح</a>
 
                                     </div>
                                     <div class="btn-group" role="group">
-                                        <a onclick="downloadAndPrintOnlyOne(@Model.StageID, 8, 'الفردي', @item.Makhdoum.Id)"
+                                        <a onclick="downloadAndPrintOnlyOne(@Model.StageID, @Model.SinlgeID, 'الفردي', @item.Makhdoum.Id)"
                                            class="btn btn-secondary">
                                             <i class="bi bi-printer"></i> طباعة
                                         </a>
@@ -102,7 +107,7 @@
 @section Scripts
 {
     <script>
-        function confirmDelete(itemId,stageId) {
+        function confirmDelete(itemId,stageId,singleid) {
             Swal.fire({
                 title: 'هل أنت متأكد؟',
                 text: "لن تتمكن من استعادة هذا العنصر بعد الحذف!",
@@ -115,24 +120,24 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // إعادة التوجيه إلى الحذف
-                    window.location.href = `/ForSingle/Delete?id=${itemId}&StageId=${stageId}`;                }
+                    window.location.href = `/ForSingle/Delete?makhdoumId=${itemId}&stageId=${stageId}&singleid=${singleid}`;                }
             });
         }
 
 
 
 
-            function downloadAndPrint(stageId,ActivityId,ActiveName) {
+            function downloadAndPrint(stageId,ActiveName,ActivityId) {
                 // تحميل الملف
-                        window.location.href = `/ForSingle/Upload?stageId=${stageId}&ActivityName=${ActiveName}&ActivityId=${ActivityId}`;
+                        window.location.href = `/ForSingle/Upload?stageId=${stageId}&activityName=${ActiveName}&singleId=${ActivityId}`;
 
                 // إظهار رسالة للطباعة (الطباعة تتم يدويًا بعد التنزيل)
                 alert("تم تجهيز الملف. يمكنك فتحه وطباعته الآن.");
             }
 
-             function downloadAndPrintOnlyOne(stageId,ActivityId,ActiveName,UserId) {
+             function downloadAndPrintOnlyOne(stageId,singleId,ActiveName,UserId) {
                 // تحميل الملف
-                        window.location.href = `/ForSingle/UploadForOne?stageId=${stageId}&ActivityName=${ActiveName}&ActivityId=${ActivityId}&UserID=${UserId}`;
+                        window.location.href = `/ForSingle/UploadForOne?stageId=${stageId}&ActivityName=${ActiveName}&singleId=${singleId}&UserID=${UserId}`;
 
                 // إظهار رسالة للطباعة (الطباعة تتم يدويًا بعد التنزيل)
                 alert("تم تجهيز الملف. يمكنك فتحه وطباعته الآن.");
