@@ -13,19 +13,21 @@ namespace Keadma.DataAccess.Implementation
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        //public ICategoryRepository Category { get; private set; }
         public IMakhdoumReposiotry Makhdoum { get; private set; }
         public IKoralReposiotry Koral { get; private set; }
         public ITheStageReposiotry TheStage { get; private set; }
         public IAlhanReposiotry Alhan { get; private set; }
-        public ILearningReposiotry Learning { get; }
-        public ICopticReposiotry Coptic { get; }
-        public ITheaterReposiotry Theater { get; }
-        public IBooksAndSavesReposiotry BooksAndSaves { get; }
-        public IForSingleRepository ForSingle { get; }
-        public IArtsReposiotry Arts { get; }
-        public IArtsNameReposiotry ArtsName { get; }
-        public IForSingleNameReposiotry ForSingleName { get; }
+        public ILearningReposiotry Learning { get; private set; }
+        public ICopticReposiotry Coptic { get; private set; }
+        public ITheaterReposiotry Theater { get; private set; }
+        public IBooksAndSavesReposiotry BooksAndSaves { get; private set; }
+        public IForSingleRepository ForSingle { get; private set; }
+        public IArtsReposiotry Arts { get; private set; }
+        public IArtsNameReposiotry ArtsName { get; private set; }
+        public IForSingleNameReposiotry ForSingleName { get; private set; }
+        public IUserReposiotry User { get; private set; }
+        public IRoleReposiotry Role { get; private set; }
+        public IUserRoleReposiotry UserRole { get; private set; }
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -43,6 +45,9 @@ namespace Keadma.DataAccess.Implementation
             Arts = new ArtsReposiotry(context);
             ArtsName= new ArtsNameReposiotry(context);
             ForSingleName= new ForSingleNameReposiotry(context);
+            User= new UserReposiotry(context);
+            Role = new RoleReposiotry(context);
+            UserRole = new UserRoleReposiotry(context);
         }
 
 

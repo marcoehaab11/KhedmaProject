@@ -1,0 +1,43 @@
+﻿@model RegisterUserViewModel
+@{
+    
+    ViewData["Title"] = "أضافة مستخدم";
+}
+<div class="container">
+    <h2>تسجيل مستخدم جديد</h2>
+
+    <form method="post" asp-action="Register">
+        <div class="form-group">
+            <label for="UserName">اسم المستخدم</label>
+            <input asp-for="UserName" class="form-control" id="UserName" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Email">البريد الإلكتروني</label>
+            <input asp-for="Email" class="form-control" id="Email" type="email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Password">كلمة المرور</label>
+            <input asp-for="Password" class="form-control" id="Password" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="RoleId">الدور</label>
+            <select asp-for="RoleId" asp-items="ViewBag.Roles" class="form-control">
+                <option value="">اختر الدور</option>
+            </select>
+            <span asp-validation-for="RoleId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">تسجيل</button>
+    </form>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-info mt-3">@ViewBag.Message</div>
+    }
+</div>

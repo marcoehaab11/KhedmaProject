@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "تسجيل الدخول";
+    Layout = "_AccountLayout";
+}
+
+<div class="container mt-5">
+    <!-- مكان اللوغو -->
+    <img src="~/assets/images/banner2.png" alt="Logo" class="logo mb-4" />
+
+    <h2>تسجيل الدخول</h2>
+
+    <!-- عرض رسالة الخطأ -->
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Message
+        </div>
+    }
+
+    <form method="post" action="/Account/Login">
+        <div class="form-group">
+            <label for="username">اسم المستخدم:</label>
+            <input type="text" id="username" name="username" class="form-control" required />
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="password">كلمة المرور:</label>
+            <input type="password" id="password" name="password" class="form-control" required />
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <a href="/account/create" class="btn btn-info">إضافة مخدوم</a>
+        </div>
+    </form>
+
+</div>

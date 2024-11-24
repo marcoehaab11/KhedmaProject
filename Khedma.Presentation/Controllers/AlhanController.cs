@@ -3,12 +3,15 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
 using Khedma.Entites.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Table = DocumentFormat.OpenXml.Wordprocessing.Table;
 
 
 namespace Khedma.Presentation.Controllers
 {
+
+    [Authorize]
     public class AlhanController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

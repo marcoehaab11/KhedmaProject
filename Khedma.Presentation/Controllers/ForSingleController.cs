@@ -4,6 +4,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
 using Khedma.Entites.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Security.Cryptography.X509Certificates;
@@ -14,6 +15,7 @@ using System.Web;
 
 namespace Khedma.Presentation.Controllers
 {
+    [Authorize]
     public class ForSingleController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

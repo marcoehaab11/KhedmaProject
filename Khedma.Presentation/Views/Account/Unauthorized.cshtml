@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "غير مصرح لك";
+}
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJmW7pKUd8iEoqZLfB6toXcQehfQFvUu3d5Y5t10/y9D+aV1m62W0r3i9ZmP" crossorigin="anonymous">
+    <style>
+     
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+            .btn-custom:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>غير مصرح لك</h1>
+        <p>عذرًا، ليس لديك صلاحية للوصول إلى هذه الصفحة. إذا كنت تعتقد أن هذا خطأ، يُرجى الاتصال بالمسؤول.</p>
+        <a href="/home/index" class="btn btn-custom">العودة إلى الصفحة الرئيسية</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-oPqHgUJoZg6/gFFKuO1Tb1OC3jAF7yoO3CVyq8gQwZg=" crossorigin="anonymous"></script>
+</body>
+</html>

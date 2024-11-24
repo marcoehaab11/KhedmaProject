@@ -170,10 +170,10 @@
                 function redirectToPage(artId,stageId,inGroup) {
                     if (inGroup === 0) {
                         // إذا تم اختيار "فردي"، يتم توجيه المستخدم إلى صفحة معينة
-                        window.location.href = `/Arts?ArtId=${artId}&StageId=${stageId}&inGroup=${inGroup}`;  // قم بتغيير الرابط إلى الرابط الذي تريده
+                        window.location.href = `/Arts/index?ArtId=${artId}&StageId=${stageId}&inGroup=${inGroup}`;  // قم بتغيير الرابط إلى الرابط الذي تريده
                     } else if (inGroup === 1) {
                         // إذا تم اختيار "جماعي"، يتم توجيه المستخدم إلى صفحة أخرى
-                        window.location.href = `/Arts?ArtId=${artId}&StageId=${stageId}&inGroup=${inGroup}`;  // قم بتغيير الرابط إلى الرابط الذي تريده
+                        window.location.href = `/Arts/index?ArtId=${artId}&StageId=${stageId}&inGroup=${inGroup}`;  // قم بتغيير الرابط إلى الرابط الذي تريده
                     }
                 }
 

@@ -20,7 +20,9 @@ namespace Khedma.Entites.Repositories
         IArtsReposiotry Arts { get; }
         IArtsNameReposiotry ArtsName{ get; }
         IForSingleNameReposiotry ForSingleName { get; }
-
+        IUserReposiotry User { get; }
+        IRoleReposiotry Role { get; }
+        IUserRoleReposiotry UserRole { get; }
 
         int Complete();
     }

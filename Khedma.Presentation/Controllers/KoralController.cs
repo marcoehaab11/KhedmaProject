@@ -2,6 +2,7 @@
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
 using Khedma.Entites.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json;
@@ -10,6 +11,7 @@ using System.Web;
 
 namespace Khedma.Presentation.Controllers
 {
+    
     public class KoralController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

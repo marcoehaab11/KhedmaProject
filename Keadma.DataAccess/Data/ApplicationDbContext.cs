@@ -13,31 +13,41 @@ namespace Keadma.DataAccess.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // تعريف المفتاح الأساسي المركب للكيان الوسيط Koral
+             
             modelBuilder.Entity<Koral>()
                 .HasKey(k => new { k.MakhdoumID, k.StageID });
+            modelBuilder.Entity<UserRole>()
+              .HasKey(k => new { k.Id });
 
-            // إعداد العلاقة بين Koral و Makhdoum
+            modelBuilder.Entity<UserRole>()
+              .HasOne(k => k.TBRole)  
+              .WithMany(m => m.TBuserRoles)  
+              .HasForeignKey(k => k.RoleId);  
+            modelBuilder.Entity<UserRole>()
+              .HasOne(k => k.TBUser)  
+              .WithMany(m => m.TBuserRoles)  
+              .HasForeignKey(k => k.UserId);  
+             
             modelBuilder.Entity<Koral>()
-                .HasOne(k => k.Makhdoum) // Koral لديه Makhdoum واحد
-                .WithMany(m => m.TbKoral) // Makhdoum لديه العديد من Koral
-                .HasForeignKey(k => k.MakhdoumID); // المفتاح الخارجي هو MakhdoumID
+                .HasOne(k => k.Makhdoum)  
+                .WithMany(m => m.TbKoral)  
+                .HasForeignKey(k => k.MakhdoumID);  
 
-            // إعداد العلاقة بين Koral و TheStage
+           
             modelBuilder.Entity<Koral>()
-                .HasOne(k => k.TheStage) // Koral لديه Stage واحد
-                .WithMany(s => s.TbKoral) // Stage لديه العديد من Koral
-                .HasForeignKey(k => k.StageID); // المفتاح الخارجي هو StageID
+                .HasOne(k => k.TheStage) 
+                .WithMany(s => s.TbKoral) 
+                .HasForeignKey(k => k.StageID); 
 
 
             modelBuilder.Entity<Alhan>()
             .HasKey(k => new { k.MakhdoumID, k.StageID });
 
-            // إعداد العلاقة بين Koral و Makhdoum
+             
             modelBuilder.Entity<Alhan>()
-                .HasOne(k => k.Makhdoum) // Koral لديه Makhdoum واحد
-                .WithMany(m => m.TbAlhan) // Makhdoum لديه العديد من Koral
-                .HasForeignKey(k => k.MakhdoumID); // المفتاح الخارجي هو MakhdoumID
+                .HasOne(k => k.Makhdoum)  
+                .WithMany(m => m.TbAlhan)  
+                .HasForeignKey(k => k.MakhdoumID);  
 
             // إعداد العلاقة بين Koral و TheStage
             modelBuilder.Entity<Alhan>()
@@ -48,11 +58,11 @@ namespace Keadma.DataAccess.Data
             modelBuilder.Entity<Learning>()
          .HasKey(k => new { k.MakhdoumID, k.StageID });
 
-            // إعداد العلاقة بين Koral و Makhdoum
+             
             modelBuilder.Entity<Learning>()
-                .HasOne(k => k.Makhdoum) // Koral لديه Makhdoum واحد
-                .WithMany(m => m.TBLearning) // Makhdoum لديه العديد من Koral
-                .HasForeignKey(k => k.MakhdoumID); // المفتاح الخارجي هو MakhdoumID
+                .HasOne(k => k.Makhdoum)  
+                .WithMany(m => m.TBLearning)  
+                .HasForeignKey(k => k.MakhdoumID); 
 
             // إعداد العلاقة بين Koral و TheStage
             modelBuilder.Entity<Learning>()
@@ -63,11 +73,11 @@ namespace Keadma.DataAccess.Data
             modelBuilder.Entity<Coptic>()
       .HasKey(k => new { k.MakhdoumID, k.StageID });
 
-            // إعداد العلاقة بين Koral و Makhdoum
+             
             modelBuilder.Entity<Coptic>()
-                .HasOne(k => k.Makhdoum) // Koral لديه Makhdoum واحد
-                .WithMany(m => m.TBCoptic) // Makhdoum لديه العديد من Koral
-                .HasForeignKey(k => k.MakhdoumID); // المفتاح الخارجي هو MakhdoumID
+                .HasOne(k => k.Makhdoum)  
+                .WithMany(m => m.TBCoptic)  
+                .HasForeignKey(k => k.MakhdoumID);  
 
             // إعداد العلاقة بين Koral و TheStage
             modelBuilder.Entity<Coptic>()
@@ -80,11 +90,11 @@ namespace Keadma.DataAccess.Data
             modelBuilder.Entity<Theater>()
             .HasKey(k => new { k.MakhdoumID, k.StageID });
 
-            // إعداد العلاقة بين Koral و Makhdoum
+             
             modelBuilder.Entity<Theater>()
-                .HasOne(k => k.Makhdoum) // Koral لديه Makhdoum واحد
-                .WithMany(m => m.TBTheater) // Makhdoum لديه العديد من Koral
-                .HasForeignKey(k => k.MakhdoumID); // المفتاح الخارجي هو MakhdoumID
+                .HasOne(k => k.Makhdoum)  
+                .WithMany(m => m.TBTheater)  
+                .HasForeignKey(k => k.MakhdoumID);  
 
             // إعداد العلاقة بين Koral و TheStage
             modelBuilder.Entity<Theater>()
@@ -97,11 +107,11 @@ namespace Keadma.DataAccess.Data
             modelBuilder.Entity<BooksAndSaves>()
            .HasKey(k => new { k.MakhdoumID, k.StageID });
 
-            // إعداد العلاقة بين Koral و Makhdoum
+             
             modelBuilder.Entity<BooksAndSaves>()
-                .HasOne(k => k.Makhdoum) // Koral لديه Makhdoum واحد
-                .WithMany(m => m.TBBooksAndSaves) // Makhdoum لديه العديد من Koral
-                .HasForeignKey(k => k.MakhdoumID); // المفتاح الخارجي هو MakhdoumID
+                .HasOne(k => k.Makhdoum)  
+                .WithMany(m => m.TBBooksAndSaves)  
+                .HasForeignKey(k => k.MakhdoumID);  
 
             // إعداد العلاقة بين Koral و TheStage
             modelBuilder.Entity<BooksAndSaves>()
@@ -112,11 +122,11 @@ namespace Keadma.DataAccess.Data
           modelBuilder.Entity<ForSingle>()
         .HasKey(k => new { k.MakhdoumID, k.StageID });
 
-            // إعداد العلاقة بين Koral و Makhdoum
+             
             modelBuilder.Entity<ForSingle>()
-                .HasOne(k => k.Makhdoum) // Koral لديه Makhdoum واحد
-                .WithMany(m => m.TBForSingle) // Makhdoum لديه العديد من Koral
-                .HasForeignKey(k => k.MakhdoumID); // المفتاح الخارجي هو MakhdoumID
+                .HasOne(k => k.Makhdoum)  
+                .WithMany(m => m.TBForSingle)  
+                .HasForeignKey(k => k.MakhdoumID);  
 
             // إعداد العلاقة بين Koral و TheStage
             modelBuilder.Entity<ForSingle>()
@@ -131,11 +141,11 @@ namespace Keadma.DataAccess.Data
             modelBuilder.Entity<Arts>()
       .HasKey(k => new { k.MakhdoumID, k.StageID,k.ArtID ,k.InGroup});
 
-            // إعداد العلاقة بين Koral و Makhdoum
+             
             modelBuilder.Entity<Arts>()
-                .HasOne(k => k.Makhdoum) // Koral لديه Makhdoum واحد
-                .WithMany(m => m.TBArts) // Makhdoum لديه العديد من Koral
-                .HasForeignKey(k => k.MakhdoumID); // المفتاح الخارجي هو MakhdoumID
+                .HasOne(k => k.Makhdoum)  
+                .WithMany(m => m.TBArts)  
+                .HasForeignKey(k => k.MakhdoumID);  
 
             // إعداد العلاقة بين Koral و TheStage
             modelBuilder.Entity<Arts>()
@@ -163,7 +173,8 @@ namespace Keadma.DataAccess.Data
         DbSet<ArtsName> TBArtsName{ get; set; }
         DbSet<ForSingleName> TBForSingleName { get; set; }
 
-
+        DbSet<User> TBUser { get; set; }
+        DbSet<Role> TBRole { get; set; }
     }
     
 

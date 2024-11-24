@@ -2,11 +2,13 @@
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
 using Khedma.Entites.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace Khedma.Presentation.Controllers
 {
+    [Authorize]
     public class TheaterController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

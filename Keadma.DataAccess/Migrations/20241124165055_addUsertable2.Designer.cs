@@ -4,6 +4,7 @@ using Keadma.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Keadma.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241124165055_addUsertable2")]
+    partial class addUsertable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("Alhan", (string)null);
+                    b.ToTable("Alhan");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Arts", b =>
@@ -57,7 +60,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("Arts", (string)null);
+                    b.ToTable("Arts");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.ArtsName", b =>
@@ -75,7 +78,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TBArtsName", (string)null);
+                    b.ToTable("TBArtsName");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.BooksAndSaves", b =>
@@ -90,7 +93,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("BooksAndSaves", (string)null);
+                    b.ToTable("BooksAndSaves");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Coptic", b =>
@@ -105,7 +108,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("Coptic", (string)null);
+                    b.ToTable("Coptic");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.ForSingle", b =>
@@ -125,7 +128,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("ForSingle", (string)null);
+                    b.ToTable("ForSingle");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.ForSingleName", b =>
@@ -143,7 +146,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasKey("ForSingleNameId");
 
-                    b.ToTable("TBForSingleName", (string)null);
+                    b.ToTable("TBForSingleName");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Koral", b =>
@@ -158,7 +161,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("Tbkoral", (string)null);
+                    b.ToTable("Tbkoral");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Learning", b =>
@@ -173,7 +176,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("Learning", (string)null);
+                    b.ToTable("Learning");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Makhdoum", b =>
@@ -199,7 +202,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TBMakhdoum", (string)null);
+                    b.ToTable("TBMakhdoum");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Role", b =>
@@ -217,7 +220,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TBRole", (string)null);
+                    b.ToTable("TBRole");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.TheStage", b =>
@@ -241,7 +244,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TBTheStage", (string)null);
+                    b.ToTable("TBTheStage");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Theater", b =>
@@ -256,7 +259,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("Theater", (string)null);
+                    b.ToTable("Theater");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.User", b =>
@@ -287,30 +290,25 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TBUser", (string)null);
+                    b.ToTable("TBUser");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.UserRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Alhan", b =>

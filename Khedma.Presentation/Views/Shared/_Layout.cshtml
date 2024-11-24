@@ -39,21 +39,28 @@
         <div class="page-main-header">
             <div class="main-header-right row">
                 <div class="main-header-left d-lg-none">
-                    <div class="logo-wrapper"><a href="/home/index"><img class="blur-up lazyloaded" src="~/assets/images/logo.jpg" alt=""></a></div>
+                    <div class="logo-wrapper"><a href="/home/index"><img class="blur-up lazyloaded" src="~/assets/images/banner2.png" alt=""></a></div>
                 </div>
                 <div class="mobile-sidebar">
                     <div class="media-body text-right switch-sm">
                         <label class="switch"><a href="#"><i id="sidebar-toggle" data-feather="align-left"></i></a></label>
                     </div>
+                   
+                        
+                        
+                    
                 </div>
                 <div class="nav-right col">
                     <ul class="nav-menus">
+                        <li><a class="text-dark" href="#" onclick="javascript:toggleFullScreen()"><i data-feather="maximize-2"></i></a></li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="/home/index">الصفحة الرئيسية</a>
+                            <a class="nav-link btn btn-primary logout-button" href="/Account/Logout">تسجيل خروج</a>
                         </li>
 
+
+
                      
-                        <li><a class="text-dark" href="#" onclick="javascript:toggleFullScreen()"><i data-feather="maximize-2"></i></a></li>
                       </ul>
                 </div>
             </div>
@@ -67,7 +74,7 @@
                 <div class="main-header-left d-none d-lg-flex justify-content-center align-items-center" style="height: 100px;">
                     <div class="logo-wrapper text-center">
                         <a href="/home/index" class="navbar-brand d-inline-block">
-                            <img src="~/assets/images/logo.jpg" alt="Logo" class="img-fluid" style="max-height: 80px; object-fit: contain;">
+                            <img src="~/assets/images/banner2.png" alt="Logo" class="img-fluid" style="max-height: 80px; object-fit: contain;">
                         </a>
                     </div>
                 </div>
@@ -77,6 +84,26 @@
                     
                     <ul class="sidebar-menu">
                         <li><a class="sidebar-header" href="/home/index"><i data-feather="home"></i><span> الصفحة الرئيسية</span></a></li>
+                        <li>
+                            <a class="sidebar-header" href="#"><i data-feather="users"></i> <span>المخدومين</span><i class="fa fa-angle-right pull-right"></i></a>
+                            <ul class="sidebar-submenu">
+                                <li>
+                                    <a href="/Makhdoum/index">
+                                        <i class="fa fa-circle"></i>
+                                        <span>الاسماء</span>
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a href="/Makhdoum/create">
+                                        <i class="fa fa-circle"></i>
+                                        <span>اضافه مخدوم</span>
+                                    </a>
+
+                                </li>
+
+                            </ul>
+                        </li>
                         <li>
                             <a class="sidebar-header" href="#"><i data-feather="music"></i> <span>الكورال</span><i class="fa fa-music pull-right"></i></a>
                             <ul class="sidebar-submenu">
@@ -451,18 +478,18 @@
                                     </a>
                                     <ul class="sidebar-submenu">
                                         <li>
-                                            <a href="/forsingle?singelID=1&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                            <a href="/forsingle/index?singelID=1&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
                                         </li>
                                         <li>
-                                            <a href="/forsingle?singelID=1&StageId=16">
+                                            <a href="/forsingle/index?singelID=1&StageId=16">
                                                 <i class="fa fa-circle"></i>تالته الي سادسه
                                             </a>
                                         </li>
-                                        <li><a href="/forsingle?singelID=1&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
-                                        <li><a href="/forsingle?singelID=1&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
-                                        <li><a href="/forsingle?singelID=1&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
-                                        <li><a href="/forsingle?singelID=1&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
-                                        <li><a href="/forsingle?singelID=1&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                        <li><a href="/forsingle/index?singelID=1&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/forsingle/index?singelID=1&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/forsingle/index?singelID=1&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/forsingle/index?singelID=1&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/forsingle/index?singelID=1&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
                                     </ul>
                                
                                 </li>
@@ -475,18 +502,18 @@
                                     </a>
                                     <ul class="sidebar-submenu">
                                         <li>
-                                            <a href="/forsingle?singelID=2&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                            <a href="/forsingle/index?singelID=2&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
                                         </li>
                                         <li>
-                                            <a href="/forsingle?singelID=2&StageId=16">
+                                            <a href="/forsingle/index?singelID=2&StageId=16">
                                                 <i class="fa fa-circle"></i>تالته الي سادسه
                                             </a>
                                         </li>
-                                        <li><a href="/forsingle?singelID=2&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
-                                        <li><a href="/forsingle?singelID=2&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
-                                        <li><a href="/forsingle?singelID=2&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
-                                        <li><a href="/forsingle?singelID=&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
-                                        <li><a href="/forsingle?singelID=&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                        <li><a href="/forsingle/index?singelID=2&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/forsingle/index?singelID=2&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/forsingle/index?singelID=2&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/forsingle/index?singelID=&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/forsingle/index?singelID=&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
                                     </ul>
 
                                 </li>
@@ -500,18 +527,18 @@
                             </a>
                             <ul class="sidebar-submenu">
                                 <li>
-                                    <a href="/forsingle?singelID=3&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                    <a href="/forsingle/index?singelID=3&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
                                 </li>
                                 <li>
-                                    <a href="/forsingle?singelID=3&StageId=16">
+                                    <a href="/forsingle/index?singelID=3&StageId=16">
                                         <i class="fa fa-circle"></i>تالته الي سادسه
                                     </a>
                                 </li>
-                                <li><a href="/forsingle?singelID=3&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
-                                <li><a href="/forsingle?singelID=3&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
-                                <li><a href="/forsingle?singelID=3&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
-                                <li><a href="/forsingle?singelID=3&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
-                                <li><a href="/forsingle?singelID=3&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                <li><a href="/forsingle/index?singelID=3&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                <li><a href="/forsingle/index?singelID=3&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                <li><a href="/forsingle/index?singelID=3&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                <li><a href="/forsingle/index?singelID=3&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                <li><a href="/forsingle/index?singelID=3&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
                             </ul>
 
                         </li>
@@ -528,18 +555,18 @@
                                     </a>
                                     <ul class="sidebar-submenu">
                                         <li>
-                                            <a href="/Arts?ArtId=1&StageId=15&inGroup=1"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                            <a href="/Arts/index?ArtId=1&StageId=15&inGroup=1"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
                                         </li>
                                         <li>
-                                            <a href="/Arts?ArtId=1&StageId=16">
+                                            <a href="/Arts/index?ArtId=1&StageId=16">
                                                 <i class="fa fa-circle"></i>تالته الي سادسه
                                             </a>
                                         </li>
-                                        <li><a href="/Arts?ArtId=1&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
-                                        <li><a href="/Arts?ArtId=1&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
-                                        <li><a href="/Arts?ArtId=1&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
-                                        <li><a href="/Arts?ArtId=1&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
-                                        <li><a href="/Arts?ArtId=1&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                        <li><a href="/Arts/index?ArtId=1&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/Arts/index?ArtId=1&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/Arts/index?ArtId=1&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/Arts/index?ArtId=1&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/Arts/index?ArtId=1&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -549,18 +576,18 @@
                                     </a>
                                     <ul class="sidebar-submenu">
                                         <li>
-                                            <a href="/Arts?ArtId=2&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                            <a href="/Arts/index?ArtId=2&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
                                         </li>
                                         <li>
-                                            <a href="/Arts?ArtId=2&StageId=16">
+                                            <a href="/Arts/index?ArtId=2&StageId=16">
                                                 <i class="fa fa-circle"></i>تالته الي سادسه
                                             </a>
                                         </li>
-                                        <li><a href="/Arts?ArtId=2&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
-                                        <li><a href="/Arts?ArtId=2&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
-                                        <li><a href="/Arts?ArtId=2&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
-                                        <li><a href="/Arts?ArtId=2&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
-                                        <li><a href="/Arts?ArtId=2&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                        <li><a href="/Arts/index?ArtId=2&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/Arts/index?ArtId=2&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/Arts/index?ArtId=2&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/Arts/index?ArtId=2&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/Arts/index?ArtId=2&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
                                     </ul>
                                 </li>
                                                                 <li>
@@ -570,18 +597,18 @@
                                     </a>
                                     <ul class="sidebar-submenu">
                                         <li>
-                                            <a href="/Arts?ArtId=3&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                            <a href="/Arts/index?ArtId=3&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
                                         </li>
                                         <li>
-                                            <a href="/Arts?ArtId=3&StageId=16">
+                                            <a href="/Arts/index?ArtId=3&StageId=16">
                                                 <i class="fa fa-circle"></i>تالته الي سادسه
                                             </a>
                                         </li>
-                                        <li><a href="/Arts?ArtId=3&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
-                                        <li><a href="/Arts?ArtId=3&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
-                                        <li><a href="/Arts?ArtId=3&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
-                                        <li><a href="/Arts?ArtId=3&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
-                                        <li><a href="/Arts?ArtId=3&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                        <li><a href="/Arts/index?ArtId=3&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/Arts/index?ArtId=3&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/Arts/index?ArtId=3&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/Arts/index?ArtId=3&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/Arts/index?ArtId=3&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -591,61 +618,48 @@
                                     </a>
                                     <ul class="sidebar-submenu">
                                         <li>
-                                            <a href="/Arts?ArtId=4&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
+                                            <a href="/Arts/index?ArtId=4&StageId=15"><i class="fa fa-circle"></i>حضانه الي تانيه ابتدائي</a>
                                         </li>
                                         <li>
-                                            <a href="/Arts?ArtId=4&StageId=16">
+                                            <a href="/Arts/index?ArtId=4&StageId=16">
                                                 <i class="fa fa-circle"></i>تالته الي سادسه
                                             </a>
                                         </li>
-                                        <li><a href="/Arts?ArtId=4&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
-                                        <li><a href="/Arts?ArtId=4&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
-                                        <li><a href="/Arts?ArtId=4&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
-                                        <li><a href="/Arts?ArtId=4&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
-                                        <li><a href="/Arts?ArtId=4&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
+                                        <li><a href="/Arts/index?ArtId=4&StageId=3"><i class="fa fa-circle"></i>اعدادي</a></li>
+                                        <li><a href="/Arts/index?ArtId=4&StageId=4"><i class="fa fa-circle"></i>ثانوي</a></li>
+                                        <li><a href="/Arts/index?ArtId=4&StageId=5"><i class="fa fa-circle"></i>جامعه </a></li>
+                                        <li><a href="/Arts/index?ArtId=4&StageId=6"><i class="fa fa-circle"></i>خرجيين  </a></li>
+                                        <li><a href="/Arts/index?ArtId=4&StageId=7"><i class="fa fa-circle"></i>قانا الجليل </a></li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a class="sidebar-header" href="#"><i data-feather="users"></i> <span>المخدومين</span><i class="fa fa-angle-right pull-right"></i></a>
-                            <ul class="sidebar-submenu">
-                                <li>
-                                    <a href="/Makhdoum/index">
-                                        <i class="fa fa-circle"></i>
-                                        <span>الاسماء</span>
-                                    </a>
-
-                                </li>
-                                <li>
-                                    <a href="/Makhdoum/create">
-                                        <i class="fa fa-circle"></i>
-                                        <span>اضافه مخدوم</span>
-                                    </a>
-
-                                </li>
-
-                            </ul>
-                        </li>
+                       
                         <li>
                             <a class="sidebar-header" href="#"><i data-feather="users"></i> <span>المستخدمين</span><i class="fa fa-angle-right pull-right"></i></a>
                             <ul class="sidebar-submenu">
                                 <li>
-                                    <a href="/Makhdoum/index">
+                                    <a href="/users/index">
                                         <i class="fa fa-circle"></i>
-                                        <span>الاسماء</span>
+                                        <span>المستخدمين</span>
                                     </a>
 
                                 </li>
                                 <li>
-                                    <a href="/Makhdoum/create">
+                                    <a href="/users/register">
                                         <i class="fa fa-circle"></i>
                                         <span> اضافه مستخدم </span>
                                     </a>
 
                                 </li>
+                               
+                             
 
                             </ul>
+                        </li>
+                        <li>
+                            <a class="nav-link btn btn-primary logout-button" href="/Account/Logout">تسجيل خروج</a>
+
                         </li>
                     </ul>
                 </div>

@@ -3,6 +3,16 @@
 @{
     string Name = "  الفنون التشكيلية |  " + " " + Model.ArtName;
     ViewData["Title"] = Name;
+    var name="";
+    if(Model.InGroup==0)
+    {
+        name = "فردي";
+    }
+    else{
+        name = "جماعي";
+    }
+
+    
 }
 
 <!-- Container-fluid starts-->
@@ -21,20 +31,21 @@
                     <span class="text-danger">@Model.StageName</span>
                 </h4>
             </div>
-            <div class="form-check mx-auto">
-                <input class="form-check-input" type="radio" @(Model.InGroup == 0 ? "checked" : "") name="exampleRadios" id="exampleRadios1" value="0"
-                       onclick="updateAddServiceLink(0);redirectToPage(@Model.ArtID,@Model.StageID,0)" style="font-size: 1.5rem;">
-                <label class="form-check-label" for="exampleRadios1" style="font-size: 1.5rem;">
-                    فردي
-                </label>
+            <div class="text-center mt-2 py-2">
+                <div id="displayText" class="border rounded py-3 px-5 d-inline-block bg-light shadow-lg">
+                    @if (Model.InGroup == 0)
+                    {
+                        <span class="fs-3 fw-bold text-success">فردي</span>
+                    }
+                    else if (Model.InGroup == 1)
+                    {
+                        <span class="fs-3 fw-bold text-danger">جماعي</span>
+                    }
+                </div>
             </div>
-            <div class="form-check mx-auto">
-                <input class="form-check-input" type="radio" @(Model.InGroup == 1 ? "checked" : "") name="exampleRadios" id="exampleRadios2" value="1"
-                       onclick="updateAddServiceLink(1);redirectToPage(@Model.ArtID,@Model.StageID,1)" style="font-size: 1.5rem;">
-                <label class="form-check-label" for="exampleRadios2" style="font-size: 1.5rem;">
-                    جماعي
-                </label>
-            </div>
+
+
+
         </div>
     </div>
 </div>
@@ -69,7 +80,7 @@
                                        data-stage-id=@Model.StageID
                                        data-art-id=@Model.ArtID
                                        data-inGroup=@Model.InGroup>
-                                        اضافة 
+                                        اضافة @name
                                     </a>
 
                                     

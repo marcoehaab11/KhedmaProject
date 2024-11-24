@@ -1,9 +1,11 @@
 ﻿using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Khedma.Presentation.Controllers
 {
+    [Authorize]
     public class MakhdoumController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

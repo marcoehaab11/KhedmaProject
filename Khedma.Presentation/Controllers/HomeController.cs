@@ -1,9 +1,11 @@
 ﻿using Khedma.Entites.Repositories;
 using Khedma.Entites.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Khedma.Presentation.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
