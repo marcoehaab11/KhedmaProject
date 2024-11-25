@@ -95,6 +95,7 @@ namespace Khedma.Presentation.Controllers
             // إذا لم يكن الشخص موجودًا
             return Json(new { exists = false, message = "الشخص غير موجود في هذه المرحلة." });
         }
+        [Authorize(Roles = "Admin")]
 
         public IActionResult Upload(int stageId, string activityName, int ActivityId)
         {

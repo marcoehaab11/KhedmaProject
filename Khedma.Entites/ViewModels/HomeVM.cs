@@ -9,7 +9,6 @@ namespace Khedma.Entites.ViewModels
     public class HomeVM
     {
         public int?CountKoral { set; get; }
-        public int?CountMakhdoumen { set; get; }
         public int?CountArts { set; get; }
         public int?CountCoptic { set; get; }
         public int?CountBook { set; get; }
@@ -17,5 +16,7 @@ namespace Khedma.Entites.ViewModels
         public int?CountLearning { set; get; }
         public int?CountAlhan{ set; get; }
         public int?CountTheather{ set; get; }
+        public int? CountMakhdoumen { set; get; }
+
     }
 }

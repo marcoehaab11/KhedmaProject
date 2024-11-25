@@ -53,7 +53,12 @@ namespace Khedma.Presentation.Controllers
                 return View();
                 
             }
+            if (user.IsActive==false)
+            {
+                ViewBag.ErrorMessage = "ليس لديك صلاحيات الوصول الان";
+                return View();
 
+            }
             // جلب العلاقة بين المستخدم والدور
             var userRole = _unitOfWork.UserRole.GetFirstorDefault(ur => ur.UserId == user.Id);
 

@@ -14,6 +14,7 @@ namespace Khedma.Entites.Models
         public string UserName { get; set; }
         public string PasswordHash { get; set; }
         public string Email { get; set; }
+        public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; }
 
         public ICollection<UserRole> TBuserRoles { get; set; }

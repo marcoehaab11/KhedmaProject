@@ -35,6 +35,22 @@ public class UsersController : Controller
 
         return View(makhoum);
     }
+    public IActionResult Active(int id)
+    {
+        var makhoum = _unitOfWork.User.GetFirstorDefault(x => x.Id==id);
+        if (makhoum.IsActive)
+        {
+            makhoum.IsActive = false;
+            _unitOfWork.Complete();
+        }
+        else
+        {
+            makhoum.IsActive = true;
+            _unitOfWork.Complete();
+
+        }
+        return RedirectToAction("Index");
+    }
     [HttpPost]
     public IActionResult Edit(UserRole model)
     {

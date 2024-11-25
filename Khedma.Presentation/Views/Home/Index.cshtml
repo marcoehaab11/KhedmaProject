@@ -1,6 +1,8 @@
 ﻿@model HomeVM
 @{
     ViewData["Title"] = "الصفحة الرئيسية";
+    var CountAllMahdoumenin = Model.CountArts + Model.CountAlhan + Model.CountTheather + Model.CountLearning
+                            + Model.CountCoptic + Model.CountBook + Model.CountKoral + Model.CountForSingle;
 }
 
 <div class="container mt-5">
@@ -33,8 +35,15 @@
                 <p>كورال</p>
             </div>
         </div>
-    </div>
+        <div class="col-md-12">
+            <div class="card p-3 text-center card-body">
+                <h4>اجمالي المخدومين داخل الانشطة </h4>
+                <p>@CountAllMahdoumenin</p>
+            </div>
+        </div>
 
+    </div>
+  
     <!-- قائمة الأنشطة -->
     <div class="row g-4">
         <!-- كورال -->
@@ -104,12 +113,21 @@
         </div>
 
         <!-- الفنون التشكيلية -->
-        <div class="col-md-12">
-            <div class="card shadow border-0" style="background-color: #d3d3d3;">
+        <div class="col-md-6">
+            <div class="card shadow border-0" style="background-color: #fed196;">
                 <div class="card-body text-center">
                     <i class="bi bi-brush-fill mb-3" style="font-size: 3rem; color: #495057;"></i>
                     <h5 class="card-title fw-bold text-dark">الفنون التشكيلية</h5>
                     <p class="card-text text-muted">عدد المخدومين: <span class="fw-bold text-dark">@Model.CountArts</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow border-0" style="background-color: #f3fe96;">
+                <div class="card-body text-center">
+                    <i class="bi bi-brush-fill mb-3" style="font-size: 3rem; color: #fed196;"></i>
+                    <h5 class="card-title fw-bold text-dark">المسرح</h5>
+                    <p class="card-text text-muted">عدد المخدومين: <span class="fw-bold text-dark">@Model.CountTheather</span></p>
                 </div>
             </div>
         </div>

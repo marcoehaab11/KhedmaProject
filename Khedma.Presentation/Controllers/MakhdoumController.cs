@@ -1,5 +1,6 @@
 ﻿using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
+using Khedma.Entites.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,24 @@ namespace Khedma.Presentation.Controllers
         {
             var AllMakhodumen = _unitOfWork.Makhdoum.GetAll();
             return View(AllMakhodumen);
+        }
+        public async Task<IActionResult> Info(int id)
+        {
+            
+            MakhdoumVM makhdoum = new MakhdoumVM()
+            {
+                User = _unitOfWork.Makhdoum.GetFirstorDefault(x=>x.Id==id),
+                IsExistsInAlhan =await _unitOfWork.Alhan.ExistsAsync(x=>x.MakhdoumID== id), 
+                IsExistsInCoptic =await _unitOfWork.Coptic.ExistsAsync(x=>x.MakhdoumID== id), 
+                IsExistsInKoral =await _unitOfWork.Koral.ExistsAsync(x=>x.MakhdoumID== id), 
+                IsExistsInLearning =await _unitOfWork.Learning.ExistsAsync(x=>x.MakhdoumID== id), 
+                IsExistsInForSingle =await _unitOfWork.ForSingle.ExistsAsync(x=>x.MakhdoumID== id), 
+                IsExistsInBook =await _unitOfWork.BooksAndSaves.ExistsAsync(x=>x.MakhdoumID== id), 
+                IsExistsInArts =await _unitOfWork.Arts.ExistsAsync(x=>x.MakhdoumID== id),
+                IsExistsTheater = await _unitOfWork.Theater.ExistsAsync(x=>x.MakhdoumID== id), 
+
+            };
+            return View(makhdoum);
         }
 
         [HttpGet]
@@ -64,6 +83,7 @@ namespace Khedma.Presentation.Controllers
             // إعادة التوجيه إلى صفحة قائمة العناصر
             return RedirectToAction("Index");
         }
+
 
 
     }

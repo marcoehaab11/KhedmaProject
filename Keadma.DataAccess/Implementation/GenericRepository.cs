@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Keadma.DataAccess.Data;
+using Khedma.Entites.Models;
 
 namespace Keadma.DataAccess.Implementation
 {
@@ -29,6 +30,10 @@ namespace Keadma.DataAccess.Implementation
         {
             _dbSet.Update(entity);
         }
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.AnyAsync(predicate);
+        }
 
         public IEnumerable<T> GetAll(Expression<Func<T, bool>>? perdicate, string? Includeword)
         {
@@ -46,6 +51,41 @@ namespace Keadma.DataAccess.Implementation
             }
             return query.ToList();
         }
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null,string? includeProperties = null)
+        {
+            // بدء استعلام باستخدام DbSet
+            IQueryable<T> query = _dbSet;
+
+            // إذا تم توفير شرط (predicate)، قم بتطبيقه
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            // إذا تم توفير includeProperties، قم بإضافة الخصائص المحددة للاستعلام
+            if (!string.IsNullOrWhiteSpace(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty.Trim());
+                }
+            }
+
+            // تنفيذ الاستعلام وإرجاع النتيجة كقائمة
+            return await query.ToListAsync();
+        }
+        public async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            return await query.CountAsync();
+        }
+
 
         public T GetFirstorDefault(Expression<Func<T, bool>>? perdicate=null, string? Includeword = null)
         {

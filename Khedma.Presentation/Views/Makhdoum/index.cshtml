@@ -43,6 +43,7 @@
                         <th>الاسم</th>
                         <th>تاريخ الميلاد</th>
                         <th>رقم التلفون</th>
+                        <th>معلومات</th>
                         <th>تعديل \ مسح </th>
 
                     </tr>
@@ -55,7 +56,11 @@
                             <td>@item.Name</td>
                             <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
                             <td>@item.PhoneNumber</td>
-
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="/Makhdoum/info/@item.Id" class="btn btn-info">معلومات</a>
+                                </div>
+                            </td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a onclick="confirmDelete(@item.Id)" class="btn btn-danger">مسح</a>

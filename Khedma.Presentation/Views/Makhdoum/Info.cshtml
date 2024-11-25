@@ -1,0 +1,58 @@
+﻿@model MakhdoumVM
+@{
+    ViewData["Title"] = "تفاصيل المخدوم";
+}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">تفاصيل الشخص</h2>
+
+    <!-- الجزء الأول: المعلومات العامة -->
+    <div class="card shadow-lg border-primary mb-4">
+        <div class="card-body">
+            <h5 class="card-title">المعلومات العامة</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <strong class="h5 text-primary">الاسم:</strong>
+                    <p style="font-size: 1.2rem; font-weight: 600;">@Model.User.Name</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <strong class="h5 text-primary">رقم الهاتف:</strong>
+                    <p style="font-size: 1.2rem; font-weight: 600;">@Model.User.PhoneNumber</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <strong class="h5 text-primary">تاريخ الميلاد:</strong>
+                    <p style="font-size: 1.2rem; font-weight: 600;">@String.Format("{0:dd/MM/yyyy}", Model.User.DateOfBirth)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الجزء الثاني: الأنشطة -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">الأنشطة</h5>
+            <div class="row">
+                @foreach (var activity in new List<(string Name, bool IsSubscribed, string Field)> {
+                ("الكورال", Model.IsExistsInKoral, "IsExistsInKoral"),
+                ("الالحان", Model.IsExistsInAlhan, "IsExistsInAlhan"),
+                ("الدراسية", Model.IsExistsInLearning, "IsExistsInLearning"),
+                ("الفرديات", Model.IsExistsInForSingle, "IsExistsInForSingle"),
+                ("قبطي", Model.IsExistsInCoptic, "IsExistsInCoptic"),
+                ("كتاب المقدس و المحفوظات", Model.IsExistsInBook, "IsExistsInBook"),
+                ("الفنون التشكيلية", Model.IsExistsInArts, "IsExistsInArts"),
+                ("المسرح", Model.IsExistsTheater, "IsExistsTheater")
+                })
+                {
+                    <div class="col-md-6 mb-3">
+                        <strong>@activity.Name:</strong>
+                        <button class="btn @((activity.IsSubscribed ? "btn-success" : "btn-danger")) w-100">
+                            @((activity.IsSubscribed ? "مشترك" : "غير مشترك"))
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- زر الرجوع -->
+    <a href="javascript:history.back()" class="btn btn-primary mt-4 w-100">رجوع</a>
+</div>

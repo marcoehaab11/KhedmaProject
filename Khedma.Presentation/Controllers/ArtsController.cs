@@ -112,6 +112,7 @@ namespace Khedma.Presentation.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
 
         public IActionResult Upload(int stageId, string activityName,int artId,int inGroup)
         {
@@ -129,6 +130,8 @@ namespace Khedma.Presentation.Controllers
 
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
+        [Authorize(Roles = "Admin")]
+
         public IActionResult UploadForOne(int stageId, string activityName,int UserID,int artId, int inGroup)
         {
             var people = _unitOfWork.Arts.GetAll(x => x.ArtID == artId && x.StageID == stageId &&x.MakhdoumID==UserID&&x.InGroup== inGroup, "Makhdoum").

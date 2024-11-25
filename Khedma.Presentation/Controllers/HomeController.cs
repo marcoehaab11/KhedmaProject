@@ -17,19 +17,20 @@ namespace Khedma.Presentation.Controllers
             
         }
       
-        public IActionResult Index()
-        {
-            HomeVM homeVM = new HomeVM()
+        public async Task<IActionResult> Index()
+        {   
+            HomeVM homeVM =  new HomeVM()
             {
-                CountAlhan = _unitOfWork.Alhan.GetAll().Count(),
-                CountArts = _unitOfWork.Arts.GetAll().Count(),
-                CountBook = _unitOfWork.BooksAndSaves.GetAll().Count(),
-                CountCoptic=_unitOfWork.Coptic.GetAll().Count(),
-                CountForSingle=_unitOfWork.ForSingle.GetAll().Count(),
-                CountKoral=_unitOfWork.Koral.GetAll().Count(),
-                CountLearning=_unitOfWork.Learning.GetAll().Count(),
-                CountTheather=_unitOfWork.Theater.GetAll().Count(),
-                CountMakhdoumen=_unitOfWork.Makhdoum.GetAll().Count()
+                CountAlhan =await _unitOfWork.Alhan.CountAsync(),
+                CountArts = await _unitOfWork.Arts.CountAsync(),
+                CountBook = await _unitOfWork.BooksAndSaves.CountAsync(),
+                CountCoptic= await _unitOfWork.Coptic.CountAsync(),
+                CountForSingle= await _unitOfWork.ForSingle.CountAsync(),
+                CountKoral= await _unitOfWork.Koral.CountAsync(),
+                CountLearning= await _unitOfWork.Learning.CountAsync(),
+                CountTheather= await _unitOfWork.Theater.CountAsync(),
+                CountMakhdoumen= await _unitOfWork.Makhdoum.CountAsync(),
+                
             };
             return View(homeVM);
         }
