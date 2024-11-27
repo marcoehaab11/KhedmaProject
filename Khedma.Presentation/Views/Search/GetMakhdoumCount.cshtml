@@ -1,0 +1,27 @@
+﻿@model Dictionary<string, int>
+@{
+    ViewData["Title"] = "اعداد مرحلة "+@ViewBag.ActivtyId;
+}
+<div class="container mt-5">
+    <!-- عنوان الجدول يمكن تعديله هنا -->
+    <h2 class="text-center mb-4">عدد الأشخاص في كل المراحل</h2>
+    <h2 class="text-center mb-4 ">   @ViewBag.ActivtyId</h2>
+    <!-- الجدول باستخدام فئات Bootstrap 5 -->
+    <table class="table table-striped table-bordered">
+        <thead class="bg-secondary text-white">
+            <tr>
+                <th>المرحلة</th>
+                <th>عدد الأشخاص في المرحلة</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var stage in Model)
+            {
+                <tr>
+                    <td>@stage.Key</td>  <!-- عرض اسم المرحلة -->
+                    <td>@stage.Value</td> <!-- عرض عدد الأشخاص في المرحلة -->
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

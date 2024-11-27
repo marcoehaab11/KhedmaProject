@@ -1,9 +1,8 @@
 ﻿@model SearchVM
 @{
-    ViewData["Title"] = "مرحلة" +" "+@Model.StageName;
-
+    ViewData["Title"] = "مرحلة" + " " + @Model.StageName;
 }
-<h2 class="text-center mb-4">كل الأسماء المشتركين في الأنشطة في  @Model.StageName</h2>
+<h2 class="text-center mb-4">كل الأسماء المشتركين في الأنشطة في @Model.StageName</h2>
 
 <div class="container-fluid">
     <!-- جدول "الجميع" -->
@@ -16,53 +15,54 @@
             </div>
 
             <h5 class="text-center mb-3 bold">جميع الأنشطة</h5>
-            <table id="all-activities-table" class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>الاسم</th>
-                        <th>تاريخ الميلاد</th>
-                        <th>رقم الهاتف</th>
-                        <th>الأنشطة</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        // تجميع جميع الأنشطة في قائمة واحدة
-                        var allActivities = Model.korals
-                        .Concat(Model.Alhan)
-                        .Concat(Model.Learning)
-                        .Concat(Model.Single)
-                        .Concat(Model.coptic)
-                        .Concat(Model.books)
-                        .Concat(Model.arts)
-                        .GroupBy(x => new { x.Name, x.PhoneNumber, x.DateOfBirth })
-                        .Select(g => new
-                        {
-                            Name = g.Key.Name,
-                            DateOfBirth = g.Key.DateOfBirth,
-                            PhoneNumber = g.Key.PhoneNumber,
-                            Activities = string.Join(" و ", g.Select(a => a.ActivityName))
-                        })
-                        .ToList();
+            <div class="table-responsive">
+                <table id="all-activities-table" class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>تاريخ الميلاد</th>
+                            <th>رقم الهاتف</th>
+                            <th>الأنشطة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var allActivities = Model.korals
+                            .Concat(Model.Alhan)
+                            .Concat(Model.Learning)
+                            .Concat(Model.Single)
+                            .Concat(Model.coptic)
+                            .Concat(Model.books)
+                            .Concat(Model.arts)
+                            .GroupBy(x => new { x.Name, x.PhoneNumber, x.DateOfBirth })
+                            .Select(g => new
+                            {
+                                Name = g.Key.Name,
+                                DateOfBirth = g.Key.DateOfBirth,
+                                PhoneNumber = g.Key.PhoneNumber,
+                                Activities = string.Join(" و ", g.Select(a => a.ActivityName))
+                            })
+                            .ToList();
 
-                        foreach (var item in allActivities)
-                        {
-                            <tr>
-                                <td>@item.Name</td>
-                                <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                                <td>@item.PhoneNumber</td>
-                                <td>@item.Activities</td>
-                            </tr>
+                            foreach (var item in allActivities)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
+                                    <td>@item.PhoneNumber</td>
+                                    <td>@item.Activities</td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <!-- جدول الأنشطة المنفصلة -->
- <div class="card shadow-sm">
-    <div class="card-body">
+    <div class="card shadow-sm">
+        <div class="card-body">
             <div class="d-flex flex-wrap justify-content-center mb-4">
                 <button class="btn btn-outline-primary activity-btn m-2" data-activity="koral">الكورال</button>
                 <button class="btn btn-outline-secondary activity-btn m-2" data-activity="alhan">الالحان</button>
@@ -74,135 +74,118 @@
                 <button class="btn btn-outline-secondary activity-btn m-2" data-activity="theater">المسرح</button>
             </div>
 
-        <!-- جعل الجدول استجابة -->
-        <div class="table-responsive">
-            <table id="activities-table" class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>الاسم</th>
-                        <th>تاريخ الميلاد</th>
-                        <th>رقم الهاتف</th>
-                        <th>النشاط</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.korals)
-                    {
-                        <tr class="activity-row koral">
-                            <td>@item.Name</td>
-                            <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.ActivityName</td>
+            <div class="table-responsive">
+                <table id="activities-table" class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>تاريخ الميلاد</th>
+                            <th>رقم الهاتف</th>
+                            <th>النشاط</th>
                         </tr>
-                    }
-                    @foreach (var item in Model.Alhan)
-                    {
-                        <tr class="activity-row alhan">
-                            <td>@item.Name</td>
-                            <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.ActivityName</td>
-                        </tr>
-                    }
-                    @foreach (var item in Model.Learning)
-                    {
-                        <tr class="activity-row learning">
-                            <td>@item.Name</td>
-                            <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.ActivityName</td>
-                        </tr>
-                    }
-                    @foreach (var item in Model.Single)
-                    {
-                        <tr class="activity-row individuals">
-                            <td>@item.Name</td>
-                            <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.ActivityName</td>
-                        </tr>
-                    }
-                    @foreach (var item in Model.coptic)
-                    {
-                        <tr class="activity-row coptic">
-                            <td>@item.Name</td>
-                            <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.ActivityName</td>
-                        </tr>
-                    }
-                    @foreach (var item in Model.books)
-                    {
-                        <tr class="activity-row book">
-                            <td>@item.Name</td>
-                            <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.ActivityName</td>
-                        </tr>
-                    }
-                    @foreach (var item in Model.arts)
-                    {
-                        <tr class="activity-row arts">
-                            <td>@item.Name</td>
-                            <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.ActivityName</td>
-                        </tr>
-                    }
-                    @foreach (var item in Model.Theather)
-                     {                    
-                        <tr class="activity-row theater">
-                            <td>@item.Name</td>
-                            <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.ActivityName</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.korals)
+                        {
+                            <tr class="activity-row koral">
+                                <td>@item.Name</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.ActivityName</td>
+                            </tr>
+                        }
+                        @foreach (var item in Model.Alhan)
+                        {
+                            <tr class="activity-row alhan">
+                                <td>@item.Name</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.ActivityName</td>
+                            </tr>
+                        }
+                        @foreach (var item in Model.Learning)
+                        {
+                            <tr class="activity-row learning">
+                                <td>@item.Name</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.ActivityName</td>
+                            </tr>
+                        }
+                        @foreach (var item in Model.Single)
+                        {
+                            <tr class="activity-row individuals">
+                                <td>@item.Name</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.ActivityName</td>
+                            </tr>
+                        }
+                        @foreach (var item in Model.coptic)
+                        {
+                            <tr class="activity-row coptic">
+                                <td>@item.Name</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.ActivityName</td>
+                            </tr>
+                        }
+                        @foreach (var item in Model.books)
+                        {
+                            <tr class="activity-row book">
+                                <td>@item.Name</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.ActivityName</td>
+                            </tr>
+                        }
+                        @foreach (var item in Model.arts)
+                        {
+                            <tr class="activity-row arts">
+                                <td>@item.Name</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.ActivityName</td>
+                            </tr>
+                        }
+                        @foreach (var item in Model.Theather)
+                        {
+                            <tr class="activity-row theater">
+                                <td>@item.Name</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.ActivityName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-
 </div>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> <!-- مكتبة لتصدير Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
-
-        var fileName="الأسماء المشتركين في الأنشطة";
-        // دمج اسم المرحلة مع النص "المرحلة"
         $(document).ready(function() {
-            // تطبيق DataTable على الجداول
             $('#all-activities-table').DataTable();
             $('#activities-table').DataTable();
 
-            // تصدير الجدول إلى ملف Excel
-                 $("#export-btn").click(function () {
-            var table = document.getElementById("all-activities-table");
+            $("#export-btn").click(function () {
+                var table = document.getElementById("all-activities-table");
+                var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+                var ws = wb.Sheets["Sheet1"];
+                ws["!dir"] = "rtl";
+                XLSX.writeFile(wb, "الأسماء المشتركين في الأنشطة.xlsx");
+            });
 
-            // إنشاء ملف Excel من الجدول
-            var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
-
-            // ضبط الاتجاه إلى اليمين
-            var ws = wb.Sheets["Sheet1"]; // احصل على الورقة
-            ws["!dir"] = "rtl"; // تعيين الاتجاه Right-to-Left (RTL)
-
-            // تصدير الملف
-            XLSX.writeFile(wb, fileName+".xlsx");
-        });
-
-
-            // عند الضغط على أي زر نشاط
             $(".activity-btn").click(function() {
                 var activity = $(this).data("activity");
-
-                $(".activity-row").hide(); // إخفاء جميع الأنشطة
+                $(".activity-row").hide();
                 if (activity) {
-                    $("." + activity).show(); // عرض الصفوف المطلوبة
+                    $("." + activity).show();
                 }
             });
         });

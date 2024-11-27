@@ -10,6 +10,7 @@ namespace Khedma.Entites.ViewModels
     public class SearchVM
     {   
         public string StageName { get; set; }
+        public int StageId { get; set; }
         public List<MakhdoumV2M>? korals { set; get; }
         public List<MakhdoumV2M>? arts { set; get; }
         public List<MakhdoumV2M>? coptic { set; get; }

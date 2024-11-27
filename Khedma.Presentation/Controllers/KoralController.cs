@@ -105,15 +105,12 @@ namespace Khedma.Presentation.Controllers
         public IActionResult Upload(int stageId, string activityName,int ActivityId)
         {
 
-            var fileBytes = helper.GenerateWordFile(stageId, ActivityId);
+            var fileBytes = helper.GenerateWordFileForTwoPages(stageId, ActivityId);
             var stageName=helper.GetNameForStage(stageId);
-            string fileName = activityName + "_"+ stageName + ".docx";
+            string fileName = activityName + "_"+ stageName + ".zip";
 
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
-
-     
-
 
     }
 }
