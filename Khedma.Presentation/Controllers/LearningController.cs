@@ -1,4 +1,5 @@
 ﻿
+using DocumentFormat.OpenXml.Wordprocessing;
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
 using Khedma.Entites.ViewModels;
@@ -47,13 +48,31 @@ namespace Khedma.Presentation.Controllers
 
             return View(makhdoumWithStageVM);
         }
+        public IActionResult ChangeTicket(int id,int stageId)
+        {
+            var makhdoum = _unitOfWork.Learning.GetFirstorDefault(x => x.MakhdoumID == id && x.StageID == stageId);
+
+            if (makhdoum.Ticket == true || makhdoum.Ticket==null)
+            {
+                makhdoum.Ticket = false;
+                _unitOfWork.Learning.Update(makhdoum);
+                _unitOfWork.Complete();
+                return RedirectToAction("Index", new { id = stageId });
+
+            }
+            makhdoum.Ticket = true;
+            _unitOfWork.Learning.Update(makhdoum);
+            _unitOfWork.Complete();
+            return RedirectToAction("Index", new { id = stageId });
+        }
         [HttpGet]
         public IActionResult Add(int id, int StageId)
         {
             Learning Learning = new Learning()
             {
                 MakhdoumID = id,
-                StageID = StageId
+                StageID = StageId,
+                Ticket=false,
             };
             _unitOfWork.Learning.Add(Learning);
             _unitOfWork.Complete();

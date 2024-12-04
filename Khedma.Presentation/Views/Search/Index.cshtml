@@ -34,6 +34,7 @@
                             .Concat(Model.coptic)
                             .Concat(Model.books)
                             .Concat(Model.arts)
+                            .Concat(Model.Theather)
                             .GroupBy(x => new { x.Name, x.PhoneNumber, x.DateOfBirth })
                             .Select(g => new
                             {

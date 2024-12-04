@@ -34,6 +34,9 @@
             <a onclick="downloadAndPrint(@Model.StageID,5,'القبطي')" class="btn btn-primary float-right">
                 <i class="fa fa-download"></i> تحميل الملف وطباعته
             </a>
+            <button onclick="exportToExcel()" class="btn btn-info float-right mr-2">
+                <i class="fa fa-file-excel"></i> تصدير إلى Excel
+            </button>
         </div>
     </div>
 </div>
@@ -54,6 +57,7 @@
                             <th>الاسم</th>
                             <th>تاريخ الميلاد</th>
                             <th>رقم التلفون</th>
+                            <th>التذكره</th>
                             <th> مسح </th>
 
                         </tr>
@@ -66,7 +70,14 @@
                                 <td>@item.Makhdoum.Name</td>
                                 <td>@String.Format("{0:dd/MM/yyyy}", item.Makhdoum.DateOfBirth)</td>
                                 <td>@item.Makhdoum.PhoneNumber</td>
-
+                                <td>
+                                    <div>
+                                        <a href="/Coptic/ChangeTicket?id=@item.Makhdoum.Id&stageId=@Model.StageID"
+                                           class="btn @(item.Ticket == true ? "btn-secondary" : "btn-primary")">
+                                            @(item.Ticket == true ? "تم التسليم" : "لم يتم التسليم")
+                                        </a>
+                                    </div>
+                                </td>
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a onclick="confirmDelete(@item.Makhdoum.Id,@Model.StageID)" class="btn btn-danger">مسح</a>
@@ -95,7 +106,37 @@
 
 @section Scripts
 {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+
     <script>
+                function exportToExcel() {
+            const table = document.getElementById("basic-1"); // الحصول على الجدول
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Data" }); // تحويل الجدول إلى كتاب Excel
+            const ws = wb.Sheets["Data"];
+
+            // استرجاع نطاق الجدول
+            const range = XLSX.utils.decode_range(ws['!ref']); // استرجاع نطاق الخلايا
+            const colCount = range.e.c + 1; // عدد الأعمدة
+
+            // حذف آخر عمود (الذي يحتوي على "مسح")
+            ws['!ref'] = XLSX.utils.encode_range({ s: range.s, e: { r: range.e.r, c: range.e.c - 1 } });
+
+            // التكرار على الصفوف لتنسيق التذكرة بلون الخلفية
+            for (let row = range.s.r + 1; row <= range.e.r; row++) { // التكرار على الصفوف من أول صف بيانات
+                const ticketCell = ws[XLSX.utils.encode_cell({ r: row, c: 3 })]; // عمود "التذكرة" (العمود الرابع)
+
+                if (ticketCell) {
+                    if (ticketCell.v === "تم التسليم") {
+                        ticketCell.s = { fill: { fgColor: { rgb: "00FF00" } } }; // اللون الأخضر (خلفية)
+                    } else if (ticketCell.v === "لم يتم التسليم") {
+                        ticketCell.s = { fill: { fgColor: { rgb: "FF0000" } } }; // اللون الأحمر (خلفية)
+                    }
+                }
+            }
+
+            // تصدير الملف
+            XLSX.writeFile(wb, 'الاسماء.xlsx');
+        }
         function confirmDelete(itemId,stageId) {
             Swal.fire({
                 title: 'هل أنت متأكد؟',

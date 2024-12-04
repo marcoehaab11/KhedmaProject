@@ -3,25 +3,7 @@
 @{
     string Name = " الدراسية | مرحله" + " " + Model.StageName;
     ViewData["Title"] = Name;
-}
-<!-- Container-fluid starts-->
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="text-center my-2 py-2">
-                <h3 class="fw-bold display-4">
-                    الدراسية
-                    <span class="text-danger">
-                        @Model.StageName
-                    </span>
-                </h3>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- زر الإضافة -->
+}<!-- زر تحميل الجدول إلى Excel -->
 <div class="container-fluid mb-3">
     <div class="row">
         <div class="col-12">
@@ -34,17 +16,18 @@
             <a onclick="downloadAndPrint(@Model.StageID,3,'الدراسية')" class="btn btn-primary float-right">
                 <i class="fa fa-download"></i> تحميل الملف وطباعته
             </a>
+
+            <!-- زر تحميل الجدول إلى Excel -->
+            <button onclick="exportToExcel()" class="btn btn-info float-right mr-2">
+                <i class="fa fa-file-excel"></i> تصدير إلى Excel
+            </button>
         </div>
     </div>
 </div>
 
-
-
-<!-- Container-fluid Ends-->
-<!-- Container-fluid starts-->
+<!-- الجدول الذي يحتوي على بيانات المخدومين -->
 <div class="container-fluid">
     <div class="card">
-
         <div class="card-body vendor-table">
             @if (Model.makhdoumswithStage.Count() > 0)
             {
@@ -54,31 +37,32 @@
                             <th>الاسم</th>
                             <th>تاريخ الميلاد</th>
                             <th>رقم التلفون</th>
+                            <th>التذكره</th>
                             <th> مسح </th>
-
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.makhdoumswithStage)
                         {
                             <tr>
-
                                 <td>@item.Makhdoum.Name</td>
                                 <td>@String.Format("{0:dd/MM/yyyy}", item.Makhdoum.DateOfBirth)</td>
                                 <td>@item.Makhdoum.PhoneNumber</td>
-
+                                <td>
+                                    <div>
+                                        <a href="/learning/ChangeTicket?id=@item.Makhdoum.Id&stageId=@Model.StageID"
+                                           class="btn @(item.Ticket == true ? "btn-secondary" : "btn-primary")">
+                                            @(item.Ticket == true ? "تم التسليم" : "لم يتم التسليم")
+                                        </a>
+                                    </div>
+                                </td>
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a onclick="confirmDelete(@item.Makhdoum.Id,@Model.StageID)" class="btn btn-danger">مسح</a>
-
                                     </div>
                                 </td>
                             </tr>
                         }
-
-
-
-
                     </tbody>
                 </table>
             }
@@ -87,7 +71,6 @@
                 <h5 class="text-center fw-bold display-5 bold">
                     ( @Model.StageName ) لا يوجد مخدومين مشتركين بمرحلة
                 </h5>
-
             }
         </div>
     </div>
@@ -95,8 +78,42 @@
 
 @section Scripts
 {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+
     <script>
-        function confirmDelete(itemId,stageId) {
+        // وظيفة لتصدير البيانات إلى Excel
+                function exportToExcel() {
+            const table = document.getElementById("basic-1"); // الحصول على الجدول
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Data" }); // تحويل الجدول إلى كتاب Excel
+            const ws = wb.Sheets["Data"];
+
+            // استرجاع نطاق الجدول
+            const range = XLSX.utils.decode_range(ws['!ref']); // استرجاع نطاق الخلايا
+            const colCount = range.e.c + 1; // عدد الأعمدة
+
+            // حذف آخر عمود (الذي يحتوي على "مسح")
+            ws['!ref'] = XLSX.utils.encode_range({ s: range.s, e: { r: range.e.r, c: range.e.c - 1 } });
+
+            // التكرار على الصفوف لتنسيق التذكرة بلون الخلفية
+            for (let row = range.s.r + 1; row <= range.e.r; row++) { // التكرار على الصفوف من أول صف بيانات
+                const ticketCell = ws[XLSX.utils.encode_cell({ r: row, c: 3 })]; // عمود "التذكرة" (العمود الرابع)
+
+                if (ticketCell) {
+                    if (ticketCell.v === "تم التسليم") {
+                        ticketCell.s = { fill: { fgColor: { rgb: "00FF00" } } }; // اللون الأخضر (خلفية)
+                    } else if (ticketCell.v === "لم يتم التسليم") {
+                        ticketCell.s = { fill: { fgColor: { rgb: "FF0000" } } }; // اللون الأحمر (خلفية)
+                    }
+                }
+            }
+
+            // تصدير الملف
+            XLSX.writeFile(wb, 'الاسماء.xlsx');
+        }
+
+
+
+        function confirmDelete(itemId, stageId) {
             Swal.fire({
                 title: 'هل أنت متأكد؟',
                 text: "لن تتمكن من استعادة هذا العنصر بعد الحذف!",
@@ -109,21 +126,17 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // إعادة التوجيه إلى الحذف
-                    window.location.href = `/learning/Delete?id=${itemId}&StageId=${stageId}`;                }
+                    window.location.href = `/learning/Delete?id=${itemId}&StageId=${stageId}`;
+                }
             });
         }
 
+        function downloadAndPrint(stageId, ActivityId, ActiveName) {
+            // تحميل الملف
+            window.location.href = `/learning/Upload?stageId=${stageId}&ActivityName=${ActiveName}&ActivityId=${ActivityId}`;
 
-
-
-            function downloadAndPrint(stageId,ActivityId,ActiveName) {
-                // تحميل الملف
-                        window.location.href = `/learning/Upload?stageId=${stageId}&ActivityName=${ActiveName}&ActivityId=${ActivityId}`;
-
-                // إظهار رسالة للطباعة (الطباعة تتم يدويًا بعد التنزيل)
-                alert("تم تجهيز الملف. يمكنك فتحه وطباعته الآن.");
-            }
-
+            // إظهار رسالة للطباعة (الطباعة تتم يدويًا بعد التنزيل)
+            alert("تم تجهيز الملف. يمكنك فتحه وطباعته الآن.");
+        }
     </script>
-
 }

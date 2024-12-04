@@ -23,7 +23,23 @@ namespace Khedma.Presentation.Controllers
             _unitOfWork = unitOfWork;
             this.helper = helper;
         }
+        public IActionResult ChangeTicket(int id, int stageId)
+        {
+            var makhdoum = _unitOfWork.Coptic.GetFirstorDefault(x => x.MakhdoumID == id && x.StageID == stageId);
 
+            if (makhdoum.Ticket == true || makhdoum.Ticket == null)
+            {
+                makhdoum.Ticket = false;
+                _unitOfWork.Coptic.Update(makhdoum);
+                _unitOfWork.Complete();
+                return RedirectToAction("Index", new { id = stageId });
+
+            }
+            makhdoum.Ticket = true;
+            _unitOfWork.Coptic.Update(makhdoum);
+            _unitOfWork.Complete();
+            return RedirectToAction("Index", new { id = stageId });
+        }
         public IActionResult Index(int id)
         {
             CopticVM makhdoumWithStageVM = new CopticVM()

@@ -38,6 +38,23 @@ namespace Khedma.Presentation.Controllers
 
             return View(makhdoumWithStageVM);  // إرسال الـ Model إلى الـ View
         }
+        public IActionResult ChangeTicket(int id, int stageId)
+        {
+            var makhdoum = _unitOfWork.BooksAndSaves.GetFirstorDefault(x => x.MakhdoumID == id && x.StageID == stageId);
+
+            if (makhdoum.Ticket == true || makhdoum.Ticket == null)
+            {
+                makhdoum.Ticket = false;
+                _unitOfWork.BooksAndSaves.Update(makhdoum);
+                _unitOfWork.Complete();
+                return RedirectToAction("Index", new { id = stageId });
+
+            }
+            makhdoum.Ticket = true;
+            _unitOfWork.BooksAndSaves.Update(makhdoum);
+            _unitOfWork.Complete();
+            return RedirectToAction("Index", new { id = stageId });
+        }
         public IActionResult Create(int id)
         {
 
