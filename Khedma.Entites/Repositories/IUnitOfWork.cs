@@ -23,6 +23,7 @@ namespace Khedma.Entites.Repositories
         IUserReposiotry User { get; }
         IRoleReposiotry Role { get; }
         IUserRoleReposiotry UserRole { get; }
+         ITheaterRoleeReposiotry TheaterRole { get;  }
 
         int Complete();
     }

@@ -52,6 +52,7 @@
                     <thead>
                         <tr>
                             <th>الاسم</th>
+                            <th>الدور</th>
                             <th>تاريخ الميلاد</th>
                             <th>رقم التلفون</th>
                             <th> مسح </th>
@@ -64,12 +65,13 @@
                             <tr>
 
                                 <td>@item.Makhdoum.Name</td>
+                                <td>@item.TheaterRole.Name</td>
                                 <td>@String.Format("{0:dd/MM/yyyy}", item.Makhdoum.DateOfBirth)</td>
                                 <td>@item.Makhdoum.PhoneNumber</td>
 
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a onclick="confirmDelete(@item.Makhdoum.Id,@Model.StageID)" class="btn btn-danger">مسح</a>
+                                        <a onclick="confirmDelete(@item.Makhdoum.Id,@Model.StageID,@item.RoleID)" class="btn btn-danger">مسح</a>
 
                                     </div>
                                 </td>
@@ -96,7 +98,7 @@
 @section Scripts
 {
     <script>
-        function confirmDelete(itemId,stageId) {
+        function confirmDelete(itemId,stageId,roleId) {
             Swal.fire({
                 title: 'هل أنت متأكد؟',
                 text: "لن تتمكن من استعادة هذا العنصر بعد الحذف!",
@@ -109,7 +111,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // إعادة التوجيه إلى الحذف
-                    window.location.href = `/Theater/Delete?id=${itemId}&StageId=${stageId}`;                }
+                    window.location.href = `/Theater/Delete?id=${itemId}&StageId=${stageId}&RoleId=${roleId}`;                }
             });
         }
 

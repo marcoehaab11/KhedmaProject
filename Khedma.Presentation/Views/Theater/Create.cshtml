@@ -1,19 +1,55 @@
 ﻿@model TheaterVM
 
 @{
-    string Name = " المسرح | مرحله" + " " + Model.StageName;
+    string Name = "المسرح | مرحله" + " " + Model.StageName;
     ViewData["Title"] = Name;
 }
 
-<!-- Container-fluid starts-->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <!-- جعل المودال في المنتصف وتوسيع الحجم -->
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white text-center" dir="rtl">
+                <!-- تغيير خلفية الهيدر وإضافة لون النص -->
+                <h5 class="modal-title fw-bold mx-auto" id="exampleModalLabel">يرجى اختيار الدور</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column align-items-center justify-content-center" dir="rtl">
+                <!-- جعل المحتوى في المنتصف -->
+                <div class="mb-4 w-75 text-center">
+                    <!-- توسيط العرض وتحسين المسافات -->
+                    <label for="RoleSelect" class="form-label fw-bold">قائمة الادوار:</label>
+                    <select class="form-select text-center py-2" id="RoleSelect" style="font-size: 1.2rem; text-align: center;">
+                        <!-- تحسين تصميم القائمة -->
+                        <option selected disabled>اختر الدور</option>
+                        @foreach (var item in Model.theaterRoles)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center" dir="rtl">
+                <!-- تغيير توزيع الأزرار -->
+                <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" id="saveChangesButton" class="btn btn-success mx-2">إضافة</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Container-fluid starts -->
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="text-center my-2 py-2">
-                <h3 class="fw-bold display-4">
-                    قائمة المخدومين
-
-                </h3>
+                <h3 class="fw-bold display-4">قائمة المخدومين</h3>
                 <h4>
                     عند الإضافة سيتم الإضافة إلى المسرح مرحلة
                     <span class="text-danger">@Model.StageName</span>
@@ -22,8 +58,8 @@
         </div>
     </div>
 </div>
-<!-- Container-fluid Ends-->
-<!-- Container-fluid starts-->
+<!-- Container-fluid Ends -->
+<!-- Container-fluid starts -->
 <div class="container-fluid">
     <div class="card">
         <div id="message"></div> <!-- لعرض الرسائل -->
@@ -37,7 +73,7 @@
                             <th>الاسم</th>
                             <th>تاريخ الميلاد</th>
                             <th>رقم التلفون</th>
-                            <th> مسح</th>
+                            <th>اضافة</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,49 +84,64 @@
                                 <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
                                 <td>@item.PhoneNumber</td>
                                 <td>
-                                    <div class="btn-group" role="group">
-                                        <button class="btn btn-success add-person-btn" data-person-id="@item.Id" data-stage-id="@Model.StageID">اضافة</button>
-                                    </div>
+                                    <button type="button" class="btn btn-success" data-person-id="@item.Id" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        اضافة
+                                    </button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             }
-            else
-            {
-                <h5>لا يوجد مخدومين في المسرح</h5>
-            }
+           
         </div>
     </div>
 </div>
 
+<!-- JavaScript -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+  
     $(document).ready(function () {
-        $(".add-person-btn").click(function () {
-            var personId = $(this).data('person-id');
-            var stageId = $(this).data('stage-id');
+         $("button[data-person-id]").click(function () {
 
-            // إرسال طلب AJAX للتحقق من وجود الشخص
+            var personId = $(this).data("person-id");
+             $("#saveChangesButton").data("person-id", personId);
+            
+
+        });
+        // زر الحفظ داخل المودال
+        $("#saveChangesButton").click(function () {
+            var selectedPersonId = $(this).data("person-id");;
+            var selectedRoleId = $("#RoleSelect").val();
+            var stageId = @Model.StageID;
+
+            if (!selectedRoleId) {
+                alert("يرجى اختيار الدور قبل الإضافة.");
+                return;
+            }
+
+            // إرسال طلب AJAX
             $.ajax({
                 type: "POST",
-                url: "/Theater/CheckIfExists",  // المسار الصحيح للتحقق
-                data: { personId: personId, stageId: stageId },
+                url: "/Theater/CheckIfExists",
+                data: { personId: selectedPersonId, stageId: stageId,roleId:selectedRoleId },
                 success: function (response) {
                     if (response.exists) {
-                        // إذا كان الشخص موجودًا بالفعل
                         $("#message").html('<div class="alert alert-danger">' + response.message + '</div>');
                     } else {
-                        // إذا لم يكن الشخص موجودًا، نقوم بإعادة التوجيه إلى صفحة "Add"
-                        window.location.href = "/Theater/Add?id=" + personId + "&StageId=" + stageId;
+                        window.location.href = "/Theater/Add?id=" + selectedPersonId + "&StageId=" + stageId+"&RoleId=" + selectedRoleId;
                     }
                 },
                 error: function () {
                     $("#message").html('<div class="alert alert-danger">حدث خطأ أثناء المعالجة.</div>');
                 }
             });
+
+            // إغلاق المودال
+            $('#exampleModal').modal('hide');
         });
     });
 </script>

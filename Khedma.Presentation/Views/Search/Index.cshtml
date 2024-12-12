@@ -9,8 +9,9 @@
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-end mb-3">
+                <input type="text" id="file-name-input" hidden value="الأسماء المشتركين في الأنشطة في مرحلة_@Model.StageName">
                 <button id="export-btn" class="btn btn-info">
-                    <i class="fas fa-file-export"></i> تصدير إلى Excel
+                    <i class="fas fa-file-export"></i> Excel
                 </button>
             </div>
 
@@ -170,6 +171,7 @@
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
+
         $(document).ready(function() {
             $('#all-activities-table').DataTable();
             $('#activities-table').DataTable();
@@ -177,9 +179,10 @@
             $("#export-btn").click(function () {
                 var table = document.getElementById("all-activities-table");
                 var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+                var fileName = $("#file-name-input").val();
                 var ws = wb.Sheets["Sheet1"];
                 ws["!dir"] = "rtl";
-                XLSX.writeFile(wb, "الأسماء المشتركين في الأنشطة.xlsx");
+                 XLSX.writeFile(wb, `${fileName}.xlsx`);
             });
 
             $(".activity-btn").click(function() {
@@ -190,5 +193,6 @@
                 }
             });
         });
+
     </script>
 }

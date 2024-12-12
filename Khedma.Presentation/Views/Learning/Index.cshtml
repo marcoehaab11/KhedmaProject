@@ -18,8 +18,8 @@
             </a>
 
             <!-- زر تحميل الجدول إلى Excel -->
-            <button onclick="exportToExcel()" class="btn btn-info float-right mr-2">
-                <i class="fa fa-file-excel"></i> تصدير إلى Excel
+            <button onclick="exportToExcel('@Model.StageName')" class="btn btn-info float-right mr-2">
+                <i class="fa fa-file-excel"></i>  Excel
             </button>
         </div>
     </div>
@@ -37,7 +37,7 @@
                             <th>الاسم</th>
                             <th>تاريخ الميلاد</th>
                             <th>رقم التلفون</th>
-                            <th>التذكره</th>
+                            <th>الكوبونات </th>
                             <th> مسح </th>
                         </tr>
                     </thead>
@@ -82,7 +82,7 @@
 
     <script>
         // وظيفة لتصدير البيانات إلى Excel
-                function exportToExcel() {
+                function exportToExcel(name) {
             const table = document.getElementById("basic-1"); // الحصول على الجدول
             const wb = XLSX.utils.table_to_book(table, { sheet: "Data" }); // تحويل الجدول إلى كتاب Excel
             const ws = wb.Sheets["Data"];
@@ -108,8 +108,7 @@
             }
 
             // تصدير الملف
-            XLSX.writeFile(wb, 'الاسماء.xlsx');
-        }
+        XLSX.writeFile(wb, `أسماء_الدراسية_مرحله_${name}.xlsx`);                 }
 
 
 

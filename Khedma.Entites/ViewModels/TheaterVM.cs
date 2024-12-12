@@ -13,5 +13,6 @@ namespace Khedma.Entites.ViewModels
         public string? StageName { get; set; }
         public IEnumerable<Makhdoum>? makhdoums { get; set; }
         public IEnumerable<Theater>? makhdoumswithStage { get; set; }
+        public IEnumerable<TheaterRole>? theaterRoles{ get; set; }
     }
 }

@@ -88,14 +88,18 @@ namespace Keadma.DataAccess.Data
             //therad
 
             modelBuilder.Entity<Theater>()
-            .HasKey(k => new { k.MakhdoumID, k.StageID });
+            .HasKey(k => new { k.MakhdoumID, k.StageID ,k.RoleID});
 
              
             modelBuilder.Entity<Theater>()
                 .HasOne(k => k.Makhdoum)  
                 .WithMany(m => m.TBTheater)  
-                .HasForeignKey(k => k.MakhdoumID);  
+                .HasForeignKey(k => k.MakhdoumID);
 
+            modelBuilder.Entity<Theater>()
+           .HasOne(k => k.TheaterRole)
+           .WithMany(m => m.TBTheaters)
+           .HasForeignKey(k => k.RoleID);
             // إعداد العلاقة بين Koral و TheStage
             modelBuilder.Entity<Theater>()
                 .HasOne(k => k.TheStage) // Koral لديه Stage واحد

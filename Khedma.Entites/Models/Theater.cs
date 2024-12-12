@@ -10,8 +10,9 @@ namespace Khedma.Entites.Models
     {
         public int MakhdoumID { get; set; }
         public int StageID { get; set; }
-
+        public int RoleID {  get; set; }
         public TheStage TheStage { get; set; }
         public Makhdoum Makhdoum { get; set; }
+        public TheaterRole TheaterRole { get; set; }
     }
 }
