@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Keadma.DataAccess.Migrations;
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
 using Khedma.Entites.ViewModels;
@@ -36,6 +37,7 @@ namespace Khedma.Presentation.Controllers
 
             return View(makhdoumWithStageVM);
         }
+
         public IActionResult Create(int id)
         {
 
@@ -50,6 +52,7 @@ namespace Khedma.Presentation.Controllers
 
             return View(makhdoumWithStageVM);
         }
+
         [HttpGet]
         public IActionResult Add(int id, int StageId)
         {
@@ -110,9 +113,38 @@ namespace Khedma.Presentation.Controllers
 
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
+        public IActionResult Attendance(int id)
+        {
+            AlhanVM makhdoumWithStageVM =
+                new AlhanVM()
+                {
+                    StageID = id,
+                    StageName = helper.GetNameForStage(id),
+                    makhdoumswithStage = _unitOfWork.Alhan.GetAll(x => x.StageID == id, "Makhdoum")
+                };
 
+            return View(makhdoumWithStageVM);
+        }
+       [HttpPost]
+        public IActionResult SaveAttendance(AlhanVM makhdooumenData)
+        {   
+            foreach (var makhdoum in makhdooumenData.makhdoumswithStage)
+            {
+                var attendance = new Alhan_attendance();
+                attendance.MakhdoumID = makhdoum.Makhdoum.Id;
 
+                attendance.StageID = (int)makhdooumenData.StageID;
 
+                attendance.attendance = (bool)makhdoum.attendance;
+
+                attendance.committed = (bool)makhdoum.committed;
+
+                _unitOfWork.AttendanceAlhan.Add(attendance);
+                _unitOfWork.Complete();
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
 

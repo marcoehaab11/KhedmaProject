@@ -1,0 +1,77 @@
+﻿@model AlhanVM
+@{
+    ViewData["Title"] = "تسجيل الحضور";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">جدول تسجيل الحضور</h1>
+    <form id="attendanceForm" method="post" action="/Alhan/SaveAttendance">
+        <input type="hidden" name="StageID" value="@Model.StageID" />
+        <table class="table table-bordered text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>الاسم</th>
+                    <th>الحضور</th>
+                    <th>الالتزام</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.makhdoumswithStage.Count(); i++)
+                {
+                    var item = Model.makhdoumswithStage.ElementAt(i);
+                    <tr>
+                        <td>
+                            <input type="hidden" name="makhdoumswithStage[@i].Makhdoum.Id" value="@item.Makhdoum.Id" />
+                            @item.Makhdoum.Id
+                        </td>
+                        <td>
+                            <input type="hidden" name="makhdoumswithStage[@i].Makhdoum.Name" value="@item.Makhdoum.Name" />
+                            @item.Makhdoum.Name
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-light btn-sm attendance-btn" data-index="@i">
+                                <i class="bi bi-check-circle"></i>
+                            </button>
+                            <input type="hidden" name="makhdoumswithStage[@i].attendance" value="false" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-light btn-sm commitment-btn" data-index="@i">
+                                <i class="bi bi-check-circle"></i>
+                            </button>
+                            <input type="hidden" name="makhdoumswithStage[@i].committed" value="false" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary mt-3">حفظ</button>
+    </form>
+</div>
+
+<!-- Bootstrap Icons CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<script>
+    // تحديث القيم عند الضغط على الأزرار
+    document.addEventListener("click", function (e) {
+        if (e.target.closest(".attendance-btn")) {
+            const button = e.target.closest(".attendance-btn");
+            const index = button.getAttribute("data-index");
+            button.classList.toggle("btn-success");
+            button.classList.toggle("btn-light");
+
+            const input = document.querySelector(`input[name="makhdoumswithStage[${index}].attendance"]`);
+            input.value = button.classList.contains("btn-success") ? "true" : "false";
+        }
+
+        if (e.target.closest(".commitment-btn")) {
+            const button = e.target.closest(".commitment-btn");
+            const index = button.getAttribute("data-index");
+            button.classList.toggle("btn-success");
+            button.classList.toggle("btn-light");
+
+            const input = document.querySelector(`input[name="makhdoumswithStage[${index}].committed"]`);
+            input.value = button.classList.contains("btn-success") ? "true" : "false";
+        }
+    });
+</script>

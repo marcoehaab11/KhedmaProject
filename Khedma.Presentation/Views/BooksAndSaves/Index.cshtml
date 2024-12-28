@@ -71,12 +71,21 @@
                                 <td>@String.Format("{0:dd/MM/yyyy}", item.Makhdoum.DateOfBirth)</td>
                                 <td>@item.Makhdoum.PhoneNumber</td>
                                 <td>
-                                    <div>
-                                        <a href="/BooksAndSaves/ChangeTicket?id=@item.Makhdoum.Id&stageId=@Model.StageID"
-                                           class="btn @(item.Ticket == true ? "btn-secondary" : "btn-primary")">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               role="switch"
+                                               id="toggleTicket-@item.Makhdoum.Id"
+                                        @(item.Ticket == true ? "checked" : "")
+                                               onchange="toggleTicket(@item.Makhdoum.Id, @Model.StageID, this.checked)">
+                                        <label class="form-check-label ms-2"
+                                               id="toggleLabel-@item.Makhdoum.Id"
+                                               for="toggleTicket-@item.Makhdoum.Id">
                                             @(item.Ticket == true ? "تم التسليم" : "لم يتم التسليم")
-                                        </a>
+                                        </label>
                                     </div>
+
+
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
@@ -155,17 +164,44 @@
                     window.location.href = `/BooksAndSaves/Delete?id=${itemId}&StageId=${stageId}`;                }
             });
         }
-
-
-
-
-            function downloadAndPrint(stageId,ActivityId,ActiveName) {
+        function downloadAndPrint(stageId,ActivityId,ActiveName) {
                 // تحميل الملف
                         window.location.href = `/BooksAndSaves/Upload?stageId=${stageId}&ActivityName=${ActiveName}&ActivityId=${ActivityId}`;
 
                 // إظهار رسالة للطباعة (الطباعة تتم يدويًا بعد التنزيل)
                 alert("تم تجهيز الملف. يمكنك فتحه وطباعته الآن.");
             }
+        function toggleTicket(id, stageId, isChecked) {
+            fetch(`/BooksAndSaves/ChangeTicket?id=${id}&stageId=${stageId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update ticket status.');
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log('Ticket status toggled successfully:', data);
+                // Optionally, update the label text dynamically based on the new status
+                const label = document.querySelector(`#toggleLabel-${id}`);
+                if (isChecked) {
+                    label.innerText = "تم التسليم"; // Delivered
+                } else {
+                    label.innerText = "لم يتم التسليم"; // Not Delivered
+                }
+            })
+            .catch(error => {
+                console.error('Error updating ticket status:', error);
+                // Optionally, reset the toggle if there was an error
+                const toggle = document.querySelector(`#toggleTicket-${id}`);
+                toggle.checked = !isChecked; // Revert toggle
+            });
+        }
+
 
     </script>
 

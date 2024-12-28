@@ -4,6 +4,7 @@ using Keadma.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Keadma.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241228133947_addFildesinAlhan")]
+    partial class addFildesinAlhan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +63,9 @@ namespace Keadma.DataAccess.Migrations
                     b.Property<int>("StageID")
                         .HasColumnType("int");
 
+                    b.Property<int>("TheStageId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("attendance")
                         .HasColumnType("bit");
 
@@ -70,7 +76,7 @@ namespace Keadma.DataAccess.Migrations
 
                     b.HasIndex("MakhdoumID");
 
-                    b.HasIndex("StageID");
+                    b.HasIndex("TheStageId");
 
                     b.ToTable("Alhan_attendance");
                 });
@@ -417,9 +423,9 @@ namespace Keadma.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("Khedma.Entites.Models.TheStage", "TheStage")
-                        .WithMany("TBAlhan_attendance")
-                        .HasForeignKey("StageID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithMany()
+                        .HasForeignKey("TheStageId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Makhdoum");
@@ -639,8 +645,6 @@ namespace Keadma.DataAccess.Migrations
 
             modelBuilder.Entity("Khedma.Entites.Models.TheStage", b =>
                 {
-                    b.Navigation("TBAlhan_attendance");
-
                     b.Navigation("TBArts");
 
                     b.Navigation("TBBooksAndSaves");

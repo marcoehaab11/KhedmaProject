@@ -1,5 +1,4 @@
 ﻿
-
 using Keadma.DataAccess.Data;
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
@@ -11,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Keadma.DataAccess.Implementation
 {
-    public class BooksAndSavesReposiotry : GenericRepository<BooksAndSaves>, IBooksAndSavesReposiotry
+    public class AttendanceAlhanReposiotry : GenericRepository<Alhan_attendance>, IAttendanceAlhanReposiotry
     {
-        public BooksAndSavesReposiotry(ApplicationDbContext context) : base(context)
+        public AttendanceAlhanReposiotry(ApplicationDbContext context) : base(context)
         {
         }
     }

@@ -29,6 +29,7 @@ namespace Keadma.DataAccess.Implementation
         public IRoleReposiotry Role { get; private set; }
         public IUserRoleReposiotry UserRole { get; private set; }
         public ITheaterRoleeReposiotry TheaterRole { get; private set; }
+        public IAttendanceAlhanReposiotry AttendanceAlhan { get; private set; }
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -50,6 +51,7 @@ namespace Keadma.DataAccess.Implementation
             Role = new RoleReposiotry(context);
             UserRole = new UserRoleReposiotry(context);
             TheaterRole = new TheaterRoleeReposiotry(context);
+            AttendanceAlhan=new AttendanceAlhanReposiotry(context);
         }
 
 

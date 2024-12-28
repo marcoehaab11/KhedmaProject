@@ -13,7 +13,12 @@ namespace Keadma.DataAccess.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-             
+            modelBuilder.Entity<Alhan_attendance>()
+           .HasOne(a => a.TheStage) // الربط مع الكيان TheStage
+           .WithMany(s => s.TBAlhan_attendance) // الربط مع المجموعة TBAlhan_attendance
+           .HasForeignKey(a => a.StageID) // المفتاح الأجنبي في Alhan_attendance
+           .OnDelete(DeleteBehavior.Restrict); // التحكم في السلوك عند الحذف
+
             modelBuilder.Entity<Koral>()
                 .HasKey(k => new { k.MakhdoumID, k.StageID });
             modelBuilder.Entity<UserRole>()

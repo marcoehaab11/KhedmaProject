@@ -24,6 +24,7 @@ namespace Khedma.Entites.Models
         [Required(ErrorMessage = "تاريخ الميلاد مطلوب")]
 
         public DateOnly? DateOfBirth { get; set; }
+        public int? Points { get; set; }
 
         public ICollection<Koral> TbKoral { get; set; }
 
@@ -37,6 +38,7 @@ namespace Khedma.Entites.Models
         public ICollection<BooksAndSaves> TBBooksAndSaves { get; set; }
         public ICollection<ForSingle> TBForSingle { get; set; }
         public ICollection<Arts> TBArts { get; set; }
+        public ICollection<Alhan_attendance> TBAlhan_attendance { get; set; }
 
 
 
