@@ -23,7 +23,9 @@
                             <th>الاسم</th>
                             <th>تاريخ الميلاد</th>
                             <th>رقم الهاتف</th>
+                            <th>النقاط</th>
                             <th>الأنشطة</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -36,12 +38,13 @@
                             .Concat(Model.books)
                             .Concat(Model.arts)
                             .Concat(Model.Theather)
-                            .GroupBy(x => new { x.Name, x.PhoneNumber, x.DateOfBirth })
+                            .GroupBy(x => new { x.Name, x.PhoneNumber, x.DateOfBirth ,x.Points})
                             .Select(g => new
                             {
                                 Name = g.Key.Name,
                                 DateOfBirth = g.Key.DateOfBirth,
                                 PhoneNumber = g.Key.PhoneNumber,
+                                Points=g.Key.Points,
                                 Activities = string.Join(" و ", g.Select(a => a.ActivityName))
                             })
                             .ToList();
@@ -52,7 +55,9 @@
                                     <td>@item.Name</td>
                                     <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
                                     <td>@item.PhoneNumber</td>
+                                    <td>@item.Points</td>
                                     <td>@item.Activities</td>
+                                    
                                 </tr>
                             }
                         }

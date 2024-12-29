@@ -24,6 +24,9 @@ namespace Khedma.Entites.ViewModels
         [Required(ErrorMessage = "تاريخ الميلاد مطلوب")]
 
         public DateOnly? DateOfBirth { get; set; }
+
+        public int? Points { get; set; }
+
         public string ActivityName { get; set; }
 
 

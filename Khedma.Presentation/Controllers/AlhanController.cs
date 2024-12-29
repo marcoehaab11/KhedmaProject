@@ -126,20 +126,31 @@ namespace Khedma.Presentation.Controllers
             return View(makhdoumWithStageVM);
         }
        [HttpPost]
-        public IActionResult SaveAttendance(AlhanVM makhdooumenData)
+        public async Task<IActionResult> SaveAttendance(AlhanVM makhdooumenData)
         {   
             foreach (var makhdoum in makhdooumenData.makhdoumswithStage)
             {
+                var sum=0;
+                
                 var attendance = new Alhan_attendance();
                 attendance.MakhdoumID = makhdoum.Makhdoum.Id;
-
+                
                 attendance.StageID = (int)makhdooumenData.StageID;
 
                 attendance.attendance = (bool)makhdoum.attendance;
+                if (attendance.attendance)
+                    sum += 10;
 
                 attendance.committed = (bool)makhdoum.committed;
+                if (attendance.committed)
+                    sum += 10;
+
+                attendance.excellence = (bool)makhdoum.excellence;
+                if (attendance.excellence)
+                    sum += 10;
 
                 _unitOfWork.AttendanceAlhan.Add(attendance);
+                await _unitOfWork.Makhdoum.UpdatePointsAsync(makhdoum.Makhdoum.Id,sum);
                 _unitOfWork.Complete();
             }
 

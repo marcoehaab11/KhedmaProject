@@ -114,5 +114,36 @@ namespace Keadma.DataAccess.Implementation
         {
            _dbSet.RemoveRange(entites);
         }
+        public async Task UpdatePointsAsync(int id, int points)
+        {
+            // البحث عن الشخص بناءً على ID
+            var entity = await _dbSet.FindAsync(id);
+
+            if (entity != null)
+            {
+                // الوصول إلى خاصية النقاط باستخدام Reflection
+                var propertyInfo = typeof(T).GetProperty("Points");
+                if (propertyInfo != null)
+                {
+                    // قراءة القيمة الحالية للنقاط
+                    var currentPoints = (int?)propertyInfo.GetValue(entity) ?? 0;
+
+
+                    // تحديث النقاط
+                    propertyInfo.SetValue(entity, currentPoints + points);
+                }
+
+                // حفظ التغييرات في قاعدة البيانات
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Entity with ID {id} not found.");
+            }
+        }
+
+
+
+
     }
 }

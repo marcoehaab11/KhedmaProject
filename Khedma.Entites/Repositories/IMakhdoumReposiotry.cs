@@ -9,6 +9,6 @@ namespace Khedma.Entites.Repositories
 {
     public interface IMakhdoumReposiotry : IGenericRepository<Makhdoum>
     {
-     
+        
     }
 }

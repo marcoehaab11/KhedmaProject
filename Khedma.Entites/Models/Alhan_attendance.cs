@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Khedma.Entites.Models
+﻿namespace Khedma.Entites.Models
 {
     public class Alhan_attendance
     {
@@ -15,6 +9,7 @@ namespace Khedma.Entites.Models
 
         public bool attendance { get; set; } = false;
         public bool committed { get; set; } = false;
+        public bool excellence { get; set; } = false;
 
         public TheStage TheStage { get; set; }
         public Makhdoum Makhdoum { get; set; }

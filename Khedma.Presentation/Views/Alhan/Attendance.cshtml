@@ -14,6 +14,7 @@
                     <th>الاسم</th>
                     <th>الحضور</th>
                     <th>الالتزام</th>
+                    <th>التميز</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,18 +40,44 @@
                             <button type="button" class="btn btn-light btn-sm commitment-btn" data-index="@i">
                                 <i class="bi bi-check-circle"></i>
                             </button>
+
                             <input type="hidden" name="makhdoumswithStage[@i].committed" value="false" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-light btn-sm excellence-btn" data-index="@i">
+                                <i class="bi bi-check-circle"></i>
+                            </button>
+                            <input type="hidden" name="makhdoumswithStage[@i].excellence" value="false" />
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        <button type="submit" class="btn btn-primary mt-3">حفظ</button>
+        <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">حفظ</button>
+        </div>
     </form>
 </div>
 
 <!-- Bootstrap Icons CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+    .container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    table {
+        width: 100%;
+    }
+    
+
+    .btn {
+        font-size: 12px;
+    }
+
+    }
+</style>
 <script>
     // تحديث القيم عند الضغط على الأزرار
     document.addEventListener("click", function (e) {
@@ -71,6 +98,16 @@
             button.classList.toggle("btn-light");
 
             const input = document.querySelector(`input[name="makhdoumswithStage[${index}].committed"]`);
+            input.value = button.classList.contains("btn-success") ? "true" : "false";
+        }
+
+        if (e.target.closest(".excellence-btn")) {
+            const button = e.target.closest(".excellence-btn");
+            const index = button.getAttribute("data-index");
+            button.classList.toggle("btn-success");
+            button.classList.toggle("btn-light");
+
+            const input = document.querySelector(`input[name="makhdoumswithStage[${index}].excellence"]`);
             input.value = button.classList.contains("btn-success") ? "true" : "false";
         }
     });

@@ -38,6 +38,7 @@ namespace Khedma.Presentation.Controllers
                     Name = x.Makhdoum.Name,
                     DateOfBirth = x.Makhdoum.DateOfBirth,
                     PhoneNumber = x.Makhdoum.PhoneNumber,
+                    Points=x.Makhdoum.Points,
                     ActivityName = "الكورال",
                 }).ToList(),
                 Alhan= alhan.Select(x => new MakhdoumV2M
@@ -45,6 +46,7 @@ namespace Khedma.Presentation.Controllers
                     Name = x.Makhdoum.Name,
                     DateOfBirth = x.Makhdoum.DateOfBirth,
                     PhoneNumber = x.Makhdoum.PhoneNumber,
+                    Points = x.Makhdoum.Points,
                     ActivityName = "الالحان",
                 }).ToList(),
                 arts= art.Select(x => new MakhdoumV2M
@@ -52,6 +54,7 @@ namespace Khedma.Presentation.Controllers
                     Name = x.Makhdoum.Name,
                     DateOfBirth = x.Makhdoum.DateOfBirth,
                     PhoneNumber = x.Makhdoum.PhoneNumber,
+                    Points = x.Makhdoum.Points,
                     ActivityName = "الفنيات",
                 }).ToList(),
                 books=book.Select(x => new MakhdoumV2M
@@ -59,6 +62,7 @@ namespace Khedma.Presentation.Controllers
                     Name = x.Makhdoum.Name,
                     DateOfBirth = x.Makhdoum.DateOfBirth,
                     PhoneNumber = x.Makhdoum.PhoneNumber,
+                    Points = x.Makhdoum.Points,
                     ActivityName = "الكتاب المقدس",
                 }).ToList(),
                 Single= forsingel.Select(x => new MakhdoumV2M
@@ -66,6 +70,7 @@ namespace Khedma.Presentation.Controllers
                     Name = x.Makhdoum.Name,
                     DateOfBirth = x.Makhdoum.DateOfBirth,
                     PhoneNumber = x.Makhdoum.PhoneNumber,
+                    Points = x.Makhdoum.Points,
                     ActivityName = "الفرديات",
                 }).ToList(),
                 Learning= learning.Select(x => new MakhdoumV2M
@@ -73,6 +78,7 @@ namespace Khedma.Presentation.Controllers
                     Name = x.Makhdoum.Name,
                     DateOfBirth = x.Makhdoum.DateOfBirth,
                     PhoneNumber = x.Makhdoum.PhoneNumber,
+                    Points = x.Makhdoum.Points,
                     ActivityName = "الدراسية",
                 }).ToList(),
                 coptic=coptic.Select(x => new MakhdoumV2M
@@ -80,6 +86,7 @@ namespace Khedma.Presentation.Controllers
                     Name = x.Makhdoum.Name,
                     DateOfBirth = x.Makhdoum.DateOfBirth,
                     PhoneNumber = x.Makhdoum.PhoneNumber,
+                    Points=x.Makhdoum.Points,
                     ActivityName = "القبطي",
                 }).ToList(),
                 Theather= theater.Select(x => new MakhdoumV2M
@@ -87,6 +94,7 @@ namespace Khedma.Presentation.Controllers
                     Name = x.Makhdoum.Name,
                     DateOfBirth = x.Makhdoum.DateOfBirth,
                     PhoneNumber = x.Makhdoum.PhoneNumber,
+                    Points = x.Makhdoum.Points,
                     ActivityName = "المسرح",
                 }).ToList(),
             };

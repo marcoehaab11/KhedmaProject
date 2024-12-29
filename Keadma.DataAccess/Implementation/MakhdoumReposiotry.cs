@@ -1,6 +1,7 @@
 ﻿using Keadma.DataAccess.Data;
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace Keadma.DataAccess.Implementation
         {
             _context = context;
         }
-        
+
+     
+       
     }
 }

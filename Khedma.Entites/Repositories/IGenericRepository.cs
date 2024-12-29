@@ -9,8 +9,8 @@ namespace Khedma.Entites.Repositories
 {
     public interface IGenericRepository<T> where T :class
     { 
-       IEnumerable<T> GetAll(Expression<Func<T, bool>>? perdicate = null, string? Includeword =null);
-       Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, string? includeProperties = null);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>>? perdicate = null, string? Includeword =null);
+        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, string? includeProperties = null);
         Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null);
         Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
         
@@ -21,6 +21,7 @@ namespace Khedma.Entites.Repositories
         void Remove(T entity);
         void Update(T entity);
         void RemoveRange(IEnumerable<T> entites);
+        Task UpdatePointsAsync(int id, int points);
 
     }
 }

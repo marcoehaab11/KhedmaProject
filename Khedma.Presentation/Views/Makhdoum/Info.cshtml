@@ -22,6 +22,12 @@
                     <strong class="h5 text-primary">تاريخ الميلاد:</strong>
                     <p style="font-size: 1.2rem; font-weight: 600;">@String.Format("{0:dd/MM/yyyy}", Model.User.DateOfBirth)</p>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <strong class="h5 text-primary">اجمالي النقاط:</strong>
+                    <p style="font-size: 1.2rem; font-weight: 600;">
+                        @(Model.User.Points != null ? Model.User.Points.ToString() : "لا يوجد حتى الآن")
+                    </p>
+                </div>
             </div>
         </div>
     </div>
