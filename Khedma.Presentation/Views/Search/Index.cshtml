@@ -2,8 +2,10 @@
 @{
     ViewData["Title"] = "مرحلة" + " " + @Model.StageName;
 }
-<h2 class="text-center mb-4">كل الأسماء المشتركين في الأنشطة في @Model.StageName</h2>
-
+<h2 class="text-center mb-4">
+    كل الأسماء المشتركين في الأنشطة في
+    <span style="color: red;">@Model.StageName</span>
+</h2>
 <div class="container-fluid">
     <!-- جدول "الجميع" -->
     <div class="card shadow-sm mb-4">

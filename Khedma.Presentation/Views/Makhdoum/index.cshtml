@@ -40,6 +40,7 @@
             <table class="display" id="basic-1">
                 <thead>
                     <tr>
+                        <th>رقم</th>
                         <th>الاسم</th>
                         <th>تاريخ الميلاد</th>
                         <th>رقم التلفون</th>
@@ -52,7 +53,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-
+                            <td>@item.Id</td>
                             <td>@item.Name</td>
                             <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
                             <td>@item.PhoneNumber</td>

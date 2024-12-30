@@ -25,6 +25,10 @@ namespace Khedma.Entites.Models
         public ICollection<ForSingle> TBForSingle { get; set; }
         public ICollection<Arts> TBArts { get; set; }
         public ICollection<Alhan_attendance> TBAlhan_attendance { get; set; }
+        public ICollection<Koral_attendance> TBKoral_attendance { get; set; }
+        public ICollection<Learning_attendance> TBLeaning_attendance { get; set; }
+        public ICollection<BookAndSaves_attendance> TBBookandSave_attendance { get; set; }
+        public ICollection<Coptic_attendance> TBCoptic_attendance { get; set; }
 
     }
 }

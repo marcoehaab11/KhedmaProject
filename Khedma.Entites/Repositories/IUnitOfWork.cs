@@ -25,6 +25,10 @@ namespace Khedma.Entites.Repositories
         IUserRoleReposiotry UserRole { get; }
         ITheaterRoleeReposiotry TheaterRole { get;  }
         IAttendanceAlhanReposiotry AttendanceAlhan { get;  }
+        IAttendanceKoralReposiotry AttendanceKoral { get; }
+        IAttendanceLearningReposiotry AttendanceLearning { get; }
+        IAttendanceCopticReposiotry AttendanceCoptic { get; }
+        IAttendanceBookAndSavelReposiotry AttendanceBookAndSave { get; }
 
         int Complete();
     }

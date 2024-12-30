@@ -18,7 +18,29 @@ namespace Keadma.DataAccess.Data
            .WithMany(s => s.TBAlhan_attendance) // الربط مع المجموعة TBAlhan_attendance
            .HasForeignKey(a => a.StageID) // المفتاح الأجنبي في Alhan_attendance
            .OnDelete(DeleteBehavior.Restrict); // التحكم في السلوك عند الحذف
+            modelBuilder.Entity<Koral_attendance>()
+          .HasOne(a => a.TheStage) // الربط مع الكيان TheStage
+          .WithMany(s => s.TBKoral_attendance) // الربط مع المجموعة TBAlhan_attendance
+          .HasForeignKey(a => a.StageID) // المفتاح الأجنبي في Alhan_attendance
+          .OnDelete(DeleteBehavior.Restrict); // التحكم في السلوك عند الحذف
 
+            modelBuilder.Entity<Learning_attendance>()
+         .HasOne(a => a.TheStage) // الربط مع الكيان TheStage
+         .WithMany(s => s.TBLeaning_attendance) // الربط مع المجموعة TBAlhan_attendance
+         .HasForeignKey(a => a.StageID) // المفتاح الأجنبي في Alhan_attendance
+         .OnDelete(DeleteBehavior.Restrict); // التحكم في السلوك عند الحذف
+
+            modelBuilder.Entity<BookAndSaves_attendance>()
+      .HasOne(a => a.TheStage) // الربط مع الكيان TheStage
+      .WithMany(s => s.TBBookandSave_attendance) // الربط مع المجموعة TBAlhan_attendance
+      .HasForeignKey(a => a.StageID) // المفتاح الأجنبي في Alhan_attendance
+      .OnDelete(DeleteBehavior.Restrict); // التحكم في السلوك عند الحذف
+
+            modelBuilder.Entity<Coptic_attendance>()
+      .HasOne(a => a.TheStage) // الربط مع الكيان TheStage
+      .WithMany(s => s.TBCoptic_attendance) // الربط مع المجموعة TBAlhan_attendance
+      .HasForeignKey(a => a.StageID) // المفتاح الأجنبي في Alhan_attendance
+      .OnDelete(DeleteBehavior.Restrict); // التحكم في السلوك عند الحذف
             modelBuilder.Entity<Koral>()
                 .HasKey(k => new { k.MakhdoumID, k.StageID });
             modelBuilder.Entity<UserRole>()

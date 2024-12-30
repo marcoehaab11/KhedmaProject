@@ -1,4 +1,4 @@
-﻿@model AlhanVM
+﻿@model BooksAndSavesVM
 @{
     ViewData["Title"] = "تسجيل الحضور";
 }
@@ -6,14 +6,12 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">
         جدول تسجيل الحضور
-        <span style="color: red;">للألحان</span>
+        <span style="color: red;">الكتاب المقدس و المحفوظات</span>
         لمرحلة
         <span style="color: red;">@Model.StageName</span>
     </h2>
 
-    <h3 class="text-center mb-4">بتاريخ : @DateTime.Now.ToString("yyyy/MM/dd") و ساعة : @DateTime.Now.ToString("HH:mm:ss")</h3>
-
-    <form id="attendanceForm" method="post" action="/Alhan/SaveAttendance">
+    <h3 class="text-center mb-4">بتاريخ : @DateTime.Now.ToString("yyyy/MM/dd") و ساعة : @DateTime.Now.ToString("HH:mm:ss")</h3>    <form id="attendanceForm" method="post" action="/BooksAndSaves/SaveAttendance">
         <input type="hidden" name="StageID" value="@Model.StageID" />
         <table class="table table-bordered text-center">
             <thead class="table-primary">

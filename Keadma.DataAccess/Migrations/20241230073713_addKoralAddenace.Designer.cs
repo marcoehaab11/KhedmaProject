@@ -4,6 +4,7 @@ using Keadma.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Keadma.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241230073713_addKoralAddenace")]
+    partial class addKoralAddenace
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,41 +125,6 @@ namespace Keadma.DataAccess.Migrations
                     b.ToTable("TBArtsName");
                 });
 
-            modelBuilder.Entity("Khedma.Entites.Models.BookAndSaves_attendance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MakhdoumID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StageID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("attendance")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("committed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("excellence")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MakhdoumID");
-
-                    b.HasIndex("StageID");
-
-                    b.ToTable("BookAndSaves_attendance");
-                });
-
             modelBuilder.Entity("Khedma.Entites.Models.BooksAndSaves", b =>
                 {
                     b.Property<int>("MakhdoumID")
@@ -166,15 +134,6 @@ namespace Keadma.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("Ticket")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("attendance")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("committed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("excellence")
                         .HasColumnType("bit");
 
                     b.HasKey("MakhdoumID", "StageID");
@@ -195,55 +154,11 @@ namespace Keadma.DataAccess.Migrations
                     b.Property<bool?>("Ticket")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("attendance")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("committed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("excellence")
-                        .HasColumnType("bit");
-
                     b.HasKey("MakhdoumID", "StageID");
 
                     b.HasIndex("StageID");
 
                     b.ToTable("Coptic");
-                });
-
-            modelBuilder.Entity("Khedma.Entites.Models.Coptic_attendance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MakhdoumID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StageID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("attendance")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("committed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("excellence")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MakhdoumID");
-
-                    b.HasIndex("StageID");
-
-                    b.ToTable("Coptic_attendance");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.ForSingle", b =>
@@ -354,55 +269,11 @@ namespace Keadma.DataAccess.Migrations
                     b.Property<bool?>("Ticket")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("attendance")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("committed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("excellence")
-                        .HasColumnType("bit");
-
                     b.HasKey("MakhdoumID", "StageID");
 
                     b.HasIndex("StageID");
 
                     b.ToTable("Learning");
-                });
-
-            modelBuilder.Entity("Khedma.Entites.Models.Learning_attendance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MakhdoumID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StageID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("attendance")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("committed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("excellence")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MakhdoumID");
-
-                    b.HasIndex("StageID");
-
-                    b.ToTable("Learning_attendance");
                 });
 
             modelBuilder.Entity("Khedma.Entites.Models.Makhdoum", b =>
@@ -636,25 +507,6 @@ namespace Keadma.DataAccess.Migrations
                     b.Navigation("TheStage");
                 });
 
-            modelBuilder.Entity("Khedma.Entites.Models.BookAndSaves_attendance", b =>
-                {
-                    b.HasOne("Khedma.Entites.Models.Makhdoum", "Makhdoum")
-                        .WithMany()
-                        .HasForeignKey("MakhdoumID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Khedma.Entites.Models.TheStage", "TheStage")
-                        .WithMany("TBBookandSave_attendance")
-                        .HasForeignKey("StageID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Makhdoum");
-
-                    b.Navigation("TheStage");
-                });
-
             modelBuilder.Entity("Khedma.Entites.Models.BooksAndSaves", b =>
                 {
                     b.HasOne("Khedma.Entites.Models.Makhdoum", "Makhdoum")
@@ -686,25 +538,6 @@ namespace Keadma.DataAccess.Migrations
                         .WithMany("TBCoptic")
                         .HasForeignKey("StageID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Makhdoum");
-
-                    b.Navigation("TheStage");
-                });
-
-            modelBuilder.Entity("Khedma.Entites.Models.Coptic_attendance", b =>
-                {
-                    b.HasOne("Khedma.Entites.Models.Makhdoum", "Makhdoum")
-                        .WithMany()
-                        .HasForeignKey("MakhdoumID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Khedma.Entites.Models.TheStage", "TheStage")
-                        .WithMany("TBCoptic_attendance")
-                        .HasForeignKey("StageID")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Makhdoum");
@@ -787,25 +620,6 @@ namespace Keadma.DataAccess.Migrations
                         .WithMany("TBLearning")
                         .HasForeignKey("StageID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Makhdoum");
-
-                    b.Navigation("TheStage");
-                });
-
-            modelBuilder.Entity("Khedma.Entites.Models.Learning_attendance", b =>
-                {
-                    b.HasOne("Khedma.Entites.Models.Makhdoum", "Makhdoum")
-                        .WithMany()
-                        .HasForeignKey("MakhdoumID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Khedma.Entites.Models.TheStage", "TheStage")
-                        .WithMany("TBLeaning_attendance")
-                        .HasForeignKey("StageID")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Makhdoum");
@@ -903,19 +717,13 @@ namespace Keadma.DataAccess.Migrations
 
                     b.Navigation("TBArts");
 
-                    b.Navigation("TBBookandSave_attendance");
-
                     b.Navigation("TBBooksAndSaves");
 
                     b.Navigation("TBCoptic");
 
-                    b.Navigation("TBCoptic_attendance");
-
                     b.Navigation("TBForSingle");
 
                     b.Navigation("TBKoral_attendance");
-
-                    b.Navigation("TBLeaning_attendance");
 
                     b.Navigation("TBLearning");
 

@@ -76,7 +76,7 @@
             // إرسال طلب AJAX للتحقق من وجود الشخص
             $.ajax({
                 type: "POST",
-                url: "/Koral/CheckIfExists",  // المسار الصحيح للتحقق
+                url: "/coptic/CheckIfExists",  // المسار الصحيح للتحقق
                 data: { personId: personId, stageId: stageId },
                 success: function (response) {
                     if (response.exists) {

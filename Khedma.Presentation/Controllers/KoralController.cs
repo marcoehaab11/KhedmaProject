@@ -112,6 +112,52 @@ namespace Khedma.Presentation.Controllers
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
 
+        public IActionResult Attendance(int id)
+        {
+            KoralVM makhdoumWithStageVM =
+                new KoralVM()
+                {
+                    StageID = id,
+                    StageName = helper.GetNameForStage(id),
+                    makhdoumswithStage = _unitOfWork.Koral.GetAll(x => x.StageID == id, "Makhdoum")
+                };
+
+            return View(makhdoumWithStageVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SaveAttendance(KoralVM makhdooumenData)
+        {
+            foreach (var makhdoum in makhdooumenData.makhdoumswithStage)
+            {
+                var sum = 0;
+
+                var attendance = new Koral_attendance();
+                attendance.MakhdoumID = makhdoum.Makhdoum.Id;
+
+                attendance.StageID = (int)makhdooumenData.StageID;
+
+                attendance.attendance = (bool)makhdoum.attendance;
+                if (attendance.attendance)
+                    sum += 10;
+
+                attendance.committed = (bool)makhdoum.committed;
+                if (attendance.committed)
+                    sum += 10;
+
+                attendance.excellence = (bool)makhdoum.excellence;
+                if (attendance.excellence)
+                    sum += 10;
+
+                _unitOfWork.AttendanceKoral.Add(attendance);
+                await _unitOfWork.Makhdoum.UpdatePointsAsync(makhdoum.Makhdoum.Id, sum);
+                _unitOfWork.Complete();
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
     }
 }
 

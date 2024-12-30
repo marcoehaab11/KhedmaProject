@@ -29,7 +29,9 @@
             <a asp-action="Create" asp-controller="BooksAndSaves" asp-route-id="@Model.StageID" class="btn btn-success">
                 <i class="fa fa-plus"></i> إضافة مخدوم
             </a>
-
+            <a asp-action="attendance" asp-controller="BooksAndSaves" asp-route-id="@Model.StageID" class="btn btn-info">
+                <i class="fa fa-check-circle"></i> تسجيل حضور
+            </a>
             <!-- زر تحميل و طباعة الملف -->
             <a onclick="downloadAndPrint(@Model.StageID,6,'كتاب المقدس و المحفوظات')" class="btn btn-primary float-right">
                 <i class="fa fa-download"></i> تحميل الملف وطباعته

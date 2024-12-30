@@ -129,7 +129,49 @@ namespace Khedma.Presentation.Controllers
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
 
-     
+        public IActionResult Attendance(int id)
+        {
+            BooksAndSavesVM makhdoumWithStageVM =
+                new()
+                {
+                    StageID = id,
+                    StageName = helper.GetNameForStage(id),
+                    makhdoumswithStage = _unitOfWork.BooksAndSaves.GetAll(x => x.StageID == id, "Makhdoum")
+                };
+
+            return View(makhdoumWithStageVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SaveAttendance(BooksAndSavesVM makhdooumenData)
+        {
+            foreach (var makhdoum in makhdooumenData.makhdoumswithStage)
+            {
+                var sum = 0;
+
+                var attendance = new BookAndSaves_attendance();
+                attendance.MakhdoumID = makhdoum.Makhdoum.Id;
+
+                attendance.StageID = (int)makhdooumenData.StageID;
+
+                attendance.attendance = (bool)makhdoum.attendance;
+                if (attendance.attendance)
+                    sum += 10;
+
+                attendance.committed = (bool)makhdoum.committed;
+                if (attendance.committed)
+                    sum += 10;
+
+                attendance.excellence = (bool)makhdoum.excellence;
+                if (attendance.excellence)
+                    sum += 10;
+
+                _unitOfWork.AttendanceBookAndSave.Add(attendance);
+                await _unitOfWork.Makhdoum.UpdatePointsAsync(makhdoum.Makhdoum.Id, sum);
+                _unitOfWork.Complete();
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
 
 
     }
