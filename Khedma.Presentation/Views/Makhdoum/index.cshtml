@@ -3,18 +3,17 @@
 @{
     ViewData["Title"] = "قائمة المخدومين";
 }
-<!-- Container-fluid starts-->
+
+
+<!-- Container-fluid starts -->
 <div class="container-fluid">
     <div class="page-header">
         <div class="row">
             <div class="col-lg-6">
                 <div class="page-header-left">
-                    <h3>
-                        قائمة المخدومين
-                    </h3>
+                    <h3>قائمة المخدومين</h3>
                 </div>
             </div>
-            
         </div>
     </div>
 </div>
@@ -30,12 +29,9 @@
     </div>
 </div>
 
-
-<!-- Container-fluid Ends-->
-<!-- Container-fluid starts-->
+<!-- Container-fluid Starts -->
 <div class="container-fluid">
     <div class="card">
-
         <div class="card-body vendor-table">
             <table class="display" id="basic-1">
                 <thead>
@@ -43,10 +39,10 @@
                         <th>رقم</th>
                         <th>الاسم</th>
                         <th>تاريخ الميلاد</th>
-                        <th>رقم التلفون</th>
+                        <th>النقاط</th>
+                        <th>إضافة / خصم</th>
+                        <th>تعديل / مسح</th>
                         <th>معلومات</th>
-                        <th>تعديل \ مسح </th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -56,10 +52,11 @@
                             <td>@item.Id</td>
                             <td>@item.Name</td>
                             <td>@String.Format("{0:dd/MM/yyyy}", item.DateOfBirth)</td>
-                            <td>@item.PhoneNumber</td>
+                            <td id="points-@item.Id">@item.Points</td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <a href="/Makhdoum/info/@item.Id" class="btn btn-info">معلومات</a>
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deductionModal-@item.Id">خصم</button>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPointsModal-@item.Id">إضافة</button>
                                 </div>
                             </td>
                             <td>
@@ -68,11 +65,59 @@
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">تعديل</a>
                                 </div>
                             </td>
+                            <td>
+                                <a href="/Makhdoum/info/@item.Id" class="btn btn-info">معلومات</a>
+                            </td>
                         </tr>
+
+                        <!-- نافذة إضافة النقاط -->
+                        <div class="modal fade" id="addPointsModal-@item.Id" tabindex="-1" aria-labelledby="addPointsModalLabel-@item.Id" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addPointsModalLabel-@item.Id">إضافة النقاط</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form onsubmit="submitAddPoints(event, @item.Id)">
+                                            <div class="mb-3">
+                                                <label for="addPointsAmount-@item.Id" class="form-label">أدخل عدد النقاط:</label>
+                                                <input type="number" id="addPointsAmount-@item.Id" class="form-control" min="0" required />
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                                                <button type="submit" class="btn btn-success">إضافة</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- نافذة الخصم -->
+                        <div class="modal fade" id="deductionModal-@item.Id" tabindex="-1" aria-labelledby="deductionModalLabel-@item.Id" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deductionModalLabel-@item.Id">تطبيق الخصم</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form onsubmit="submitDeduction(event, @item.Id)">
+                                            <div class="mb-3">
+                                                <label for="deductionAmount-@item.Id" class="form-label">أدخل قيمة الخصم:</label>
+                                                <input type="number" id="deductionAmount-@item.Id" class="form-control" min="0" required />
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                                                <button type="submit" class="btn btn-success">تطبيق الخصم</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     }
-
-
-
                 </tbody>
             </table>
         </div>
@@ -81,7 +126,10 @@
 
 @section Scripts
 {
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script defer>
+                
+
         function confirmDelete(itemId) {
             Swal.fire({
                 title: 'هل أنت متأكد؟',
@@ -94,11 +142,71 @@
                 cancelButtonText: 'إلغاء'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // إعادة التوجيه إلى الحذف
                     window.location.href = `/Makhdoum/Delete/${itemId}`;
                 }
             });
         }
-    </script>
 
+        function submitAddPoints(event, userId) {
+            event.preventDefault();
+            const points = document.getElementById(`addPointsAmount-${userId}`).value;
+
+            if (!points || points <= 0) {
+                alert("يرجى إدخال قيمة صحيحة للنقاط.");
+                return;
+            }
+
+            fetch('/Makhdoum/AddPoints', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: userId, sum: parseInt(points) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('تمت الإضافة بنجاح!');
+                    document.getElementById(`points-${userId}`).innerText = data.newPoints;
+                    $(`#addPointsModal-${userId}`).modal('hide');
+                } else {
+                    alert(data.message || 'حدث خطأ أثناء الإضافة.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during request:', error);
+                alert('حدث خطأ أثناء الاتصال بالخادم.');
+            });
+        }
+
+        function submitDeduction(event, userId) {
+            event.preventDefault();
+            const points = document.getElementById(`deductionAmount-${userId}`).value;
+
+            if (!points || points <= 0) {
+                alert("يرجى إدخال قيمة صحيحة للخصم.");
+                return;
+            }
+
+            fetch('/Makhdoum/Deduction', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: userId, sum: parseInt(points) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('تم الخصم بنجاح!');
+                    document.getElementById(`points-${userId}`).innerText = data.newPoints;
+                    $(`#deductionModal-${userId}`).modal('hide');
+                } else {
+                    alert(data.message || 'حدث خطأ أثناء الخصم.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during request:', error);
+                alert('حدث خطأ أثناء الاتصال بالخادم.');
+            });
+        }
+
+
+    </script>
 }

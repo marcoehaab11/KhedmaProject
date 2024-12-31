@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Khedma.Entites.ViewModels;
 
 namespace Khedma.Presentation.Controllers
 {
@@ -122,6 +124,45 @@ namespace Khedma.Presentation.Controllers
         public ActionResult Unauthorized()
         {
             return View();
+        }
+        public ActionResult Search()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> GetDataById(int id)
+        {   
+            // التحقق من إدخال الـ ID
+            if (id < 0)
+            {
+                ViewBag.Error = "يرجى إدخال ID صالح.";
+                return View("Search");
+            }
+            var makhdoum = _unitOfWork.Makhdoum.GetFirstorDefault(x => x.Id == id);
+            if (makhdoum == null)
+            {
+                ViewBag.Error = "لا توجد بيانات بهذا الـ ID.";
+                return View("Search");
+            }
+            // البحث عن البيانات
+            MakhdoumVM data = new MakhdoumVM()
+            {
+                User = _unitOfWork.Makhdoum.GetFirstorDefault(x => x.Id == id),
+                IsExistsInAlhan = await _unitOfWork.Alhan.ExistsAsync(x => x.MakhdoumID == id),
+                IsExistsInCoptic = await _unitOfWork.Coptic.ExistsAsync(x => x.MakhdoumID == id),
+                IsExistsInKoral = await _unitOfWork.Koral.ExistsAsync(x => x.MakhdoumID == id),
+                IsExistsInLearning = await _unitOfWork.Learning.ExistsAsync(x => x.MakhdoumID == id),
+                IsExistsInForSingle = await _unitOfWork.ForSingle.ExistsAsync(x => x.MakhdoumID == id),
+                IsExistsInBook = await _unitOfWork.BooksAndSaves.ExistsAsync(x => x.MakhdoumID == id),
+                IsExistsInArts = await _unitOfWork.Arts.ExistsAsync(x => x.MakhdoumID == id),
+                IsExistsTheater = await _unitOfWork.Theater.ExistsAsync(x => x.MakhdoumID == id),
+
+            };
+
+            
+
+            // إذا تم العثور على البيانات، عرض صفحة التفاصيل
+            return View("Details", data);
         }
     }
 }

@@ -3,7 +3,22 @@
 @{
     string Name = " الدراسية | مرحله" + " " + Model.StageName;
     ViewData["Title"] = Name;
-}<!-- زر تحميل الجدول إلى Excel -->
+}
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center my-2 py-2">
+                <h3 class="fw-bold display-4">
+                    الدراسية
+                    <span class="text-danger">
+                        @Model.StageName
+                    </span>
+                </h3>
+            </div>
+        </div>
+    </div>
+</div><!-- زر تحميل الجدول إلى Excel -->
 <div class="container-fluid mb-3">
     <div class="row">
         <div class="col-12">

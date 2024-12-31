@@ -15,11 +15,14 @@ namespace Khedma.Presentation.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var AllMakhodumen = _unitOfWork.Makhdoum.GetAll();
+            var AllMakhodumen =await _unitOfWork.Makhdoum.GetAllAsync();
             return View(AllMakhodumen);
         }
+
+     
+
         public async Task<IActionResult> Info(int id)
         {
             
@@ -84,7 +87,62 @@ namespace Khedma.Presentation.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult Deduction([FromBody] DeductionRequest request)
+        {
+            var makhdoum = _unitOfWork.Makhdoum.GetFirstorDefault(x => x.Id == request.Id);
+
+            if (makhdoum == null)
+            {
+                return Json(new { success = false, message = "العنصر غير موجود" });
+            }
+            if (makhdoum.Points == null)
+            {
+                makhdoum.Points = 0;
+            }
+            makhdoum.Points -= request.Sum;
+            _unitOfWork.Complete();
+
+            return Json(new { success = true, newPoints = makhdoum.Points });
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult AddPoints([FromBody] AddPointsRequest request)
+        {
+            var makhdoum = _unitOfWork.Makhdoum.GetFirstorDefault(x => x.Id == request.Id);
+
+            if (makhdoum == null)
+            {
+                return Json(new { success = false, message = "العنصر غير موجود" });
+            }
+            if(makhdoum.Points==null)
+            {
+                makhdoum.Points = 0;
+            }
+            makhdoum.Points += request.Sum;
+           
+            _unitOfWork.Complete();
+
+            return Json(new { success = true, newPoints = makhdoum.Points });
+        }
+
+
 
 
     }
+    public class AddPointsRequest
+    {
+        public int Id { get; set; }
+        public int Sum { get; set; }
+    }
+
+    public class DeductionRequest
+    {
+        public int Id { get; set; }
+        public int Sum { get; set; }
+    }
+
 }

@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "تفاصيل المخدوم";
 }
+
 <div class="container mt-4">
     <h2 class="text-center mb-4">تفاصيل الشخص</h2>
 
@@ -24,15 +25,73 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <strong class="h5 text-primary">اجمالي النقاط:</strong>
-                    <p style="font-size: 1.2rem; font-weight: 600;">
+                    <p style="font-size: 1.2rem; font-weight: 600;" id="points-@Model.User.Id">
                         @(Model.User.Points != null ? Model.User.Points.ToString() : "لا يوجد حتى الآن")
                     </p>
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deductionModal-@Model.User.Id">خصم</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPointsModal-@Model.User.Id">إضافة</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- الجزء الثاني: الأنشطة -->
+    <!-- نافذة إضافة النقاط -->
+    <div class="modal fade" id="addPointsModal-@Model.User.Id" tabindex="-1" aria-labelledby="addPointsModalLabel-@Model.User.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPointsModalLabel-@Model.User.Id">إضافة النقاط</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPointsForm-@Model.User.Id" onsubmit="submitAddPoints(event, @Model.User.Id)">
+                        <div class="mb-3">
+                            <label for="addPointsAmount-@Model.User.Id" class="form-label">أدخل عدد النقاط:</label>
+                            <input type="number"
+                                   id="addPointsAmount-@Model.User.Id"
+                                   class="form-control"
+                                   min="0"
+                                   required />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="submit" class="btn btn-success">إضافة</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الخصم -->
+    <div class="modal fade" id="deductionModal-@Model.User.Id" tabindex="-1" aria-labelledby="deductionModalLabel-@Model.User.Id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deductionModalLabel-@Model.User.Id">تطبيق الخصم</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="deductionForm-@Model.User.Id" onsubmit="submitDeduction(event, @Model.User.Id)">
+                        <div class="mb-3">
+                            <label for="deductionAmount-@Model.User.Id" class="form-label">أدخل قيمة الخصم:</label>
+                            <input type="number"
+                                   id="deductionAmount-@Model.User.Id"
+                                   class="form-control"
+                                   min="0"
+                                   required />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="submit" class="btn btn-success">تطبيق الخصم</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الأنشطة -->
     <div class="card shadow-sm">
         <div class="card-body">
             <h5 class="card-title">الأنشطة</h5>
@@ -62,3 +121,68 @@
     <!-- زر الرجوع -->
     <a href="javascript:history.back()" class="btn btn-primary mt-4 w-100">رجوع</a>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function submitAddPoints(event, userId) {
+        event.preventDefault(); // منع إعادة تحميل الصفحة
+        const points = document.getElementById(`addPointsAmount-${userId}`).value;
+
+        if (!points || points <= 0) {
+            alert("يرجى إدخال قيمة صحيحة للنقاط.");
+            return;
+        }
+
+        fetch('/Makhdoum/AddPoints', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: userId, sum: parseInt(points) })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('تمت الإضافة بنجاح!');
+                const pointsElement = document.querySelector(`#points-${userId}`);
+                if (pointsElement) pointsElement.innerText = data.newPoints;
+                $(`#addPointsModal-${userId}`).modal('hide');
+            } else {
+                alert(data.message || 'حدث خطأ أثناء الإضافة.');
+            }
+        })
+        .catch(error => {
+            console.error('Error during request:', error);
+            alert('حدث خطأ أثناء الاتصال بالخادم.');
+        });
+    }
+
+    function submitDeduction(event, userId) {
+        event.preventDefault();
+        const points = document.getElementById(`deductionAmount-${userId}`).value;
+
+        if (!points || points <= 0) {
+            alert("يرجى إدخال قيمة صحيحة للخصم.");
+            return;
+        }
+
+        fetch('/Makhdoum/Deduction', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: userId, sum: parseInt(points) })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('تم الخصم بنجاح!');
+                const pointsElement = document.querySelector(`#points-${userId}`);
+                if (pointsElement) pointsElement.innerText = data.newPoints;
+                $(`#deductionModal-${userId}`).modal('hide');
+            } else {
+                alert(data.message || 'حدث خطأ أثناء الخصم.');
+            }
+        })
+        .catch(error => {
+            console.error('Error during request:', error);
+            alert('حدث خطأ أثناء الاتصال بالخادم.');
+        });
+    }
+</script>
