@@ -5,6 +5,7 @@ using Khedma.Entites.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 
 
 namespace Khedma.Presentation.Controllers
@@ -21,22 +22,47 @@ namespace Khedma.Presentation.Controllers
             _unitOfWork = unitOfWork;
             this.helper = helper;
         }
-
         public IActionResult Index(int id)
         {
-            TheaterVM makhdoumWithStageVM = new TheaterVM()
+            var Role = User.FindFirst(ClaimTypes.Role)?.Value;
+            string requiredRole = $"مسرح {id}";
+
+            if (User.IsInRole(requiredRole) || User.IsInRole("Admin") || User.IsInRole("Secretary"))
             {
-                StageID = id,
-                StageName = helper.GetNameForStage(id),
-                makhdoumswithStage = _unitOfWork.Theater.GetAll(x => x.StageID == id, "Makhdoum,TheaterRole"),
-                theaterRoles = _unitOfWork.TheaterRole.GetAll()
-            };
+                TheaterVM makhdoumWithStageVM = new TheaterVM()
+                {
+                    StageID = id,
+                    StageName = helper.GetNameForStage(id),
+                    makhdoumswithStage = _unitOfWork.Theater.GetAll(x => x.StageID == id, "Makhdoum,TheaterRole"),
+                    theaterRoles = _unitOfWork.TheaterRole.GetAll()
+                };
 
-            // طباعة قيمة makhdoumswithStage للتأكد من أنها ليست فارغة
-            Console.WriteLine("makhdoumswithStage count: " + makhdoumWithStageVM.makhdoumswithStage.Count());
+                // طباعة قيمة makhdoumswithStage للتأكد من أنها ليست فارغة
+                Console.WriteLine("makhdoumswithStage count: " + makhdoumWithStageVM.makhdoumswithStage.Count());
 
-            return View(makhdoumWithStageVM);  // إرسال الـ Model إلى الـ View
+                return View(makhdoumWithStageVM);  // إرسال الـ Model إلى الـ View
+            }
+            else
+            {
+                // لو مفيش صلاحية، هترجع رسالة "ممنوع"
+                return Forbid();
+            }
         }
+        //public IActionResult Index(int id)
+        //{
+        //    TheaterVM makhdoumWithStageVM = new TheaterVM()
+        //    {
+        //        StageID = id,
+        //        StageName = helper.GetNameForStage(id),
+        //        makhdoumswithStage = _unitOfWork.Theater.GetAll(x => x.StageID == id, "Makhdoum,TheaterRole"),
+        //        theaterRoles = _unitOfWork.TheaterRole.GetAll()
+        //    };
+
+        //    // طباعة قيمة makhdoumswithStage للتأكد من أنها ليست فارغة
+        //    Console.WriteLine("makhdoumswithStage count: " + makhdoumWithStageVM.makhdoumswithStage.Count());
+
+        //    return View(makhdoumWithStageVM);  // إرسال الـ Model إلى الـ View
+        //}
         public IActionResult Create(int id)
         {
 

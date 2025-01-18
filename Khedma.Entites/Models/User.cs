@@ -42,7 +42,6 @@ namespace Khedma.Entites.Models
         public int Id { get; set; }
 
         public int UserId { get; set; }
-    
         public User TBUser { get; set; } // علاقة مع جدول المستخدمين
         public int RoleId { get; set; }
         public Role TBRole { get; set; } // علاقة مع جدول الأدوار

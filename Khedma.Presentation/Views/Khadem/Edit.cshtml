@@ -1,56 +1,65 @@
-﻿@model UserRole
+﻿@model UserVM
 @{
-    ViewData["Title"] = "تعديل بيانات المستخدم";
+    ViewData["Title"] = "تعديل بيانات الخادم";
 }
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">تعديل بيانات المستخدم</h2>
+<div class="container">
+    <h2>تعديل بيانات الخادم</h2>
 
     <form method="post" asp-action="Edit">
-        <input type="hidden" asp-for="@Model.Id" /> <!-- لإرسال الـ ID في الطلب -->
-        <input type="hidden" asp-for="TBUser.Id" /> <!-- لإرسال الـ ID في الطلب -->
-        <!-- اسم المستخدم -->
-        <div class="form-group mb-3">
-            <label for="UserName">اسم المستخدم</label>
-            <input asp-for="@Model.TBUser.UserName" class="form-control" id="UserName" placeholder="أدخل اسم المستخدم" />
-            <span asp-validation-for="@Model.TBUser.UserName" class="text-danger"></span>
+        <!-- إضافة حقل مخفي لحفظ معرف الخادم -->
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label for="Name">اسم الخادم</label>
+            <input asp-for="Name" class="form-control" id="Name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
-        <!-- البريد الإلكتروني -->
-        <div class="form-group mb-3">
+        <div class="form-group">
             <label for="Email">البريد الإلكتروني</label>
-            <input asp-for="@Model.TBUser.Email" class="form-control" id="Email" type="email" placeholder="أدخل البريد الإلكتروني" />
+            <input asp-for="Email" class="form-control" id="Email" type="email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
-        <!-- كلمة المرور -->
-        <div class="form-group mb-3">
-            <label for="Password">كلمة المرور</label>
-            <input asp-for="@Model.TBUser.PasswordHash" class="form-control" id="Password" type="password" placeholder="أدخل كلمة المرور" />
-            <span asp-validation-for="@Model.TBUser.PasswordHash" class="text-danger"></span>
-        </div>
-
-        <!-- الدور -->
-        <div class="form-group mb-3">
-            <label for="RoleId">الدور</label>
-            <select asp-for="@Model.TBRole.Id" asp-items="ViewBag.Roles" class="form-control">
-                <option value="">اختر الدور</option>
+        <div class="form-group">
+            <label for="ActivityId">النشاط</label>
+            <select asp-for="ActivityName" asp-items="ViewBag.Activity" class="form-control">
+                <option value="">اختر النشاط</option>
             </select>
-            <span asp-validation-for="@Model.TBRole.Id" class="text-danger"></span>
+            <span asp-validation-for="ActivityName" class="text-danger"></span>
         </div>
 
-        <!-- زر التعديل -->
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">تعديل</button>
+        <div class="form-group">
+            <label for="StageId">المرحلة</label>
+            <select asp-for="StageId" asp-items="ViewBag.Stage" class="form-control">
+                <option value="">اختر المرحلة</option>
+            </select>
+            <span asp-validation-for="StageId" class="text-danger"></span>
         </div>
+
+        <!-- قسم منفصل لاسم المستخدم وكلمة المرور -->
+        <fieldset class="form-group" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+            <legend style="width: auto; padding: 0 10px; font-size: 1.2em; color: #333;">بيانات الدخول</legend>
+
+            <div class="form-group">
+                <label for="UserName">اسم المستخدم</label>
+                <input asp-for="UserName" class="form-control" id="UserName" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Password">كلمة المرور</label>
+                <input asp-for="Password" class="form-control" id="Password" type="password"  value="@Model.Password"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
     </form>
-
-    <!-- عرض الرسائل -->
-    @if (ViewBag.Message != null)
-    {
-        <div class="alert alert-info mt-3 text-center">@ViewBag.Message</div>
-    }
 </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial">
 }

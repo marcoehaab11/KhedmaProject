@@ -7,6 +7,7 @@ using Khedma.Entites.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using System.Text.Json;
@@ -28,19 +29,45 @@ namespace Khedma.Presentation.Controllers
             this.helper = helper;
         }
 
-        public IActionResult Index(int ArtId,int StageId,int inGroup=1)
-        {
-            ArtsVM makhdoumWithStageVM = new ArtsVM()
-            {
-                StageID = StageId,
-                ArtID = ArtId,
-                InGroup = inGroup,
-                StageName = helper.GetNameForStage(StageId),
-                ArtName = helper.GetNameForArt(ArtId),
-                makhdoumswithStage = _unitOfWork.Arts.GetAll(x => x.StageID == StageId && x.ArtID == ArtId && x.InGroup == inGroup, "Makhdoum")
-            };
+        //public IActionResult Index(int ArtId,int StageId,int inGroup=1)
+        //{
+        //    ArtsVM makhdoumWithStageVM = new ArtsVM()
+        //    {
+        //        StageID = StageId,
+        //        ArtID = ArtId,
+        //        InGroup = inGroup,
+        //        StageName = helper.GetNameForStage(StageId),
+        //        ArtName = helper.GetNameForArt(ArtId),
+        //        makhdoumswithStage = _unitOfWork.Arts.GetAll(x => x.StageID == StageId && x.ArtID == ArtId && x.InGroup == inGroup, "Makhdoum")
+        //    };
 
-            return View(makhdoumWithStageVM);  
+        //    return View(makhdoumWithStageVM);  
+        //}
+        public IActionResult Index(int ArtId, int StageId, int inGroup = 1)
+        {
+            var Role = User.FindFirst(ClaimTypes.Role)?.Value;
+            string requiredRole = $"الفنون التشكيلية {StageId}";
+
+            if (User.IsInRole(requiredRole) || User.IsInRole("Admin") || User.IsInRole("Secretary"))
+            {
+
+                ArtsVM makhdoumWithStageVM = new ArtsVM()
+                {
+                    StageID = StageId,
+                    ArtID = ArtId,
+                    InGroup = inGroup,
+                    StageName = helper.GetNameForStage(StageId),
+                    ArtName = helper.GetNameForArt(ArtId),
+                    makhdoumswithStage = _unitOfWork.Arts.GetAll(x => x.StageID == StageId && x.ArtID == ArtId && x.InGroup == inGroup, "Makhdoum")
+                };
+
+                return View(makhdoumWithStageVM);
+            }
+            else
+            {
+                // لو مفيش صلاحية، هترجع رسالة "ممنوع"
+                return Forbid();
+            }
         }
         public IActionResult Create(int ArtId, int StageId,int inGroup)
         {

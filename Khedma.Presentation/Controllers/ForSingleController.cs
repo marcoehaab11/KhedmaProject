@@ -7,6 +7,7 @@ using Khedma.Entites.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using System.Text.Json;
@@ -28,18 +29,42 @@ namespace Khedma.Presentation.Controllers
             this.helper = helper;
         }
 
+        //public IActionResult Index(int singelID, int StageId)
+        //{
+        //    ForSingleVM makhdoumWithStageVM = new ForSingleVM()
+        //    {
+        //        StageID = StageId,
+        //        SinlgeID = singelID,
+        //        StageName = helper.GetNameForStage(StageId),
+        //        SingleName = helper.GetNameForSingle(singelID),
+        //        makhdoumswithStage = _unitOfWork.ForSingle.GetAll(x => x.StageID == StageId && x.SingleNameId == singelID, "Makhdoum")
+        //    };
+
+        //    return View(makhdoumWithStageVM);
+        //}
         public IActionResult Index(int singelID, int StageId)
         {
-            ForSingleVM makhdoumWithStageVM = new ForSingleVM()
-            {
-                StageID = StageId,
-                SinlgeID = singelID,
-                StageName = helper.GetNameForStage(StageId),
-                SingleName = helper.GetNameForSingle(singelID),
-                makhdoumswithStage = _unitOfWork.ForSingle.GetAll(x => x.StageID == StageId && x.SingleNameId == singelID, "Makhdoum")
-            };
+            var Role = User.FindFirst(ClaimTypes.Role)?.Value;
+            string requiredRole = $"فرديات {StageId}";
 
-            return View(makhdoumWithStageVM);
+            if (User.IsInRole(requiredRole) || User.IsInRole("Admin") || User.IsInRole("Secretary"))
+            {
+                ForSingleVM makhdoumWithStageVM = new ForSingleVM()
+                {
+                    StageID = StageId,
+                    SinlgeID = singelID,
+                    StageName = helper.GetNameForStage(StageId),
+                    SingleName = helper.GetNameForSingle(singelID),
+                    makhdoumswithStage = _unitOfWork.ForSingle.GetAll(x => x.StageID == StageId && x.SingleNameId == singelID, "Makhdoum")
+                };
+
+                return View(makhdoumWithStageVM);
+            }
+            else
+            {
+                // لو مفيش صلاحية، هترجع رسالة "ممنوع"
+                return Forbid();
+            }
         }
         public IActionResult Create(int singelID, int StageId)
         {

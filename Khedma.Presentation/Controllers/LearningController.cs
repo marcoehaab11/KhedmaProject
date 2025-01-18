@@ -1,4 +1,5 @@
 ﻿
+using System.Security.Claims;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
@@ -21,10 +22,14 @@ namespace Khedma.Presentation.Controllers
             _unitOfWork = unitOfWork;
             this.helper = helper;
         }
-
         public IActionResult Index(int id)
         {
-            LearningVM makhdoumWithStageVM =
+            var Role = User.FindFirst(ClaimTypes.Role)?.Value;
+            string requiredRole = $"دراسية {id}";
+
+            if (User.IsInRole(requiredRole) || User.IsInRole("Admin") || User.IsInRole("Secretary"))
+            {
+                LearningVM makhdoumWithStageVM =
                 new LearningVM()
                 {
                     StageID = id,
@@ -32,8 +37,26 @@ namespace Khedma.Presentation.Controllers
                     makhdoumswithStage = _unitOfWork.Learning.GetAll(x => x.StageID == id, "Makhdoum")
                 };
 
-            return View(makhdoumWithStageVM);
+                return View(makhdoumWithStageVM);
+            }
+            else
+            {
+                // لو مفيش صلاحية، هترجع رسالة "ممنوع"
+                return Forbid();
+            }
         }
+        //public IActionResult Index(int id)
+        //{
+        //    LearningVM makhdoumWithStageVM =
+        //        new LearningVM()
+        //        {
+        //            StageID = id,
+        //            StageName = helper.GetNameForStage(id),
+        //            makhdoumswithStage = _unitOfWork.Learning.GetAll(x => x.StageID == id, "Makhdoum")
+        //        };
+
+        //    return View(makhdoumWithStageVM);
+        //}
         public IActionResult Create(int id)
         {
 

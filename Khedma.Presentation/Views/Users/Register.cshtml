@@ -8,9 +8,9 @@
 
     <form method="post" asp-action="Register">
         <div class="form-group">
-            <label for="UserName">اسم المستخدم</label>
-            <input asp-for="UserName" class="form-control" id="UserName" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
+            <label for="Name">اسم المستخدم</label>
+            <input asp-for="Name" class="form-control" id="UserName" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="form-group">
@@ -18,13 +18,6 @@
             <input asp-for="Email" class="form-control" id="Email" type="email" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
-
-        <div class="form-group">
-            <label for="Password">كلمة المرور</label>
-            <input asp-for="Password" class="form-control" id="Password" type="password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-
         <div class="form-group">
             <label for="RoleId">الدور</label>
             <select asp-for="RoleId" asp-items="ViewBag.Roles" class="form-control">
@@ -32,6 +25,22 @@
             </select>
             <span asp-validation-for="RoleId" class="text-danger"></span>
         </div>
+        <!-- قسم منفصل لاسم المستخدم وكلمة المرور -->
+        <fieldset class="form-group" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+            <legend style="width: auto; padding: 0 10px; font-size: 1.2em; color: #333;">بيانات الدخول</legend>
+
+        <div class="form-group">
+            <label for="UserName">اسم المستخدم</label>
+            <input asp-for="UserName" class="form-control" id="UserName" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="Password">كلمة المرور</label>
+            <input asp-for="Password" class="form-control" id="Password" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        </fieldset>
 
         <button type="submit" class="btn btn-primary">تسجيل</button>
     </form>

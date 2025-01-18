@@ -27,7 +27,7 @@ public class UsersController : Controller
 
     public ActionResult Index()
     {
-        var people = _unitOfWork.UserRole.GetAll(null,"TBUser,TBRole");
+        var people = _unitOfWork.UserRole.GetAll(x=>x.RoleId ==1 || x.RoleId==2, "TBUser,TBRole");
         return View(people);
     }
     public ActionResult Register()

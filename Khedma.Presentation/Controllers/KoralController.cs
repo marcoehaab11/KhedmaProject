@@ -5,6 +5,7 @@ using Khedma.Entites.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Web;
 
@@ -24,19 +25,44 @@ namespace Khedma.Presentation.Controllers
             this.helper = helper;
         }
 
+        //public IActionResult Index(int id)
+        //{
+        //    KoralVM makhdoumWithStageVM = new KoralVM()
+        //    {
+        //        StageID = id,
+        //        StageName = helper.GetNameForStage(id),
+        //        makhdoumswithStage = _unitOfWork.Koral.GetAll(x => x.StageID == id, "Makhdoum")
+        //    };
+
+        //    // طباعة قيمة makhdoumswithStage للتأكد من أنها ليست فارغة
+        //    Console.WriteLine("makhdoumswithStage count: " + makhdoumWithStageVM.makhdoumswithStage.Count());
+
+        //    return View(makhdoumWithStageVM);  // إرسال الـ Model إلى الـ View
+        //}
         public IActionResult Index(int id)
         {
-            KoralVM makhdoumWithStageVM = new KoralVM()
+            var Role = User.FindFirst(ClaimTypes.Role)?.Value;
+            string requiredRole = $"الكورال {id}";
+
+            if (User.IsInRole(requiredRole) || User.IsInRole("Admin") || User.IsInRole("Secretary"))
             {
-                StageID = id,
-                StageName = helper.GetNameForStage(id),
-                makhdoumswithStage = _unitOfWork.Koral.GetAll(x => x.StageID == id, "Makhdoum")
-            };
+                KoralVM makhdoumWithStageVM = new KoralVM()
+                {
+                    StageID = id,
+                    StageName = helper.GetNameForStage(id),
+                    makhdoumswithStage = _unitOfWork.Koral.GetAll(x => x.StageID == id, "Makhdoum")
+                };
 
-            // طباعة قيمة makhdoumswithStage للتأكد من أنها ليست فارغة
-            Console.WriteLine("makhdoumswithStage count: " + makhdoumWithStageVM.makhdoumswithStage.Count());
+                // طباعة قيمة makhdoumswithStage للتأكد من أنها ليست فارغة
+                Console.WriteLine("makhdoumswithStage count: " + makhdoumWithStageVM.makhdoumswithStage.Count());
 
-            return View(makhdoumWithStageVM);  // إرسال الـ Model إلى الـ View
+                return View(makhdoumWithStageVM);  // إرسال الـ Model إلى الـ View
+            }
+            else
+            {
+                // لو مفيش صلاحية، هترجع رسالة "ممنوع"
+                return Forbid();
+            }
         }
         public IActionResult Create(int id)
         {

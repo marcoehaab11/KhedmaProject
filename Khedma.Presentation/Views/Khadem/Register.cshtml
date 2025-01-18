@@ -20,22 +20,13 @@
         </div>
 
         <div class="form-group">
-            <label for="UserName">اسم الخادم للدخول</label>
-            <input asp-for="UserName" class="form-control" id="UserName" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="Password">كلمة المرور</label>
-            <input asp-for="Password" class="form-control" id="Password" type="password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <div class="form-group">
             <label for="ActivityId">النشاط</label>
-            <select asp-for="ActivityId" asp-items="ViewBag.Activity" class="form-control">
+            <select asp-for="ActivityName" asp-items="ViewBag.Activity" class="form-control">
                 <option value="">اختر النشاط</option>
             </select>
-            <span asp-validation-for="ActivityId" class="text-danger"></span>
+            <span asp-validation-for="ActivityName" class="text-danger"></span>
         </div>
+
         <div class="form-group">
             <label for="StageId">المرحلة</label>
             <select asp-for="StageId" asp-items="ViewBag.Stage" class="form-control">
@@ -44,13 +35,27 @@
             <span asp-validation-for="StageId" class="text-danger"></span>
         </div>
 
-      
+        <!-- قسم منفصل لاسم المستخدم وكلمة المرور -->
+        <fieldset class="form-group" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+            <legend style="width: auto; padding: 0 10px; font-size: 1.2em; color: #333;">بيانات الدخول</legend>
+
+            <div class="form-group">
+                <label for="UserName">اسم المستخدم</label>
+                <input asp-for="UserName" class="form-control" id="UserName" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Password">كلمة المرور</label>
+                <input asp-for="Password" class="form-control" id="Password" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </fieldset>
 
         <button type="submit" class="btn btn-primary">تسجيل</button>
     </form>
-
-    
 </div>
+
 
 @section Scripts
 {

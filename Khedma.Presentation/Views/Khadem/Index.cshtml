@@ -49,8 +49,9 @@
                     <thead>
                         <tr>
                             <th>الاسم</th>
-                            <th>الايميل</th>
-                            <th>الصلاحية</th>
+                            <th>النشاط</th>
+                            <th>المرحلة</th>
+                 
                             <th>تشغيل / ايقاف</th>
                             <th>تعديل</th>
                             <th> مسح </th>
@@ -59,13 +60,13 @@
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
-                        {   if(item.TBUser.Id!=19)
-                            {
+                        {   
                               <tr>
 
-                                <td>@item.TBUser.UserName</td>
-                                <td>@item.TBUser.Email</td>
-                                <td>@item.TBRole.RoleName</td>
+                                <td>@item.TBUser.Name</td>
+
+                                <td>@item.TBRole.ActivityName</td>
+                                <td>@item.TBRole.StateName</td>
                                 @if (item.TBUser.IsActive)
                                 {
                                     <td>
@@ -103,7 +104,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            }
+                            
                            
                         }
 

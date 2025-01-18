@@ -18,8 +18,7 @@ namespace Khedma.Entites.ViewModels
         public string Email { get; set; }
 
         public int StageId { get; set; }
-        public int ActivityId { get; set; }
-
+        public string ActivityName { get; set; }
 
     }
 }

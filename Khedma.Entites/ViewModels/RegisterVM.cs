@@ -10,6 +10,8 @@ namespace Khedma.Entites.ViewModels
 {
     public class RegisterUserViewModel
     {
+        public string Name { get; set; }
+
         [Required(ErrorMessage = "اسم المستخدم مطلوب")]
         public string UserName { get; set; }
 

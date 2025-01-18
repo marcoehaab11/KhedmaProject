@@ -31,7 +31,7 @@ namespace Khedma.Presentation.Controllers
             var Role = User.FindFirst(ClaimTypes.Role)?.Value;
             string requiredRole = $"الالحان {id}";
 
-            if (User.IsInRole(requiredRole) || User.IsInRole("Admin") || User.IsInRole("Sec"))
+            if (User.IsInRole(requiredRole) || User.IsInRole("Admin") || User.IsInRole("Secretary"))
             {
                 AlhanVM makhdoumWithStageVM =
                     new AlhanVM()
