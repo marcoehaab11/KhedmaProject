@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "الحضور";
+    
+}
+@model List<TheStage>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <form asp-controller="Users" asp-action="SearchInAttantance" method="get">
+                <div class="form-row">
+                    <!-- اختيار النشاط -->
+                    <div class="form-group col-md-5">
+                        <label for="selectList1">اختيار النشاط</label>
+                        <select id="selectList1" name="activity" class="form-control">
+                            <option value="1">الكورال</option>
+                            <option value="2">الألحان</option>
+                            <option value="3">القبطي</option>
+                            <option value="4">المحفوظات والكتاب المقدس</option>
+                            <option value="5">الدراسية</option>
+                        </select>
+                    </div>
+
+                    <!-- اختيار المرحلة -->
+                    <div class="form-group col-md-5">
+                        <label for="selectList2">اختيار المرحلة</label>
+                        <select id="selectList2" name="stageId" class="form-control">
+                            @foreach (var stage in Model)
+                            {
+                                <option value="@stage.Id">@stage.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- زر البحث -->
+                    <div class="form-group col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary btn-block">بحث</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

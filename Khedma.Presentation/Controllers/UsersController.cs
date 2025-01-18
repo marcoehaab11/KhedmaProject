@@ -1,4 +1,10 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using System.Diagnostics;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Office2013.Word;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Keadma.DataAccess.Helpers;
+using Keadma.DataAccess.Migrations;
 using Khedma.Entites.Models;
 using Khedma.Entites.Repositories;
 using Khedma.Entites.ViewModels;
@@ -11,12 +17,14 @@ using static Keadma.DataAccess.Helpers.Helper;
 public class UsersController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IHelper helper;
 
-    public UsersController(IUnitOfWork unitOfWork)
+    public UsersController(IUnitOfWork unitOfWork, IHelper helper)
     {
         _unitOfWork = unitOfWork;
+        this.helper = helper;
     }
-    
+
     public ActionResult Index()
     {
         var people = _unitOfWork.UserRole.GetAll(null,"TBUser,TBRole");
@@ -76,25 +84,6 @@ public class UsersController : Controller
         _unitOfWork.Complete();
         return RedirectToAction("Index");
     }
-    public IActionResult Delete(int id)
-    {
-        // البحث عن العنصر
-        var makhdoum = _unitOfWork.User.GetFirstorDefault(x => x.Id == id );
-
-        if (makhdoum == null)
-        {
-            // في حالة عدم وجود العنصر
-            return NotFound("العنصر غير موجود");
-        }
-
-        // حذف العنصر
-        _unitOfWork.User.Remove(makhdoum);
-        _unitOfWork.Complete();
-
-        // إعادة التوجيه إلى صفحة قائمة العناصر
-        return RedirectToAction("Index");
-    }
-    // POST: Register
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Register(RegisterUserViewModel model)
@@ -143,5 +132,138 @@ public class UsersController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpGet]
+    public ActionResult Attantance()
+    {
+        var stages=_unitOfWork.TheStage.GetAll();
+        return View(stages);
+    }
+
+    public ActionResult SearchInAttantance(int stageId, int activity)
+    {
+
+        AttendanceVM people = new AttendanceVM();
+        people.ActiveId = activity;
+        people.StageID = stageId;
+        people.StageName = helper.GetNameForStage(stageId);
+
+        if (activity == 1)
+        {
+            people.ActiveName = "الكورال";
+             people.makhdoums = _unitOfWork.AttendanceKoral.GetAll(x => x.StageID == stageId,"Makhdoum").Select(x => new MakhdoumAttacnceVM
+             {   Id=x.Id,
+                 Name = x.Makhdoum.Name,
+                 DateOfBirth = x.Makhdoum.DateOfBirth,
+                 DateTime=x.DateTime
+                 
+             });
+            
+
+
+        }
+        else if (activity == 2)
+        {
+            people.ActiveName = "الالحان";
+            people.makhdoums = _unitOfWork.AttendanceAlhan.GetAll(x => x.StageID == stageId, "Makhdoum").Select(x => new MakhdoumAttacnceVM
+            {
+                Id = x.Id,
+                Name = x.Makhdoum.Name,
+                DateOfBirth = x.Makhdoum.DateOfBirth,
+                DateTime = x.DateTime
+
+            }); ;
+         
+        }
+        else if (activity == 3)
+        {
+            people.ActiveName = "القبطي";
+
+            people.makhdoums = _unitOfWork.AttendanceCoptic.GetAll(x => x.StageID == stageId, "Makhdoum").Select(x => new MakhdoumAttacnceVM
+            {
+                Id = x.Id,
+                Name = x.Makhdoum.Name,
+                DateOfBirth = x.Makhdoum.DateOfBirth,
+                DateTime = x.DateTime
+
+            }); ;
+          
+        }
+        else if (activity == 4)
+        {
+            people.ActiveName = "المحفوظات والكتاب المقدس";
+
+            people.makhdoums = _unitOfWork.AttendanceBookAndSave.GetAll(x => x.StageID == stageId, "Makhdoum").Select(x => new MakhdoumAttacnceVM
+            {
+                Id = x.Id,
+                Name = x.Makhdoum.Name,
+                DateOfBirth = x.Makhdoum.DateOfBirth,
+                DateTime = x.DateTime
+
+            }); ;
+      
+        }
+        else if (activity == 5)
+        {
+            people.ActiveName = "الدراسية";
+
+            people.makhdoums = _unitOfWork.AttendanceLearning.GetAll(x => x.StageID == stageId, "Makhdoum").Select(x => new MakhdoumAttacnceVM
+            {   Id = x.Id,
+                Name = x.Makhdoum.Name,
+                DateOfBirth = x.Makhdoum.DateOfBirth,
+                DateTime = x.DateTime
+
+            }); ;
+            
+           
+        }
+        
+
+        return View(people);
+    }
+
+    public IActionResult Delete(int id, int activityId,int stageId)
+    {
+
+
+        if (activityId == 1)
+        {
+
+            var makhdoum = _unitOfWork.AttendanceKoral.GetFirstorDefault(x => x.Id == id  );
+            _unitOfWork.AttendanceKoral.Remove(makhdoum);
+
+
+        }
+        else if (activityId == 2)
+        {
+
+            var makhdoum = _unitOfWork.AttendanceAlhan.GetFirstorDefault(x => x.Id == id);
+            _unitOfWork.AttendanceAlhan.Remove(makhdoum);
+
+        }
+        else if (activityId == 3)
+        {
+            
+            var makhdoum = _unitOfWork.AttendanceCoptic.GetFirstorDefault(x => x.Id == id );
+            _unitOfWork.AttendanceCoptic.Remove(makhdoum);
+
+        }
+        else if (activityId == 4)
+        {
+
+            var makhdoum = _unitOfWork.AttendanceBookAndSave.GetFirstorDefault(x => x.Id == id);
+            _unitOfWork.AttendanceBookAndSave.Remove(makhdoum);
+
+        }
+        else if (activityId == 5)
+        {
+
+            var makhdoum = _unitOfWork.AttendanceLearning.GetFirstorDefault(x => x.Id == id);
+            _unitOfWork.AttendanceLearning.Remove(makhdoum);
+
+        }
+        _unitOfWork.Complete();
+
+        return RedirectToAction("SearchInAttantance", new { stageId = stageId, activity = activityId });
+    }
 
 }

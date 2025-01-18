@@ -11,6 +11,8 @@ namespace Khedma.Entites.Models
     {
         [Key]
         public int Id { get; set; }
+        public string? Name { get; set; }
+
         public string UserName { get; set; }
         public string PasswordHash { get; set; }
         public string Email { get; set; }
@@ -27,6 +29,10 @@ namespace Khedma.Entites.Models
 
         public int Id { get; set; }
         public string RoleName { get; set; }
+        public string? RoleNameInArabic { get; set; }
+        public string? StateName { get; set; }
+        public string? ActivityName { get; set; }
+
 
         public ICollection<UserRole> TBuserRoles { get; set; }
     }

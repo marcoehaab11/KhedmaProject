@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using System.Security.Claims;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Keadma.DataAccess.Migrations;
 using Khedma.Entites.Models;
@@ -27,15 +28,26 @@ namespace Khedma.Presentation.Controllers
 
         public IActionResult Index(int id)
         {
-            AlhanVM makhdoumWithStageVM =
-                new AlhanVM()
-                {
-                    StageID = id,
-                    StageName = helper.GetNameForStage(id),
-                    makhdoumswithStage = _unitOfWork.Alhan.GetAll(x => x.StageID == id, "Makhdoum")
-                };
+            var Role = User.FindFirst(ClaimTypes.Role)?.Value;
+            string requiredRole = $"الالحان {id}";
 
-            return View(makhdoumWithStageVM);
+            if (User.IsInRole(requiredRole) || User.IsInRole("Admin") || User.IsInRole("Sec"))
+            {
+                AlhanVM makhdoumWithStageVM =
+                    new AlhanVM()
+                    {
+                        StageID = id,
+                        StageName = helper.GetNameForStage(id),
+                        makhdoumswithStage = _unitOfWork.Alhan.GetAll(x => x.StageID == id, "Makhdoum")
+                    };
+
+                return View(makhdoumWithStageVM);
+            }
+            else
+            {
+                // لو مفيش صلاحية، هترجع رسالة "ممنوع"
+                return Forbid();
+            }
         }
 
         public IActionResult Create(int id)

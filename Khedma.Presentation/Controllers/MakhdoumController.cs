@@ -21,7 +21,7 @@ namespace Khedma.Presentation.Controllers
             return View(AllMakhodumen);
         }
 
-     
+    
 
         public async Task<IActionResult> Info(int id)
         {

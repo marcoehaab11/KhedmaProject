@@ -1,0 +1,59 @@
+﻿@model UserVM
+@{
+    
+    ViewData["Title"] = "أضافة خادم";
+}
+<div class="container">
+    <h2>تسجيل خادم جديد</h2>
+
+    <form method="post" asp-action="Register">
+        <div class="form-group">
+            <label for="Name">اسم الخادم</label>
+            <input asp-for="Name" class="form-control" id="UserName" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Email">البريد الإلكتروني</label>
+            <input asp-for="Email" class="form-control" id="Email" type="email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="UserName">اسم الخادم للدخول</label>
+            <input asp-for="UserName" class="form-control" id="UserName" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="Password">كلمة المرور</label>
+            <input asp-for="Password" class="form-control" id="Password" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="ActivityId">النشاط</label>
+            <select asp-for="ActivityId" asp-items="ViewBag.Activity" class="form-control">
+                <option value="">اختر النشاط</option>
+            </select>
+            <span asp-validation-for="ActivityId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="StageId">المرحلة</label>
+            <select asp-for="StageId" asp-items="ViewBag.Stage" class="form-control">
+                <option value="">اختر المرحلة</option>
+            </select>
+            <span asp-validation-for="StageId" class="text-danger"></span>
+        </div>
+
+      
+
+        <button type="submit" class="btn btn-primary">تسجيل</button>
+    </form>
+
+    
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial">
+
+}

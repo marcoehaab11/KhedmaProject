@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "الحضور";
+
+}
+
+@model AttendanceVM
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center my-2 py-2">
+                        <h3 class="fw-bold display-4">
+                            تسجيل حضور @Model.ActiveName
+                            مرحله
+                            <span class="text-danger">
+                                @Model.StageName
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body vendor-table">
+            @if (Model.makhdoums.Count() > 0)
+            {
+                <table class="display" id="basic-1">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>تاريخ الحضور</th>
+                            <th>مسح</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.makhdoums)
+                        {
+                           
+                           
+                                <tr>
+
+                                    <th>@item.Name</th>
+                                <th>@string.Format("{0:dd/MM/yyyy HH:mm}", item.DateTime)</th>
+                                <th>
+                                    <div class="btn-group" role="group">
+                                        <a onclick="confirmDelete(@item.Id,@Model.StageID,@Model.ActiveId)"class="btn btn-danger">مسح</a>
+
+                                    </div>
+                                </th>
+                                </tr>
+                            
+
+                        }
+
+
+
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h5 class="text-center fw-bold display-5 bold">
+                    لا يوجد حضور حتي الان
+                </h5>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        function confirmDelete(itemId,stageId,activityId) {
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "لن تتمكن من استعادة هذا العنصر بعد الحذف!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'نعم، احذف!',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // إعادة التوجيه إلى الحذف
+                    window.location.href = `/users/Delete?id=${itemId}&activityId=${activityId}&StageId=${stageId}`;                }
+            });
+        }
+
+
+
+
+            
+    </script>
+
+}
