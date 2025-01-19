@@ -60,7 +60,6 @@ namespace Khedma.Presentation.Controllers
             {
                 Name = userVM.Name,
                 UserName = userVM.UserName,
-                Email = userVM.Email,
                 PasswordHash = PasswordHelper.HashPassword(userVM.Password)
             };
 
@@ -69,7 +68,7 @@ namespace Khedma.Presentation.Controllers
             var role = new Role() 
             { 
                 RoleName=userVM.ActivityName+" "+userVM.StageId,
-                RoleNameInArabic="خادم",
+                RoleNameInArabic= userVM.ActivityName + "-" +stageName,
                 StateName= stageName,
                 ActivityName=userVM.ActivityName,    
             };
@@ -110,7 +109,6 @@ namespace Khedma.Presentation.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 UserName = user.UserName,
-                Email = user.Email,
                 ActivityName = role.ActivityName,
                 StageId =(int) _unitOfWork.TheStage.GetFirstorDefault(s => s.Name == role.StateName)?.Id
             };
@@ -149,7 +147,6 @@ namespace Khedma.Presentation.Controllers
                 // تحديث بيانات الخادم
                 user.Name = userVM.Name;
                 user.UserName = userVM.UserName;
-                user.Email = userVM.Email;
                 if (!string.IsNullOrEmpty(userVM.Password))
                 {
                     user.PasswordHash = PasswordHelper.HashPassword(userVM.Password);

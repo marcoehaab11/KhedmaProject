@@ -69,7 +69,6 @@ public class UsersController : Controller
 
 
         User.UserName = model.TBUser.UserName;
-            User.Email = model.TBUser.Email;
             User.PasswordHash = hashedPassword;
             User.CreatedAt = DateTime.Now;
        
@@ -96,7 +95,7 @@ public class UsersController : Controller
         }
 
         // التحقق من وجود المستخدم بالفعل
-        if (_unitOfWork.User.Any<User>(u => u.UserName == model.UserName || u.Email == model.Email))
+        if (_unitOfWork.User.Any<User>(u => u.UserName == model.UserName ))
         {
             ViewBag.Roles = new SelectList(_unitOfWork.Role.GetAll(), "Id", "RoleName");
             ViewBag.Message = "اسم المستخدم أو البريد الإلكتروني مسجل مسبقًا";
@@ -110,7 +109,6 @@ public class UsersController : Controller
         var user = new User
         {
             UserName = model.UserName,
-            Email = model.Email,
             PasswordHash = hashedPassword,
             CreatedAt = DateTime.Now
         };

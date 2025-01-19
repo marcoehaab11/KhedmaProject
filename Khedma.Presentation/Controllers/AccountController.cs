@@ -82,9 +82,9 @@ namespace Khedma.Presentation.Controllers
             // إعداد Claims
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, role.RoleName) // إضافة الدور
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Role, role.RoleName), 
+                new Claim(ClaimTypes.GivenName, (string)role.RoleNameInArabic)
             };
 
             // إنشاء الهوية
