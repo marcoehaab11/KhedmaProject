@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace Khedma.Entites.Models
 {
+
+   
     public class User
     {
         [Key]
@@ -14,6 +16,7 @@ namespace Khedma.Entites.Models
         public string? Name { get; set; }
 
         public string UserName { get; set; }
+        [NeverValidate]
         public string PasswordHash { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; }
@@ -45,5 +48,12 @@ namespace Khedma.Entites.Models
         public int RoleId { get; set; }
         public Role TBRole { get; set; } // علاقة مع جدول الأدوار
     }
-
+    public class NeverValidateAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            // تجاهل الفاليديشن دائمًا
+            return ValidationResult.Success;
+        }
+    }
 }

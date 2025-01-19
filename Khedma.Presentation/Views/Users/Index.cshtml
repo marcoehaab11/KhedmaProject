@@ -49,6 +49,7 @@
                     <thead>
                         <tr>
                             <th>الاسم</th>
+                            <th>يوزنيم</th>
                             <th>الصلاحية</th>
                             <th>تشغيل / ايقاف</th>
                             <th>تعديل</th>
@@ -62,6 +63,7 @@
                             {
                               <tr>
 
+                                <td>@item.TBUser.Name</td>
                                 <td>@item.TBUser.UserName</td>
                                 <td>@item.TBRole.RoleName</td>
                                 @if (item.TBUser.IsActive)
@@ -138,20 +140,10 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // إعادة التوجيه إلى الحذف
-                    window.location.href = `/Users/Delete?id=${itemId}`;                }
+                    window.location.href = `/Users/DeleteForUser?id=${itemId}`;                }
             });
         }
 
-
-
-
-            function downloadAndPrint(stageId,ActivityId,ActiveName) {
-                // تحميل الملف
-                        window.location.href = `/Alhan/Upload?stageId=${stageId}&ActivityName=${ActiveName}&ActivityId=${ActivityId}`;
-
-                // إظهار رسالة للطباعة (الطباعة تتم يدويًا بعد التنزيل)
-                alert("تم تجهيز الملف. يمكنك فتحه وطباعته الآن.");
-            }
 
     </script>
 

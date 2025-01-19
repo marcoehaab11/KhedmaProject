@@ -135,6 +135,8 @@ namespace Khedma.Presentation.Controllers
         [HttpPost]
         public IActionResult Edit(UserVM userVM)
         {
+            ModelState.Remove("Password");
+
             if (ModelState.IsValid)
             {
                 // جلب الخادم المطلوب تعديله
@@ -226,7 +228,12 @@ namespace Khedma.Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [HttpPost]
+        public async Task<JsonResult> CheckUsername(string username)
+        {
+            bool exists = await _unitOfWork.User.AnyAsync(u => u.UserName == username);
+            return Json(!exists); // يجب أن يكون false إذا كان اسم المستخدم غير موجود
+        }
 
     }
 }

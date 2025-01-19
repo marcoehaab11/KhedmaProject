@@ -14,7 +14,7 @@ namespace Khedma.Entites.Repositories
         T GetFirstorDefault(Expression<Func<T, bool>>? perdicate = null, string? Includeword = null);
 
         public bool Any<T>(Expression<Func<T, bool>> predicate) where T : class;
-
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
         void Add(T entity);
         void Remove(T entity);
         void Update(T entity);

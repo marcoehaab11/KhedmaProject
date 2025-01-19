@@ -39,14 +39,13 @@
 
             <div class="form-group">
                 <label for="UserName">اسم المستخدم</label>
-                <input asp-for="UserName" class="form-control" id="UserName" />
+                <input asp-for="UserName" class="form-control" id="UserName" readonly/>
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label for="Password">كلمة المرور</label>
-                <input asp-for="Password" class="form-control" id="Password" type="password"  value="@Model.Password"/>
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <input asp-for="Password" class="form-control" id="Password" type="password" placeholder="أدخل كلمة المرور" data-val="false" />
             </div>
         </fieldset>
 

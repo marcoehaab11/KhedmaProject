@@ -22,6 +22,8 @@ namespace Khedma.Entites.Repositories
         void Update(T entity);
         void RemoveRange(IEnumerable<T> entites);
         Task UpdatePointsAsync(int id, int points);
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
+
 
     }
 }

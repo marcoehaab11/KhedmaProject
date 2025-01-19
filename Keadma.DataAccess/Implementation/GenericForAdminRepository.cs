@@ -33,7 +33,10 @@ namespace Keadma.DataAccess.Implementation
         {
             _dbSet.Update(entity);
         }
-
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.AnyAsync(predicate);
+        }
         public IEnumerable<T> GetAll(Expression<Func<T, bool>>? perdicate, string? Includeword)
         {
             IQueryable<T> query = _dbSet;

@@ -25,11 +25,12 @@
         <fieldset class="form-group" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
             <legend style="width: auto; padding: 0 10px; font-size: 1.2em; color: #333;">بيانات الدخول</legend>
 
-        <div class="form-group">
-            <label for="UserName">اسم المستخدم</label>
-            <input asp-for="UserName" class="form-control" id="UserName" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label for="UserName">اسم المستخدم</label>
+                <input asp-for="UserName" class="form-control" id="UserName" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+                <span id="usernameError" class="text-danger" style="display:none;">اسم المستخدم موجود بالفعل. يرجى اختيار اسم آخر.</span>
+            </div>
         <div class="form-group">
             <label for="Password">كلمة المرور</label>
             <input asp-for="Password" class="form-control" id="Password" type="password" />
@@ -46,3 +47,30 @@
         <div class="alert alert-info mt-3">@ViewBag.Message</div>
     }
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#UserName').on('blur', function() {
+            var username = $(this).val();
+            if (username) {
+                $.ajax({
+                    url: '@Url.Action("CheckUsername", "Users")',
+                    type: 'POST',
+                    data: { username: username },
+                    success: function(response) {
+                        if (response.exists) {
+                            $('#usernameError').text('اسم المستخدم موجود بالفعل. يرجى اختيار اسم آخر.').show();
+                        } else {
+                            $('#usernameError').hide();
+                        }
+                    },
+                    error: function() {
+                        $('#usernameError').text('حدث خطأ أثناء التحقق من اسم المستخدم.').show();
+                    }
+                });
+            } else {
+                $('#usernameError').hide();
+            }
+        });
+    });
+</script>

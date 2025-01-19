@@ -53,6 +53,9 @@ namespace Khedma.Presentation
 
             // Ensure the session is used before routing
             app.UseSession();
+
+            //app.UseMiddleware<ErrorHandler>();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

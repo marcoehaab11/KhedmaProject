@@ -33,16 +33,10 @@ public class UsersController : Controller
     public ActionResult Register()
     {
         // تحميل الأدوار من قاعدة البيانات
-        ViewBag.Roles = new SelectList(_unitOfWork.Role.GetAll(), "Id", "RoleName");
+        ViewBag.Roles = new SelectList(_unitOfWork.Role.GetAll(x => x.Id == 1 || x.Id == 2), "Id", "RoleName");
         return View();
     }
-    public IActionResult Edit(int id)
-    {
-        var makhoum = _unitOfWork.UserRole.GetFirstorDefault(x => x.UserId == id, "TBUser,TBRole");
-        ViewBag.Roles = new SelectList(_unitOfWork.Role.GetAll(), "Id", "RoleName");
-
-        return View(makhoum);
-    }
+  
     public IActionResult Active(int id)
     {
         var makhoum = _unitOfWork.User.GetFirstorDefault(x => x.Id==id);
@@ -63,14 +57,19 @@ public class UsersController : Controller
     public IActionResult Edit(UserRole model)
     {
         var User = _unitOfWork.User.GetFirstorDefault(x=>x.Id== model.TBUser.Id);
-        string hashedPassword = PasswordHelper.HashPassword(model.TBUser.PasswordHash);
 
         // إنشاء المستخدم
 
 
         User.UserName = model.TBUser.UserName;
+
+        if (model.TBUser.PasswordHash!= null)
+        {
+            string hashedPassword = PasswordHelper.HashPassword(model.TBUser.PasswordHash);
             User.PasswordHash = hashedPassword;
-            User.CreatedAt = DateTime.Now;
+
+        }
+        User.CreatedAt = DateTime.Now;
        
 
         _unitOfWork.User.Update(User);
@@ -82,6 +81,13 @@ public class UsersController : Controller
         _unitOfWork.UserRole.Update(userRole);
         _unitOfWork.Complete();
         return RedirectToAction("Index");
+    }
+    public IActionResult Edit(int id)
+    {
+        var makhoum = _unitOfWork.UserRole.GetFirstorDefault(x => x.UserId == id, "TBUser,TBRole");
+        ViewBag.Roles = new SelectList(_unitOfWork.Role.GetAll(x => x.Id == 1 || x.Id == 2), "Id", "RoleName");
+
+        return View(makhoum);
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -129,7 +135,6 @@ public class UsersController : Controller
         ViewBag.Message = "تم التسجيل بنجاح!";
         return RedirectToAction("Index");
     }
-
     [HttpGet]
     public ActionResult Attantance()
     {
@@ -263,5 +268,34 @@ public class UsersController : Controller
 
         return RedirectToAction("SearchInAttantance", new { stageId = stageId, activity = activityId });
     }
+
+    public IActionResult DeleteForUser(int id)
+    {
+        // البحث عن العنصر
+        var khadem = _unitOfWork.User.GetFirstorDefault(x => x.Id == id);
+
+        if (khadem == null)
+        {
+            // في حالة عدم وجود العنصر
+            return NotFound("العنصر غير موجود");
+        }
+
+        // حذف العنصر
+        _unitOfWork.User.Remove(khadem);
+        _unitOfWork.Complete();
+
+        // إعادة التوجيه إلى صفحة قائمة العناصر
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public async Task<JsonResult> CheckUsername(string username)
+    {
+        bool exists = await _unitOfWork.User.AnyAsync(u => u.UserName == username);
+        return Json(!exists); // يجب أن يكون false إذا كان اسم المستخدم غير موجود
+    }
+
+
+
 
 }
