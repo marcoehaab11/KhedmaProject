@@ -232,7 +232,7 @@ namespace Khedma.Presentation.Controllers
         public async Task<JsonResult> CheckUsername(string username)
         {
             bool exists = await _unitOfWork.User.AnyAsync(u => u.UserName == username);
-            return Json(!exists); // يجب أن يكون false إذا كان اسم المستخدم غير موجود
+            return Json(new { exists = exists }); // يجب أن يكون false إذا كان اسم المستخدم غير موجود
         }
 
     }

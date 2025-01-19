@@ -1,6 +1,5 @@
 ﻿@model UserVM
 @{
-    
     ViewData["Title"] = "أضافة خادم";
 }
 <div class="container">
@@ -9,10 +8,9 @@
     <form method="post" asp-action="Register">
         <div class="form-group">
             <label for="Name">اسم الخادم</label>
-            <input asp-for="Name" class="form-control" id="UserName" />
+            <input asp-for="Name" class="form-control" id="Name" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-
 
         <div class="form-group">
             <label for="ActivityId">النشاط</label>
@@ -52,35 +50,46 @@
     </form>
 </div>
 
-
 @section Scripts
 {
     <script>
         $(document).ready(function() {
+            let usernameExists = false; // متغير لتتبع حالة اسم المستخدم
+
             $('#UserName').on('blur', function() {
                 var username = $(this).val();
                 if (username) {
                     $.ajax({
-                        url: '@Url.Action("CheckUsername", "Users")',
+                        url: '@Url.Action("CheckUsername", "Khadem")',
                         type: 'POST',
                         data: { username: username },
                         success: function(response) {
                             if (response.exists) {
                                 $('#usernameError').text('اسم المستخدم موجود بالفعل. يرجى اختيار اسم آخر.').show();
+                                usernameExists = true; // اسم المستخدم موجود
                             } else {
                                 $('#usernameError').hide();
+                                usernameExists = false; // اسم المستخدم غير موجود
                             }
                         },
                         error: function() {
                             $('#usernameError').text('حدث خطأ أثناء التحقق من اسم المستخدم.').show();
+                            usernameExists = true; // افترض وجود خطأ
                         }
                     });
                 } else {
                     $('#usernameError').hide();
+                    usernameExists = false; // اسم المستخدم غير موجود
+                }
+            });
+
+            $('form').on('submit', function(event) {
+                if (usernameExists) {
+                    event.preventDefault(); // منع إرسال النموذج إذا كان اسم المستخدم موجودًا
+                    alert('اسم المستخدم موجود بالفعل. يرجى اختيار اسم آخر.');
                 }
             });
         });
     </script>
     <partial name="_ValidationScriptsPartial">
-      
 }
